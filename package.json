@@ -6,7 +6,11 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "commit": "cz",
+    "amend": "git commit --amend --no-edit",
+    "add:amend:push": "git add -A && git commit --amend --no-edit && git push --force",
+    "prepare": "husky install"
   },
   "jest": {
     "preset": "jest-expo"
@@ -27,8 +31,8 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
-    "react-native-reanimated": "~2.2.0",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-web": "~0.13.12"
@@ -37,8 +41,28 @@
     "@babel/core": "^7.9.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^7.31.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "git-cz": "^4.7.6",
+    "husky": "^7.0.1",
     "jest-expo": "~41.0.0-beta.0",
-    "typescript": "~4.0.0"
+    "lint-staged": "^11.1.1",
+    "prettier": "2.3.2",
+    "typescript": "^4.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,js,tsx,jsx}": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "private": true
 }
