@@ -1,0 +1,6 @@
+#!/bin/sh
+# Uncomment if you want cz to run on every commit
+# . "$(dirname "$0")/_/husky.sh"
+
+# echo "running prepare-commit-message"
+# exec < /dev/tty && yarn cz --hook || true
