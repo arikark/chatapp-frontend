@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 echo "Running pre-commit checks..."
-yarn lint-staged
+yarn test:lint:fix
