@@ -27,7 +27,7 @@ expo install @react-navigation/native
 
 **`expo install` will default to using npm unless it detects a `yarn.lock` file in the root directory**
 
-## Contributing
+# Contributing
 
 ## Supported devices
 
