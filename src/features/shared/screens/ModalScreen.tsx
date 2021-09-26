@@ -1,20 +1,18 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { View, Text } from 'react-native'
-
-import { Sizing } from '../../shared/styles/sizing'
+import { useTheme } from 'react-native-paper'
 
 const Container = styled(View)({
   flex: 1,
   alignItems: 'center',
-  justifyContent: 'center',
-  marginTop: Sizing.MD,
+  justifyContent: 'center'
 })
 
-export default function TabOneScreen() {
+export default function ModalScreen() {
   return (
     <Container>
-      <Text>TabOneScreen</Text>
+      <Text>Modal</Text>
     </Container>
   )
 }

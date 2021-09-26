@@ -7,9 +7,9 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "commit": "cz",
+    "prepare": "husky install",
     "amend": "git commit --amend --no-edit",
     "add:amend:push": "git add -A && git commit --amend --no-edit && git push --force",
-    "prepare": "husky install",
     "test": "npm test:lint && npm test:unit",
     "test:lint": "npm test:lint:format && npm test:lint:eslint && npm test:lint:ts",
     "test:lint:fix": "npm test:lint:format:fix && npm test:lint:eslint:fix && npm test:lint:ts",
@@ -21,6 +21,11 @@
     "test:unit": "jest --coverage",
     "test:unit:update": "jest --verbose --coverage --updateSnapshot",
     "test:unit:watch": "jest --verbose --watch"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none",
+    "semi": false
   },
   "eslintConfig": {
     "root": true,
@@ -34,11 +39,6 @@
     "rules": {
       "react/display-name": "off"
     }
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "none",
-    "semi": false
   },
   "jest": {
     "preset": "jest-expo"
@@ -61,6 +61,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-paper": "^4.9.2",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
