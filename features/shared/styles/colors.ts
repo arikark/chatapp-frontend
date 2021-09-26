@@ -1,0 +1,70 @@
+// TODO MA-185: a number of the below will be opacity of one another as they were converted from a hex. Should slim these down
+
+export enum Colors {
+  PRIMARY = 'rgba(13, 84, 143, 1)',
+  SECONDARY = 'rgba(89, 18, 130, 1)',
+  TERTIARY = 'rgba(63, 13, 92, 1)',
+  DANGER = 'rgba(207, 23, 23, 1)',
+  WARNING = 'rgba(207, 151, 0, 1)',
+  SUCCESS = 'rgba(0, 138, 9, 1)',
+  WHITE = 'rgba(255, 255, 255, 1)',
+  BLACK = 'rgba(0, 0, 0, 1)',
+  LIGHT_BLACK = 'rgba(0, 0, 0, 0.3)',
+  TRANSPARENT = 'transparent',
+  CREAM = 'rgba(247, 242, 237, 1)',
+  BLUE = 'rgba(22, 74, 154, 1)',
+  BLUE_DARK = 'rgba(11, 37, 77, 1)',
+  BLUE_DARK_SHADOW = 'rgba(11, 37, 77, 0.08)',
+  BLUE_GREY_DARK = 'rgba(91, 107, 131, 1)',
+  BLUE_GREY_LIGHT = 'rgba(140, 165, 201, 1)',
+  BLUE_LIGHT_02 = 'rgba(189, 208, 241, 1)',
+  BLUE_LIGHT_03 = 'rgba(229, 236, 249, 1)',
+  BLUE_LIGHT_03_PRESSED = 'rgba(229, 236, 249, .8)',
+  LIST_AREA_BLUE = 'rgba(23, 60, 116, 1)',
+  CENTER_BORDER = 'rgba(126, 177, 255, 1)',
+  ACCOUNT_DASHBOARD_BODY = 'rgba(17, 53, 113, 1)',
+  DRAW_BG = 'rgba(29, 38, 55, 1)',
+  FINANCIAL_CONTAINER_BG = 'rgba(21, 63, 132, 1)',
+  FINANCIAL_LIST_BASE = 'rgba(235, 237, 240, 1)',
+  DRAWER_ACTIVE_TINT = 'rgba(34, 34, 34, 1)',
+  DRAWER_INACTIVE_TINT = 'rgba(68, 68, 68, 1)',
+  FINANCIAL_LIST_ITEM_PENDING_BG = 'rgba(51, 71, 102, 0.1)',
+  TRANSACTIONS_HEADER_MONTH_BG = 'rgba(233, 237, 245, 0.1)',
+  BLUE_GREY_VERY_LIGHT_BG = 'rgba(247, 247, 247, 1)',
+  PORTFOLIO_ACCOUNT_OVERVIEW_PLACEHOLDER_BG = 'rgba(233, 237, 245, 0.1)',
+}
+
+export enum Opacity {
+  CLEAR = 0,
+  LIGHT_PRIMARY = 0.4,
+  DARK_PRIMARY = 0.8,
+  DISABLED = 0.5,
+}
+
+// TODO MA-185: convert to RGBA
+export const Gradients = {
+  DIALOG: ['#153775', '#173F84', '#205198', '#2A65AB'],
+  INFORMATIONAL: ['#1358BF', '#4192D9'],
+  ATTENTION: ['#D97009', '#F2D100'],
+  ERROR: [
+    '#D81421',
+    '#AF2242',
+    '#8E2E5C',
+    '#6C3978',
+    '#5B3F86',
+    '#484695',
+    '#3B4BA0',
+    '#2C50AB',
+    '#1358BF',
+  ],
+  NO_GRADIENT: ['transparent', 'transparent'],
+  ACCOUNT_CARD_STANDARD: ['#1A75FF', '#49A3F2'],
+  ACCOUNT_CARD_DISABLED: ['#6B3265', '#344287'],
+  SPACER: [
+    'rgba(0, 0, 0, 0.15)',
+    'rgba(0, 0, 0, 0.12)',
+    'rgba(0, 0, 0, 0.08)',
+    'rgba(0, 0, 0, 0.03)',
+    'rgba(0, 0, 0, 0)',
+  ],
+}

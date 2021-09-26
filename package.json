@@ -5,21 +5,99 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "commit": "cz",
+    "amend": "git commit --amend --no-edit",
+    "add:amend:push": "git add -A && git commit --amend --no-edit && git push --force",
+    "prepare": "husky install",
+    "test": "npm test:lint && npm test:unit",
+    "test:lint": "npm test:lint:format && npm test:lint:eslint && npm test:lint:ts",
+    "test:lint:fix": "npm test:lint:format:fix && npm test:lint:eslint:fix && npm test:lint:ts",
+    "test:lint:format": "prettier --check .",
+    "test:lint:format:fix": "prettier --write .",
+    "test:lint:eslint": "eslint --ext=.jsx,.js,.tsx,.ts ./src",
+    "test:lint:eslint:fix": "eslint --fix --ext=.jsx,.js,.tsx,.ts ./src",
+    "test:lint:ts": "tsc",
+    "test:unit": "jest --coverage",
+    "test:unit:update": "jest --verbose --coverage --updateSnapshot",
+    "test:unit:watch": "jest --verbose --watch"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@react-native-community",
+      "airbnb-typescript",
+      "prettier",
+      "prettier/@typescript-eslint",
+      "prettier/react"
+    ],
+    "rules": {
+      "react/display-name": "off"
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none",
+    "semi": false
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/vector-icons": "^12.0.0",
+    "@react-navigation/bottom-tabs": "^6.0.5",
+    "@react-navigation/native": "^6.0.2",
+    "@react-navigation/native-stack": "^6.1.0",
+    "@types/styled-components": "^5.1.14",
     "expo": "~42.0.1",
+    "expo-asset": "~8.3.2",
+    "expo-constants": "~11.0.1",
+    "expo-font": "~9.2.1",
+    "expo-linking": "~2.3.1",
+    "expo-splash-screen": "~0.11.2",
     "expo-status-bar": "~1.0.4",
+    "expo-web-browser": "~9.2.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
-    "react-native-web": "~0.13.12"
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-reanimated": "~2.2.0",
+    "react-native-safe-area-context": "3.2.0",
+    "react-native-screens": "~3.4.0",
+    "react-native-web": "~0.13.12",
+    "styled-components": "^5.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
-    "typescript": "~4.0.0"
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "git-cz": "^4.7.6",
+    "husky": "^7.0.1",
+    "jest-expo": "~41.0.0-beta.0",
+    "lint-staged": "^11.1.1",
+    "prettier": "2.3.2",
+    "typescript": "^4.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --fix",
+    "*.{ts,tsx,css,md}": "prettier --write"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "private": true
 }
