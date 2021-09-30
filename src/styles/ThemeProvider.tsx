@@ -23,11 +23,9 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const isDarkTheme = useAppSelector(selectTheme)
   const theme = isDarkTheme ? CombinedDarkTheme : CombinedDefaultTheme
   return (
-    <PaperProvider theme={CombinedDefaultTheme}>
-      <SCThemeProvider theme={CombinedDefaultTheme}>
-        <NavigationContainer theme={CombinedDefaultTheme}>
-          {children}
-        </NavigationContainer>
+    <PaperProvider theme={theme}>
+      <SCThemeProvider theme={theme}>
+        <NavigationContainer theme={theme}>{children}</NavigationContainer>
       </SCThemeProvider>
     </PaperProvider>
   )

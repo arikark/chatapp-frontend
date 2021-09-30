@@ -7,7 +7,8 @@ export const CustomDefaultTheme = {
   fonts: configureFonts(fontConfig),
   colors: {
     ...DefaultTheme.colors,
-    alert: colors.alert
+    alert: colors.alert,
+    secondText: colors.secondText
   },
   sizingMajor,
   sizingMinor
