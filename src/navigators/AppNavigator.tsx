@@ -10,6 +10,10 @@ import ModalScreen from '../features/shared/screens/ModalScreen'
 import NotFoundScreen from '../features/shared/screens/NotFoundScreen'
 import TabOneScreen from '../features/shared/screens/TabOneScreen'
 import TabTwoScreen from '../features/shared/screens/TabTwoScreen'
+import ChannelScreen from '../features/chat/screens/ChannelScreen'
+import ThreadScreen from '../features/chat/screens/ThreadScreen'
+import ChannelListScreen from '../features/chat/screens/ChannelListScreen'
+
 import {
   RootStackParamList,
   RootTabParamList,
@@ -33,6 +37,22 @@ export function AppNavigator() {
       />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
+      </Stack.Group>
+      <Stack.Group>
+        <Stack.Screen
+          component={ChannelScreen}
+          name="Channel"
+          options={({ route }: { route: any }) => ({
+            headerBackTitle: 'Back',
+            headerRight: () => <></>,
+            headerTitle: route.params?.name
+          })}
+        />
+        <Stack.Screen
+          component={ThreadScreen}
+          name="Thread"
+          options={() => ({ headerLeft: () => <></> })}
+        />
       </Stack.Group>
     </Stack.Navigator>
   )
@@ -78,6 +98,14 @@ function BottomTabNavigator() {
         options={{
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />
+        }}
+      />
+      <BottomTab.Screen
+        name="ChatRoot"
+        component={ChannelListScreen}
+        options={{
+          title: 'Channel List',
+          tabBarIcon: ({ color }) => <TabBarIcon name="comment" color={color} />
         }}
       />
     </BottomTab.Navigator>
