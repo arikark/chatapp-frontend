@@ -9,11 +9,11 @@ import {
 } from '@react-navigation/native'
 import merge from 'deepmerge'
 
-import { AppNavigator, LandingNavigator } from './src/navigators'
-import { CustomDefaultTheme, CustomDarkTheme } from './src/themes'
+import { AppNavigator, LandingNavigator } from './navigators'
+import { CustomDefaultTheme, CustomDarkTheme } from './themes'
 
 const CombinedDefaultTheme = merge(CustomDefaultTheme, NavigationDefaultTheme)
-const CombinedDarkTheme = merge(CustomDarkTheme, NavigationDarkTheme)
+// const CombinedDarkTheme = merge(CustomDarkTheme, NavigationDarkTheme)
 
 export default function App() {
   const isLoggedIn = false

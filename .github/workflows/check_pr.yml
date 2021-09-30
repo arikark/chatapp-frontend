@@ -13,5 +13,5 @@ jobs:
       - name: Install dependancies
         run: npm i
 
-      - name: Test transpilation, linting and unit
-        run: npm run test
+      - name: Test transpilation and linting
+        run: npm run lint
