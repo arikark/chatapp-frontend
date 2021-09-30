@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { StreamChat } from 'stream-chat'
 
 export const Api = createApi({
   reducerPath: 'api',
@@ -12,3 +13,5 @@ export const Api = createApi({
   // tagTypes: ['Portfolio', 'Accounts'],
   endpoints: () => ({})
 })
+
+export const chatClient = StreamChat.getInstance('wnwcdjuc9keq')

@@ -38,7 +38,8 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic
   })
-  const isLoggedIn = false
+  const isLoggedIn = true
+
   return (
     <ReduxProvider store={store}>
       <SafeAreaProvider>
