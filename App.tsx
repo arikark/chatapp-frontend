@@ -17,8 +17,15 @@ import {
   Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto'
 import { Text } from 'react-native'
+import { StreamChat } from 'stream-chat'
+import { Chat, OverlayProvider } from 'stream-chat-expo'
 import { ThemeProvider } from './src/styles/ThemeProvider'
 import { AppNavigator, LandingNavigator } from './src/navigators'
+import { iAppContext } from './src/features/chat/screens/types'
+import { useStreamChatTheme } from './src/styles/themes/useStreamChatTheme'
+
+export const chatClient = StreamChat.getInstance('wnwcdjuc9keq')
+export const AppContext = React.createContext<iAppContext | null>(null)
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -35,13 +42,27 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic
   })
-  const isLoggedIn = false
+  const isLoggedIn = true
+
+  const [channel, setChannel] = React.useState<any>()
+  const [thread, setThread] = React.useState()
+
+  const theme = useStreamChatTheme()
+
   return (
     <SafeAreaProvider>
       <ThemeProvider>
         {fontsLoaded ? (
           isLoggedIn ? (
-            <AppNavigator />
+            <AppContext.Provider
+              value={{ channel, setChannel, thread, setThread }}
+            >
+              <OverlayProvider translucentStatusBar value={{ style: theme }}>
+                <Chat client={chatClient}>
+                  <AppNavigator />
+                </Chat>
+              </OverlayProvider>
+            </AppContext.Provider>
           ) : (
             <LandingNavigator />
           )
