@@ -16,7 +16,7 @@
     "lint:eslint:fix": "eslint --fix --ext=.jsx,.js,.tsx,.ts ./src",
     "lint:ts": "tsc",
     "lint": "npm run lint:eslint && npm run lint:format && npm run lint:ts",
-    "lint:fix": "npm run lint:eslint:fix && npm run lint:format:fix && npm run lint:ts"
+    "lint:fix": "npm run lint:eslint:fix && npm run lint:format:fix"
   },
   "prettier": {
     "singleQuote": true,
@@ -62,11 +62,13 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo-google-fonts/roboto": "^0.2.0",
     "@expo/vector-icons": "^12.0.0",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "@types/styled-components": "^5.1.14",
+    "@types/styled-components-react-native": "^5.1.1",
     "eslint-config-universe": "^7.0.1",
     "expo": "~42.0.1",
     "expo-asset": "~8.3.2",
@@ -111,7 +113,8 @@
     "typescript": "^4.0.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "npm run lint:fix"
+    "*": "npm run lint:format:fix",
+    "*.{js,jsx,ts,tsx}": "npm run lint:eslint:fix"
   },
   "config": {
     "commitizen": {

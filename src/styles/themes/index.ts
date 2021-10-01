@@ -1,3 +1,6 @@
+export * from './CustomDefaultTheme'
+export * from './CustomDarkTheme'
+
 declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
@@ -30,6 +33,3 @@ declare global {
     }
   }
 }
-
-export * from './CustomDefaultTheme'
-export * from './CustomDarkTheme'
