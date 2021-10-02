@@ -2,6 +2,7 @@ babel.config.js
 .npmrc
 .prettierignore
 .gitignore
+.eslintignore
 .commitlintrc
 *.lock
 .gitkeep
