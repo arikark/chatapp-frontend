@@ -2,13 +2,16 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { View } from 'react-native'
 import {
-  useTheme,
   Title,
   Subheading,
   Paragraph,
   Headline,
-  Caption
+  Caption,
+  Switch
 } from 'react-native-paper'
+
+import { useAppDispatch } from '../../shared/hooks/redux'
+import { toggleTheme } from '../../shared/slices'
 import { TextInput } from '../../shared/components/TextInput'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 
@@ -22,21 +25,25 @@ const StyledTextInput = styled(TextInput)`
   margin: ${({ theme }) => `${theme.sizingMajor.x1}px`};
 `
 export function Signin() {
-  const { colors } = useTheme()
-  const CustomTitle = styled(Title)({
-    color: colors.accent
-  })
+  const dispatch = useAppDispatch()
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false)
+  const onToggleSwitch = () => {
+    setIsSwitchOn(!isSwitchOn)
+    dispatch(toggleTheme())
+  }
+
   return (
     <ScreenWrapper withScrollView>
       <Container>
         <Headline>Headline</Headline>
-        <CustomTitle>Title</CustomTitle>
+        <Title>Title</Title>
         <Subheading>Subheading</Subheading>
         <Paragraph>Paragraph</Paragraph>
         <Caption>Caption</Caption>
       </Container>
       <StyledTextInput label="Email" mode="outlined" />
       <TextInput label="Password" mode="outlined" />
+      <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
     </ScreenWrapper>
   )
 }

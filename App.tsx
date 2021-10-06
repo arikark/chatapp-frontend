@@ -1,4 +1,5 @@
 import React from 'react'
+import { Provider as ReduxProvider } from 'react-redux'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import {
@@ -17,8 +18,10 @@ import {
   Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto'
 import { Text } from 'react-native'
+
 import { ThemeProvider } from './src/styles/ThemeProvider'
-import { AppNavigator, LandingNavigator } from './src/navigators'
+import { AppNavigator, LandingNavigator } from './src/navigation'
+import { store } from './src/store'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,19 +40,21 @@ export default function App() {
   })
   const isLoggedIn = false
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        {fontsLoaded ? (
-          isLoggedIn ? (
-            <AppNavigator />
+    <ReduxProvider store={store}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          {fontsLoaded ? (
+            isLoggedIn ? (
+              <AppNavigator />
+            ) : (
+              <LandingNavigator />
+            )
           ) : (
-            <LandingNavigator />
-          )
-        ) : (
-          <Text>Loading</Text>
-        )}
-        <StatusBar />
-      </ThemeProvider>
-    </SafeAreaProvider>
+            <Text>Loading</Text>
+          )}
+          <StatusBar />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </ReduxProvider>
   )
 }
