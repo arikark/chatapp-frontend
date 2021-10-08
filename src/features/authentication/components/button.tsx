@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, Text } from 'react-native'
 
-// eslint-disable-next-line prettier/prettier
+// ({label,onPress}:{label:string,onPress:any})
 export default function Button({
   label,
   onPress
