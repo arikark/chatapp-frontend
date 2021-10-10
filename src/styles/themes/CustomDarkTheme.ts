@@ -7,7 +7,8 @@ export const CustomDarkTheme = {
   fonts: configureFonts(fontConfig),
   colors: {
     ...DarkTheme.colors,
-    alert: colors.alert
+    alert: colors.alert,
+    secondText: colors.secondText
   },
   sizingMajor,
   sizingMinor
