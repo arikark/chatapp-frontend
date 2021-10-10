@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import i18n from 'i18n-js'
 import { View } from 'react-native'
 import {
   Title,
@@ -37,7 +38,9 @@ export function Signin() {
       <Container>
         <Headline>Headline</Headline>
         <Title>Title</Title>
-        <Subheading>Subheading</Subheading>
+        <Subheading>
+          {i18n.t('signIn.welcome')} {i18n.t('signIn.name')}
+        </Subheading>
         <Paragraph>Paragraph</Paragraph>
         <Caption>Caption</Caption>
       </Container>
