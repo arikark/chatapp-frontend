@@ -45,7 +45,7 @@ export default function App() {
     en
   }
   i18n.locale = Localization.locale
-  const isLoggedIn = false
+  const isLoggedIn = true
   return (
     <ReduxProvider store={store}>
       <SafeAreaProvider>
