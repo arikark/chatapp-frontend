@@ -4,7 +4,7 @@ export * from './CustomDarkTheme'
 declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
-      alert: string
+      chatPrimary: string
       secondText: string
     }
     interface ThemeSizingMajor {

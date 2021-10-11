@@ -7,6 +7,7 @@ import { ListPreviewMessage } from '../components/ListPreviewMessage'
 import { setChannel } from '../slice'
 import { useAppDispatch } from '../../shared/hooks/redux'
 import { chatClient } from '../../shared/api'
+import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 
 const filters = {
   members: { $in: ['Marvin', 'Test_1'] },
@@ -38,7 +39,7 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
   }, [])
 
   return (
-    <Container>
+    <ScreenWrapper>
       {clientReady ? (
         <Chat client={chatClient}>
           <ChannelList
@@ -56,10 +57,6 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
       ) : (
         <ActivityIndicator size="large" />
       )}
-    </Container>
+    </ScreenWrapper>
   )
 }
-
-const Container = styled(View)`
-  height: ${({ theme }) => `${theme.sizingMajor.x12}%`};
-`

@@ -7,7 +7,7 @@ export const CustomDefaultTheme = {
   fonts: configureFonts(fontConfig),
   colors: {
     ...DefaultTheme.colors,
-    alert: colors.alert,
+    chatPrimary: colors.chatPrimary,
     secondText: colors.secondText
   },
   sizingMajor,
