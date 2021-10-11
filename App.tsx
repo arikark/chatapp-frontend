@@ -2,7 +2,6 @@ import React from 'react'
 import { Provider as ReduxProvider } from 'react-redux'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import * as Localization from 'expo-localization'
 import i18n from 'i18n-js'
 import {
   useFonts,
@@ -22,9 +21,17 @@ import {
 import { Text } from 'react-native'
 
 import { ThemeProvider } from './src/styles/ThemeProvider'
-import { AppNavigator, LandingNavigator } from './src/navigation'
+import {
+  RootNavigator as AppNavigator,
+  LandingNavigator
+} from './src/navigation'
 import { store } from './src/store'
 import { en } from './src/translations'
+
+i18n.translations = {
+  en
+}
+i18n.locale = 'en'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -41,23 +48,17 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic
   })
-  i18n.translations = {
-    en
-  }
-  i18n.locale = Localization.locale
   const isLoggedIn = true
   return (
     <ReduxProvider store={store}>
       <SafeAreaProvider>
         <ThemeProvider>
-          {fontsLoaded ? (
-            isLoggedIn ? (
-              <AppNavigator />
-            ) : (
-              <LandingNavigator />
-            )
-          ) : (
+          {!fontsLoaded ? (
             <Text>Loading</Text>
+          ) : isLoggedIn ? (
+            <AppNavigator />
+          ) : (
+            <LandingNavigator />
           )}
           <StatusBar />
         </ThemeProvider>

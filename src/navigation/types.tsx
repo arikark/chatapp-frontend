@@ -17,25 +17,27 @@ declare global {
 }
 
 export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootTabParamList> | undefined
-  ChannelList: undefined
+  BottomTabNavigator: NavigatorScreenParams<BottomTabParamList> | undefined
   Channel: undefined
   Thread: undefined
   Modal: undefined
   NotFound: undefined
 }
+export type BottomTabParamList = {
+  Profile: undefined
+  ChannelDiscoveryScreen: undefined
+  JoinedChannelList: undefined
+}
+
+export type LandingStackParamList = {
+  SignIn: undefined
+}
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, Screen>
 
-export type RootTabParamList = {
-  TabOne: undefined
-  TabTwo: undefined
-  ChatRoot: undefined
-}
-
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
+export type RootTabScreenProps<Screen extends keyof BottomTabParamList> =
   CompositeScreenProps<
-    BottomTabScreenProps<RootTabParamList, Screen>,
+    BottomTabScreenProps<BottomTabParamList, Screen>,
     NativeStackScreenProps<RootStackParamList>
   >

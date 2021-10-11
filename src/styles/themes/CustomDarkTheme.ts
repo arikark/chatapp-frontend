@@ -7,7 +7,7 @@ export const CustomDarkTheme = {
   fonts: configureFonts(fontConfig),
   colors: {
     ...DarkTheme.colors,
-    alert: colors.alert,
+    chatPrimary: colors.chatPrimary,
     secondText: colors.secondText
   },
   sizingMajor,
