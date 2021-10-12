@@ -1,52 +1,33 @@
 import * as React from 'react'
 
-import { FontAwesome } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useTheme } from 'react-native-paper'
+import styled from 'styled-components'
 
-import TabOneScreen from '../../features/shared/screens/TabOneScreen'
+import Profile from '../../features/profile/containers/Profile'
 import { BottomTabParamList } from '../types'
-import ChannelListScreen from '../../features/chat/screens/ChannelDiscoveryScreen'
+import ChannelDiscoveryScreen from '../../features/chat/screens/ChannelDiscoveryScreen'
 import JoinedChannelListScreen from '../../features/chat/screens/JoinedChannelListScreen'
+import Icon from '../../features/shared/components/Icon'
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name']
-  color: string
-}) {
-  const { sizingMinor, sizingMajor } = useTheme()
-  return (
-    <FontAwesome
-      size={sizingMajor.x4}
-      style={{ marginBottom: -1 * sizingMinor.x1 }}
-      {...props}
-    />
-  )
-}
+const TabBarIcon = styled(Icon)`
+  margin-bottom: ${({ theme }) => `-${theme.sizingMinor.x1}px`};
+`
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 export function BottomTabNavigator() {
   const { colors } = useTheme()
   return (
     <BottomTab.Navigator
-      initialRouteName="ChannelDiscoveryScreen"
+      initialRouteName="JoinedChannelListScreen"
       screenOptions={{
         tabBarActiveTintColor: colors.chatPrimary,
         headerShown: false
       }}
     >
       <BottomTab.Screen
-        name="ChannelDiscoveryScreen"
+        name="JoinedChannelListScreen"
         component={JoinedChannelListScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="compass" color={color} />
-          ),
-          tabBarShowLabel: false
-        }}
-      />
-      <BottomTab.Screen
-        name="JoinedChannelList"
-        component={ChannelListScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="comments" color={color} />
@@ -55,8 +36,18 @@ export function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Profile"
-        component={TabOneScreen}
+        name="ChannelDiscoveryScreen"
+        component={ChannelDiscoveryScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="compass" color={color} />
+          ),
+          tabBarShowLabel: false
+        }}
+      />
+      <BottomTab.Screen
+        name="ProfileScreen"
+        component={Profile}
         options={{
           tabBarShowLabel: false,
           title: 'Profile',

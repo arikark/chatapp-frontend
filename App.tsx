@@ -21,10 +21,7 @@ import {
 import { Text } from 'react-native'
 
 import { ThemeProvider } from './src/styles/ThemeProvider'
-import {
-  RootNavigator as AppNavigator,
-  LandingNavigator
-} from './src/navigation'
+import Navigation from './src/navigation'
 import { store } from './src/store'
 import { en } from './src/translations'
 
@@ -48,18 +45,11 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic
   })
-  const isLoggedIn = true
   return (
     <ReduxProvider store={store}>
       <SafeAreaProvider>
         <ThemeProvider>
-          {!fontsLoaded ? (
-            <Text>Loading</Text>
-          ) : isLoggedIn ? (
-            <AppNavigator />
-          ) : (
-            <LandingNavigator />
-          )}
+          {!fontsLoaded ? <Text>Loading</Text> : <Navigation />}
           <StatusBar />
         </ThemeProvider>
       </SafeAreaProvider>

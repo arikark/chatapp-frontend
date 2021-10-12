@@ -1,20 +1,19 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import i18n from 'i18n-js'
-import { View } from 'react-native'
-import {
-  Title,
-  Subheading,
-  Paragraph,
-  Headline,
-  Caption,
-  Switch
-} from 'react-native-paper'
+import { View, Button } from 'react-native'
+import { Subheading, Paragraph, Caption, Headline } from 'react-native-paper'
 
-import { useAppDispatch } from '../../shared/hooks/redux'
-import { toggleTheme } from '../../shared/slices'
 import { TextInput } from '../../shared/components/TextInput'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
+
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
+import { useLoginMutation, useSignUpMutation } from '../../../store/api/userApi'
+import {
+  logout,
+  selectStreamIOToken,
+  selectToken
+} from '../../authentication/slice'
 
 const Container = styled(View)`
   flex-grow: 1;
@@ -25,28 +24,80 @@ const Container = styled(View)`
 const StyledTextInput = styled(TextInput)`
   margin: ${({ theme }) => `${theme.sizingMajor.x1}px`};
 `
-export function Signin() {
-  const dispatch = useAppDispatch()
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false)
-  const onToggleSwitch = () => {
-    setIsSwitchOn(!isSwitchOn)
-    dispatch(toggleTheme())
-  }
+function SignUpButton() {
+  const [signUp, { isSuccess, isLoading }] = useSignUpMutation()
 
+  return (
+    <>
+      {isLoading ? (
+        <Headline> Loading </Headline>
+      ) : (
+        <Button
+          title="SignUp"
+          onPress={async () => {
+            signUp({
+              email: 'arikel@email.com',
+              username: 'arikark',
+              password: 'abc123',
+              bio: 'This is my bio',
+              photoUrl: 'htttp://photo'
+            })
+          }}
+        />
+      )}
+    </>
+  )
+}
+function LoginButton() {
+  const [login, { isSuccess, isLoading }] = useLoginMutation()
+  return (
+    <>
+      {isLoading ? (
+        <Headline> Loading </Headline>
+      ) : (
+        <Button
+          title="Login"
+          onPress={async () => {
+            login({
+              email: 'ari@email.com',
+              password: 'abc123'
+            })
+          }}
+        />
+      )}
+    </>
+  )
+}
+function Logout() {
+  const dispatch = useAppDispatch()
+  return (
+    <Button
+      title="logout"
+      onPress={async () => {
+        dispatch(logout())
+      }}
+    />
+  )
+}
+
+export function Signin() {
+  const streamIOToken = useAppSelector(selectStreamIOToken)
+  const token = useAppSelector(selectToken)
   return (
     <ScreenWrapper withScrollView>
       <Container>
-        <Headline>Headline</Headline>
-        <Title>Title</Title>
+        <SignUpButton />
+        <LoginButton />
+        <Logout />
         <Subheading>
           {i18n.t('signIn.welcome')} {i18n.t('signIn.name')}
         </Subheading>
-        <Paragraph>Paragraph</Paragraph>
+        {streamIOToken && <Paragraph>{streamIOToken}</Paragraph>}
+        {token && <Paragraph>{token}</Paragraph>}
         <Caption>Caption</Caption>
       </Container>
       <StyledTextInput label="Email" mode="outlined" />
       <TextInput label="Password" mode="outlined" />
-      <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
     </ScreenWrapper>
   )
 }

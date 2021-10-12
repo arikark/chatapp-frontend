@@ -132,7 +132,7 @@ export const VoiceAttachment = (props: any) => {
 
 const Container = styled(View)`
   padding: ${({ theme }) => `${theme.sizingMinor.x5}px`};
-  width: ${({ theme }) => `${theme.sizingMajor.x13}px`};
+  width: ${({ theme }) => `${theme.sizingMajor.x14}px`};
 `
 const AudioPlayerContainer = styled(View)`
   flex-direction: row;

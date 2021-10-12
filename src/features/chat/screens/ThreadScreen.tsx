@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { getCurrentChannel, getCurrentThread, setThread } from '../slice'
-import { chatClient } from '../../shared/api'
+import { chatClient } from '../../../store/api'
 
 export default function ThreadScreen() {
   const dispatch = useAppDispatch()
