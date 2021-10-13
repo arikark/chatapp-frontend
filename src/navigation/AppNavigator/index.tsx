@@ -8,6 +8,7 @@ import ModalScreen from '../../features/shared/screens/ModalScreen'
 import NotFoundScreen from '../../features/shared/screens/NotFoundScreen'
 import { BottomTabNavigator } from '../AppNavigator/BottomTabNavigator'
 import { AppStackParamList } from '../types'
+import ChannelCreationScreen from '../../features/chat/screens/ChannelCreationScreen'
 
 export default function AppNavigator() {
   const Stack = createNativeStackNavigator<AppStackParamList>()
@@ -35,6 +36,13 @@ export default function AppNavigator() {
             component={ThreadScreen}
             name="Thread"
             options={() => ({ headerLeft: () => <></> })}
+          />
+          <Stack.Screen
+            component={ChannelCreationScreen}
+            name="ChannelCreation"
+            options={() => ({
+              headerTitle: 'Create a channel'
+            })}
           />
         </Stack.Group>
 

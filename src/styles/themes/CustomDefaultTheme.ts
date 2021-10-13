@@ -8,6 +8,7 @@ export const CustomDefaultTheme = {
   colors: {
     ...DefaultTheme.colors,
     chatPrimary: colors.chatPrimary,
+    chatSecondary: colors.chatSecondary,
     secondText: colors.secondText
   },
   sizingMajor,
