@@ -11,7 +11,8 @@ export enum sizingMajor {
   x10 = 80,
   x11 = 88,
   x12 = 100,
-  x13 = 250
+  x13 = 160,
+  x14 = 260
 }
 export enum sizingMinor {
   x0 = 0,

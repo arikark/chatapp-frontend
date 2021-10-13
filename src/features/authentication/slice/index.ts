@@ -1,32 +1,45 @@
-/* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-// import { decode } from 'jwt-decode'
+import { createSlice } from '@reduxjs/toolkit'
+import decode from 'jwt-decode'
 
 import type { RootState } from '../../../store'
+import { userApi } from '../../../store/api/userApi'
+import type { IAuth } from '../../../store/api/interfaces'
 
-type AuthState = {
-  email: string | null
-  loginId: number | null
-}
+// see https://redux-toolkit.js.org/rtk-query/usage/examples
+
+const initialState = {
+  token: null,
+  streamIOToken: null
+} as IAuth
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: { email: null, loginId: 123456 } as AuthState,
+  initialState,
   reducers: {
-    setCredentials: (
-      state,
-      { payload: { email, loginId } }: PayloadAction<AuthState>
-    ) => {
-      state.email = email
-      state.loginId = loginId
-      // state.loginId = decode(token).loginId
-    }
+    logout: () => initialState
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      userApi.endpoints.login.matchFulfilled,
+      (state, { payload }) => {
+        state.token = payload.data.auth.token
+        state.streamIOToken = payload.data.auth.streamIOToken
+      }
+    )
+    builder.addMatcher(
+      userApi.endpoints.signUp.matchFulfilled,
+      (state, { payload }) => {
+        state.token = payload.data.auth.token
+        state.streamIOToken = payload.data.auth.streamIOToken
+      }
+    )
   }
 })
 
 export default authSlice.reducer
 
-export const { setCredentials } = authSlice.actions
+export const { logout } = authSlice.actions
 
-export const selectCurrentUserEmail = (state: RootState) => state.auth.email
-export const selectCurrentUserLoginId = (state: RootState) => state.auth.loginId
+export const selectStreamIOToken = (state: RootState) =>
+  state.auth.streamIOToken
+export const selectToken = (state: RootState) => state.auth.token

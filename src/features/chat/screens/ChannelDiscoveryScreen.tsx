@@ -6,7 +6,7 @@ import { ChannelList, Chat } from 'stream-chat-expo'
 import { ListPreviewMessage } from '../components/ListPreviewMessage'
 import { setChannel } from '../slice'
 import { useAppDispatch } from '../../shared/hooks/redux'
-import { chatClient } from '../../shared/api'
+import { chatClient } from '../../../store/api'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 
 const filters = {

@@ -12,32 +12,36 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList
+      extends AuthStackParamList,
+        AppStackParamList,
+        BottomTabParamList {}
   }
 }
 
-export type RootStackParamList = {
+export type AuthStackParamList = {
+  SignIn: undefined
+}
+export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> =
+  NativeStackScreenProps<AuthStackParamList, Screen>
+
+export type AppStackParamList = {
   BottomTabNavigator: NavigatorScreenParams<BottomTabParamList> | undefined
   Channel: undefined
   Thread: undefined
   Modal: undefined
   NotFound: undefined
 }
+export type AppStackScreenProps<Screen extends keyof AppStackParamList> =
+  NativeStackScreenProps<AppStackParamList, Screen>
+
 export type BottomTabParamList = {
-  Profile: undefined
+  ProfileScreen: undefined
   ChannelDiscoveryScreen: undefined
-  JoinedChannelList: undefined
+  JoinedChannelListScreen: undefined
 }
-
-export type LandingStackParamList = {
-  SignIn: undefined
-}
-
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
-  NativeStackScreenProps<RootStackParamList, Screen>
-
-export type RootTabScreenProps<Screen extends keyof BottomTabParamList> =
+export type BTabScreenProps<Screen extends keyof BottomTabParamList> =
   CompositeScreenProps<
     BottomTabScreenProps<BottomTabParamList, Screen>,
-    NativeStackScreenProps<RootStackParamList>
+    NativeStackScreenProps<AppStackParamList>
   >

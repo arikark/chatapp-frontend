@@ -6,12 +6,11 @@ import ChannelScreen from '../../features/chat/screens/ChannelScreen'
 import ThreadScreen from '../../features/chat/screens/ThreadScreen'
 import ModalScreen from '../../features/shared/screens/ModalScreen'
 import NotFoundScreen from '../../features/shared/screens/NotFoundScreen'
-import { BottomTabNavigator } from './BottomTabNavigator'
-import { RootStackParamList } from '../types'
+import { BottomTabNavigator } from '../AppNavigator/BottomTabNavigator'
+import { AppStackParamList } from '../types'
 
-const Stack = createNativeStackNavigator<RootStackParamList>()
-
-export function RootNavigator() {
+export default function AppNavigator() {
+  const Stack = createNativeStackNavigator<AppStackParamList>()
   return (
     <OverlayProvider translucentStatusBar>
       <Stack.Navigator>
