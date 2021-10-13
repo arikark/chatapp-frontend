@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useTheme } from 'react-native-paper'
 import styled from 'styled-components'
 
-import Profile from '../../features/profile/containers/Profile'
+import ProfileContainer from '../../features/profile/containers/ProfileContainer'
 import { BottomTabParamList } from '../types'
 import ChannelDiscoveryScreen from '../../features/chat/screens/ChannelDiscoveryScreen'
 import JoinedChannelListScreen from '../../features/chat/screens/JoinedChannelListScreen'
@@ -47,7 +47,7 @@ export function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="ProfileScreen"
-        component={Profile}
+        component={ProfileContainer}
         options={{
           tabBarShowLabel: false,
           title: 'Profile',

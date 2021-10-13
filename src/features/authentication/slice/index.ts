@@ -2,14 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 import decode from 'jwt-decode'
 
 import type { RootState } from '../../../store'
-import { userApi } from '../../../store/api/userApi'
+import { userServices } from '../../../store/api/userServices'
 import type { IAuth } from '../../../store/api/interfaces'
-
 // see https://redux-toolkit.js.org/rtk-query/usage/examples
 
 const initialState = {
-  token: null,
-  streamIOToken: null
+  token: undefined,
+  streamIOToken: undefined
 } as IAuth
 
 const authSlice = createSlice({
@@ -20,14 +19,14 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      userApi.endpoints.login.matchFulfilled,
+      userServices.endpoints.login.matchFulfilled,
       (state, { payload }) => {
         state.token = payload.data.auth.token
         state.streamIOToken = payload.data.auth.streamIOToken
       }
     )
     builder.addMatcher(
-      userApi.endpoints.signUp.matchFulfilled,
+      userServices.endpoints.signUp.matchFulfilled,
       (state, { payload }) => {
         state.token = payload.data.auth.token
         state.streamIOToken = payload.data.auth.streamIOToken
