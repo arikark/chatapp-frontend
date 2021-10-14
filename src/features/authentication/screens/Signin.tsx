@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
@@ -12,6 +12,7 @@ import {
   Caption
 } from 'react-native-paper'
 
+import { StyledButton } from '../components/styles'
 // import { Formik } from 'formik'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { TextInput } from '../../shared/components/TextInput'
@@ -45,22 +46,19 @@ const LoginSchema = Yup.object().shape({
 })
 
 export function Signin() {
-  const { handleChange, handleSubmit, values } = useFormik({
-    initialValues: { email: '', password: '' },
-    onSubmit: (values) =>
-      alert(`Email: ${values.email}, Password: ${values.password}`)
-  })
+  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
+    useFormik({
+      validationSchema: LoginSchema,
+      initialValues: { email: '', password: '' },
+      onSubmit: (values) =>
+        alert(`Email: ${values.email}, Password: ${values.password}`)
+    })
 
   const { colors } = useTheme()
   const CustomTitle = styled(Title)({
     color: colors.accent
   })
-
-  // const { handleChange, handleSubmit, values } = useFormik({
-  //   initialValues: { email: '', password: '' },
-  //   onSubmit: (values: { email: 'string'; password: 'string' }) =>
-  //     alert(`Email: ${values.email}, Password: ${values.password}`)
-  // });
+  // const password = useRef(null)
 
   return (
     <ScreenWrapper withScrollView>
@@ -68,21 +66,36 @@ export function Signin() {
         <CustomTitle>Login</CustomTitle>
         <Subheading>Subheading</Subheading>
         <Paragraph>Paragraph</Paragraph>
-        <Caption>Caption</Caption>
+        <Caption> </Caption>
       </Container>
 
-      <CustomTitle>Login</CustomTitle>
-
       <StyledTextInput
-        onChangeText={handleChange('password')}
         label="Enter your email"
-        mode="outlined"
-      />
-      <StyledTextInput
         onChangeText={handleChange('email')}
-        label="Enter your password"
+        onBlur={handleBlur('email')}
+        autoCapitalize="none"
+        autoCompleteType="email"
+        keyboardType="email-address"
+        // returnKeyType="next"
+        // returnKeyLabel="next"
         mode="outlined"
       />
+
+      {/* <View style={{ paddingHorizontal: 32, marginBottom: 16, width: '100%' }}> */}
+      <StyledTextInput
+        // ref={password}
+        onChangeText={handleChange('password')}
+        autoCompleteType="password"
+        secureTextEntry
+        label="Enter your password"
+        onBlur={handleBlur('password')}
+        autoCapitalize="none"
+        mode="outlined"
+        returnKeyType="go"
+        returnKeyLabel="go"
+        // onSubmitEditing={() => password.current?.focus()}
+      />
+      {/* </View> */}
       <ButtontInput label="Login" onPress={handleSubmit} />
     </ScreenWrapper>
   )

@@ -58,11 +58,18 @@ export const WelcomeImage = styled(Image)`
 `
 
 export const PageTitle = styled(Text)`
-  font-size: 30px;
-  text-align: center;
+  position: absolute;
+  width: 133px;
+  height: 56px;
+  left: 33px;
+  top: 85px;
+
+  font-style: normal;
   font-weight: bold;
-  color: ${Colors.brand};
-  padding: 10px;
+  font-size: 48px;
+  line-height: 56px;
+
+  color: #000000;
 `
 
 export const SubTitle = styled(Text)`
