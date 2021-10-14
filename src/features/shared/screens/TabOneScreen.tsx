@@ -11,7 +11,7 @@ const Container = styled(View)({
 export default function TabOneScreen() {
   return (
     <Container>
-      <Text>TabOneScreen</Text>
+      <Text>My Profile Screen</Text>
     </Container>
   )
 }

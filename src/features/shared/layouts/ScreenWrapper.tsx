@@ -1,32 +1,42 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ScrollView, ScrollViewProps } from 'react-native'
+import { ScrollView, ScrollViewProps, View, ViewProps } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-type Props = ScrollViewProps & {
+type CustomScrollViewProps = ScrollViewProps & {
   children: React.ReactNode
   withScrollView?: boolean
 }
 
-export const Container = styled(ScrollView)<ScrollViewProps>`
+const ScrollContainer = styled(ScrollView)<CustomScrollViewProps>`
   display: flex;
   background-color: ${({ theme }) => `${theme.colors.background}`};
+  height: 100%;
+`
+const ViewContainer = styled(View)<ViewProps>`
+  display: flex;
+  background-color: ${({ theme }) => `${theme.colors.background}`};
+  height: 100%;
 `
 
 export default function ScreenWrapper({
   children,
   withScrollView = false,
   ...rest
-}: Props) {
+}: CustomScrollViewProps) {
   return (
-    // <SafeAreaView edges={['left', 'right', 'bottom']}>
-    <Container
-      {...rest}
-      scrollEnabled={withScrollView}
-      showsVerticalScrollIndicator={false}
-    >
-      {children}
-    </Container>
-    // </SafeAreaView>
+    <SafeAreaView edges={['left', 'right', 'top']}>
+      {withScrollView ? (
+        <ScrollContainer
+          {...rest}
+          scrollEnabled={withScrollView}
+          showsVerticalScrollIndicator={false}
+        >
+          {children}
+        </ScrollContainer>
+      ) : (
+        <ViewContainer {...rest}>{children}</ViewContainer>
+      )}
+    </SafeAreaView>
   )
 }
