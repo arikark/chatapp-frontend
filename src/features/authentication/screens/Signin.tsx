@@ -4,9 +4,6 @@ import * as Yup from 'yup'
 import styled from 'styled-components'
 
 import i18n from 'i18n-js'
-import { View, Button } from 'react-native'
-import { TextInput } from '../../shared/components/TextInput'
-
 import {
   useTheme,
   Title,
@@ -15,6 +12,10 @@ import {
   Headline,
   Caption
 } from 'react-native-paper'
+import { View, Button } from 'react-native'
+import { TextInput } from '../../shared/components/TextInput'
+
+
 
 import { StyledButton } from '../components/styles'
 // import { Formik } from 'formik'
@@ -136,24 +137,7 @@ const LoginSchema = Yup.object().shape({
 })
 
 export function Signin() {
-  const [data, setData] = React.useState({
-    email: '',
-    password: ''
-  })
-
-  const textInputChange = (val: string) => {
-    setData({
-      ...data,
-      email: val
-    })
-  }
-
-  const passInputChange = (val: string) => {
-    setData({
-      ...data,
-      password: val
-    })
-  }
+  const [login, { isSuccess, isLoading }] = useLoginMutation()
 
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
