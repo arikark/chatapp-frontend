@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
@@ -16,8 +16,7 @@ import {
   Caption
 } from 'react-native-paper'
 
-
-
+import { StyledButton } from '../components/styles'
 // import { Formik } from 'formik'
 
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
@@ -137,14 +136,13 @@ const LoginSchema = Yup.object().shape({
 })
 
 export function Signin() {
-
-  const [login, { isSuccess, isLoading }] = useLoginMutation()
-
-  const { handleChange, handleSubmit, values } = useFormik({
-    initialValues: { email: '', password: '' },
-    onSubmit: (values) =>
-      alert(`Email: ${values.email}, Password: ${values.password}`)
-  })
+  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
+    useFormik({
+      validationSchema: LoginSchema,
+      initialValues: { email: '', password: '' },
+      onSubmit: (values) =>
+        alert(`Email: ${values.email}, Password: ${values.password}`)
+    })
 
   const { colors } = useTheme()
   const CustomTitle = styled(Title)({
@@ -181,20 +179,34 @@ export function Signin() {
         <CustomTitle>Login</CustomTitle>
         <Subheading>Subheading</Subheading>
         <Paragraph>Paragraph</Paragraph>
-        <Caption>Caption</Caption>
+        <Caption> </Caption>
       </Container>
 
-      <CustomTitle>Login</CustomTitle>
-
       <StyledTextInput
-        onChangeText={handleChange('password')}
         label="Enter your email"
+        onChangeText={handleChange('email')}
+        onBlur={handleBlur('email')}
+        autoCapitalize="none"
+        autoCompleteType="email"
+        keyboardType="email-address"
+        // returnKeyType="next"
+        // returnKeyLabel="next"
         mode="outlined"
       />
+
+      {/* <View style={{ paddingHorizontal: 32, marginBottom: 16, width: '100%' }}> */}
       <StyledTextInput
-        onChangeText={handleChange('email')}
+        // ref={password}
+        onChangeText={handleChange('password')}
+        autoCompleteType="password"
+        secureTextEntry
         label="Enter your password"
+        onBlur={handleBlur('password')}
+        autoCapitalize="none"
         mode="outlined"
+        returnKeyType="go"
+        returnKeyLabel="go"
+        // onSubmitEditing={() => password.current?.focus()}
       />
       {/* <ButtontInput label="Login" onPress={handleSubmit} /> */}
       <Button

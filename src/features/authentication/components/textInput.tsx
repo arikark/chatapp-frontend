@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextInput as RNTextInput, View, StyleSheet } from 'react-native'
 import { Entypo as Icon } from '@expo/vector-icons'
+
 // ({label,onPress}:{label:string,onPress:any})
 //
 export default function TextInput(icon: (icon: string) => any) {
