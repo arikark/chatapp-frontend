@@ -1,6 +1,8 @@
 import React from 'react'
+import { Provider as ReduxProvider } from 'react-redux'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import i18n from 'i18n-js'
 import {
   useFonts,
   Roboto_100Thin,
@@ -17,8 +19,16 @@ import {
   Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto'
 import { Text } from 'react-native'
+
 import { ThemeProvider } from './src/styles/ThemeProvider'
-import { AppNavigator, LandingNavigator } from './src/navigators'
+import Navigation from './src/navigation'
+import { store } from './src/store'
+import { en } from './src/translations'
+
+i18n.translations = {
+  en
+}
+i18n.locale = 'en'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -35,21 +45,14 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic
   })
-  const isLoggedIn = false
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        {fontsLoaded ? (
-          isLoggedIn ? (
-            <AppNavigator />
-          ) : (
-            <LandingNavigator />
-          )
-        ) : (
-          <Text>Loading</Text>
-        )}
-        <StatusBar />
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <ReduxProvider store={store}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          {!fontsLoaded ? <Text>Loading</Text> : <Navigation />}
+          <StatusBar />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </ReduxProvider>
   )
 }

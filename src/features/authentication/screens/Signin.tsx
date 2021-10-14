@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
-import { View } from 'react-native'
+import { View, Button } from 'react-native'
 import {
   useTheme,
   Title,
@@ -13,10 +13,22 @@ import {
 } from 'react-native-paper'
 
 import { StyledButton } from '../components/styles'
+
+// import i18n from 'i18n-js'
 // import { Formik } from 'formik'
+
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { TextInput } from '../../shared/components/TextInput'
-import Button from '../components/button'
+import AuthButton from '../components/button'
+// import Button from 'react-native'
+
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
+import { useLoginMutation, useSignUpMutation } from '../../../store/api/userApi'
+import {
+  logout,
+  selectStreamIOToken,
+  selectToken
+} from '../../authentication/slice'
 
 const Container = styled(View)`
   flex-grow: 1;
@@ -28,7 +40,7 @@ const StyledTextInput = styled(TextInput)`
   margin: ${({ theme }) => `${theme.sizingMajor.x1}px`};
 `
 
-const ButtontInput = styled(Button)`
+const ButtontInput = styled(AuthButton)`
   padding: 15px;
   justify-content: center;
   align-items: center;
@@ -45,6 +57,83 @@ const LoginSchema = Yup.object().shape({
     .required('Required')
 })
 
+function SignUpButton() {
+  const [signUp, { isSuccess, isLoading }] = useSignUpMutation()
+
+  return (
+    <>
+      {isLoading ? (
+        <Headline> Loading </Headline>
+      ) : (
+        <Button
+          title="SignUp"
+          onPress={async () => {
+            signUp({
+              email: 'arikel@email.com',
+              username: 'arikark',
+              password: 'abc123',
+              bio: 'This is my bio',
+              photoUrl: 'htttp://photo'
+            })
+          }}
+        />
+      )}
+    </>
+  )
+}
+function LoginButton() {
+  const [login, { isSuccess, isLoading }] = useLoginMutation()
+  return (
+    <>
+      {isLoading ? (
+        <Headline> Loading </Headline>
+      ) : (
+        <Button
+          title="Login"
+          onPress={async () => {
+            login({
+              email: 'ari@email.com',
+              password: 'abc123'
+            })
+          }}
+        />
+      )}
+    </>
+  )
+}
+function Logout() {
+  const dispatch = useAppDispatch()
+  return (
+    <Button
+      title="logout"
+      onPress={async () => {
+        dispatch(logout())
+      }}
+    />
+  )
+}
+
+// export function Signin() {
+//   const streamIOToken = useAppSelector(selectStreamIOToken)
+//   const token = useAppSelector(selectToken)
+//   return (
+//     <ScreenWrapper withScrollView>
+//       <Container>
+//         <SignUpButton />
+//         <LoginButton />
+//         <Logout />
+//         <Subheading>
+//           {i18n.t('signIn.welcome')} {i18n.t('signIn.name')}
+//         </Subheading>
+//         {streamIOToken && <Paragraph>{streamIOToken}</Paragraph>}
+//         {token && <Paragraph>{token}</Paragraph>}
+//         <Caption>Caption</Caption>
+//         </Container>
+//       <StyledTextInput label="Email" mode="outlined" />
+//       <TextInput label="Password" mode="outlined" />
+//     </ScreenWrapper>
+//   )
+// }
 export function Signin() {
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
@@ -59,6 +148,8 @@ export function Signin() {
     color: colors.accent
   })
   // const password = useRef(null)
+  const streamIOToken = useAppSelector(selectStreamIOToken)
+  const token = useAppSelector(selectToken)
 
   return (
     <ScreenWrapper withScrollView>
@@ -97,6 +188,7 @@ export function Signin() {
       />
       {/* </View> */}
       <ButtontInput label="Login" onPress={handleSubmit} />
+      <SignUpButton />
     </ScreenWrapper>
   )
 }
