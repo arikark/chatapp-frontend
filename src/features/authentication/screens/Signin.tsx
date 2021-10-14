@@ -136,6 +136,25 @@ const LoginSchema = Yup.object().shape({
 })
 
 export function Signin() {
+  const [data, setData] = React.useState({
+    email: '',
+    password: ''
+  })
+
+  const textInputChange = (val: string) => {
+    setData({
+      ...data,
+      email: val
+    })
+  }
+
+  const passInputChange = (val: string) => {
+    setData({
+      ...data,
+      password: val
+    })
+  }
+
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
       validationSchema: LoginSchema,
@@ -184,20 +203,22 @@ export function Signin() {
 
       <StyledTextInput
         label="Enter your email"
-        onChangeText={handleChange('email')}
+        // onChangeText={handleChange('email')}
         onBlur={handleBlur('email')}
         autoCapitalize="none"
         autoCompleteType="email"
         keyboardType="email-address"
         // returnKeyType="next"
         // returnKeyLabel="next"
+        onChangeText={(val) => textInputChange(val)}
         mode="outlined"
       />
 
       {/* <View style={{ paddingHorizontal: 32, marginBottom: 16, width: '100%' }}> */}
       <StyledTextInput
         // ref={password}
-        onChangeText={handleChange('password')}
+        // onChangeText={handleChange('password')}
+        onChangeText={(val) => passInputChange(val)}
         autoCompleteType="password"
         secureTextEntry
         label="Enter your password"
@@ -206,6 +227,7 @@ export function Signin() {
         mode="outlined"
         returnKeyType="go"
         returnKeyLabel="go"
+
         // onSubmitEditing={() => password.current?.focus()}
       />
       {/* <ButtontInput label="Login" onPress={handleSubmit} /> */}
