@@ -1,10 +1,15 @@
-import { Api } from '.'
+import { api } from '.'
 import { IProfile, IAuth } from './interfaces'
 
 export interface AuthResponse {
   data: {
     auth: IAuth
     profile: IProfile
+  }
+}
+interface PhotoUploadResponse {
+  data: {
+    url: string
   }
 }
 export interface LoginRequest {
@@ -15,11 +20,9 @@ export interface SignUpRequest {
   email: string
   username: string
   password: string
-  bio: string
-  photoUrl: string
 }
 
-export const userApi = Api.injectEndpoints({
+export const userServices = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<AuthResponse, LoginRequest>({
       query: (credentials) => ({
@@ -34,9 +37,17 @@ export const userApi = Api.injectEndpoints({
         method: 'POST',
         body: credentials
       })
+    }),
+    uploadPhoto: builder.mutation<PhotoUploadResponse, FormData>({
+      query: (photo) => ({
+        url: 'user/photo',
+        method: 'POST',
+        body: photo
+      })
     })
   }),
   overrideExisting: true
 })
 
-export const { useLoginMutation, useSignUpMutation } = userApi
+export const { useLoginMutation, useSignUpMutation, useUploadPhotoMutation } =
+  userServices

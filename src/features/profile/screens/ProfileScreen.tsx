@@ -1,11 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import i18n from 'i18n-js'
-import { View, Image } from 'react-native'
+import { View } from 'react-native'
 import { useTheme, Paragraph, Headline, Button } from 'react-native-paper'
 
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import ThemeSwitch from '../../shared/components/ThemeSwitch'
+import PhotoFrame from '../components/PhotoFrame'
 
 const Header = styled(View)`
   margin-top: ${({ theme }) => `${theme.sizingMajor.x2}px`};
@@ -17,14 +18,10 @@ const Container = styled(View)`
   padding-left: ${({ theme }) => `${theme.sizingMajor.x4}px`};
   padding-right: ${({ theme }) => `${theme.sizingMajor.x4}px`};
 `
-const ProfilePhoto = styled(Image)`
-  align-self: center;
+const PhotoFrameWrapper = styled(View)`
+  align-items: center;
+  justify-content: center;
   margin-top: ${({ theme }) => `${theme.sizingMajor.x6}px`};
-  width: ${({ theme }) => `${theme.sizingMajor.x13}px`};
-  height: ${({ theme }) => `${theme.sizingMajor.x13}px`};
-  padding-left: ${({ theme }) => `${theme.sizingMajor.x4}px`};
-  padding-right: ${({ theme }) => `${theme.sizingMajor.x4}px`};
-  border-radius: ${({ theme }) => `${theme.sizingMajor.x10}px`};
 `
 const BioContainer = styled(View)`
   width: 100%;
@@ -37,7 +34,12 @@ const BioContainer = styled(View)`
 const Name = styled(Headline)`
   align-self: center;
   font-family: ${({ theme }) => `${theme.fonts.medium.fontFamily}`};
-  margin-top: ${({ theme }) => `${theme.sizingMajor.x2}px`};
+  margin-top: ${({ theme }) => `${theme.sizingMajor.x3}px`};
+`
+const Email = styled(Headline)`
+  align-self: center;
+  font-family: ${({ theme }) => `${theme.fonts.medium.fontFamily}`};
+  margin-bottom: ${({ theme }) => `${theme.sizingMajor.x3}px`};
 `
 const LogoutButton = styled(Button)`
   color: ${({ theme }) => `${theme.colors.chatPrimary}`};
@@ -45,10 +47,10 @@ const LogoutButton = styled(Button)`
   align-self: flex-end;
 `
 type ProfileScreenProps = {
-  email: string | null
-  username: string | null
-  bio: string | null
-  photo: string | null
+  email: string | undefined
+  username: string | undefined
+  bio: string | undefined
+  photo: string | undefined
   onPressLogout: () => void
 }
 
@@ -73,12 +75,11 @@ export default function ProfileScreen({
             Logout
           </LogoutButton>
         </Header>
-        <ProfilePhoto
-          source={{
-            uri: `${photo}`
-          }}
-        />
+        <PhotoFrameWrapper>
+          <PhotoFrame profilePhoto={photo} />
+        </PhotoFrameWrapper>
         <Name>{username}</Name>
+        <Email>{email}</Email>
         <Headline>{i18n.t('profile.bioHeading')}</Headline>
         <BioContainer>
           <Paragraph>{bio}</Paragraph>

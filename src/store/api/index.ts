@@ -3,10 +3,11 @@ import { StreamChat } from 'stream-chat'
 
 import { RootState } from '..'
 
-export const Api = createApi({
+export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/api/v1/',
+    // baseUrl: 'http://localhost:3000/api/v1/',
+    baseUrl: 'http://chatapp.shuangqiu.blog/api/v1/',
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the store, let's use that for authenticated requests
       const token = (getState() as RootState).auth.token
