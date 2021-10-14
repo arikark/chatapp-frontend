@@ -93,6 +93,7 @@
     "expo-web-browser": "~9.2.0",
     "i18n-js": "^3.8.0",
     "jwt-decode": "^3.1.2",
+    "formik": "^2.2.9",
     "react": "16.13.1",
     "formik": "^2.2.9",
     "react-dom": "16.13.1",

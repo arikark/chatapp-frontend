@@ -2,7 +2,8 @@ import React, { useRef } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
-import { View, Button } from 'react-native'
+
+import i18n from 'i18n-js'
 import {
   useTheme,
   Title,
@@ -11,16 +12,14 @@ import {
   Headline,
   Caption
 } from 'react-native-paper'
+import { View, Button } from 'react-native'
+import { TextInput } from '../../shared/components/TextInput'
 
 import { StyledButton } from '../components/styles'
-
-// import i18n from 'i18n-js'
 // import { Formik } from 'formik'
 
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
-import { TextInput } from '../../shared/components/TextInput'
 import AuthButton from '../components/button'
-// import Button from 'react-native'
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { useLoginMutation, useSignUpMutation } from '../../../store/api/userApi'
@@ -39,23 +38,6 @@ const Container = styled(View)`
 const StyledTextInput = styled(TextInput)`
   margin: ${({ theme }) => `${theme.sizingMajor.x1}px`};
 `
-
-const ButtontInput = styled(AuthButton)`
-  padding: 15px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  margin-vertical: 5px;
-  height: 60px;
-`
-
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string()
-    .min(2, 'Too Short!')
-    .max(10, 'Too Long!')
-    .required('Required')
-})
 
 function SignUpButton() {
   const [signUp, { isSuccess, isLoading }] = useSignUpMutation()
@@ -128,13 +110,46 @@ function Logout() {
 //         {streamIOToken && <Paragraph>{streamIOToken}</Paragraph>}
 //         {token && <Paragraph>{token}</Paragraph>}
 //         <Caption>Caption</Caption>
-//         </Container>
+//       </Container>
 //       <StyledTextInput label="Email" mode="outlined" />
 //       <TextInput label="Password" mode="outlined" />
 //     </ScreenWrapper>
 //   )
 // }
+
+const ButtontInput = styled(Button)`
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-vertical: 5px;
+  height: 60px;
+`
+
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string()
+    .min(2, 'Too Short!')
+    .max(10, 'Too Long!')
+    .required('Required')
+})
+
 export function Signin() {
+  const [login, { isSuccess, isLoading }] = useLoginMutation()
+
+  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
+    useFormik({
+      validationSchema: LoginSchema,
+      initialValues: { email: '', password: '' },
+      onSubmit: (values) =>
+        alert(`Email: ${values.email}, Password: ${values.password}`)
+    })
+
+  const { colors } = useTheme()
+  const CustomTitle = styled(Title)({
+    color: colors.accent
+  })
+
   const [data, setData] = React.useState({
     email: '',
     password: ''
@@ -153,22 +168,11 @@ export function Signin() {
       password: val
     })
   }
-
-  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
-    useFormik({
-      validationSchema: LoginSchema,
-      initialValues: { email: '', password: '' },
-      onSubmit: (values) =>
-        alert(`Email: ${values.email}, Password: ${values.password}`)
-    })
-
-  const { colors } = useTheme()
-  const CustomTitle = styled(Title)({
-    color: colors.accent
-  })
-  // const password = useRef(null)
-  const streamIOToken = useAppSelector(selectStreamIOToken)
-  const token = useAppSelector(selectToken)
+  // const { handleChange, handleSubmit, values } = useFormik({
+  //   initialValues: { email: '', password: '' },
+  //   onSubmit: (values: { email: 'string'; password: 'string' }) =>
+  //     alert(`Email: ${values.email}, Password: ${values.password}`)
+  // });
 
   return (
     <ScreenWrapper withScrollView>
@@ -208,9 +212,16 @@ export function Signin() {
 
         // onSubmitEditing={() => password.current?.focus()}
       />
-      {/* </View> */}
-      <ButtontInput label="Login" onPress={handleSubmit} />
-      <SignUpButton />
+      {/* <ButtontInput label="Login" onPress={handleSubmit} /> */}
+      <Button
+        title="Login"
+        onPress={async () => {
+          login({
+            email: data.email,
+            password: data.password
+          })
+        }}
+      />
     </ScreenWrapper>
   )
 }
