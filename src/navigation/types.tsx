@@ -29,6 +29,7 @@ export type AppStackParamList = {
   BottomTabNavigator: NavigatorScreenParams<BottomTabParamList> | undefined
   Channel: undefined
   Thread: undefined
+  ChannelCreation: undefined
   Modal: undefined
   NotFound: undefined
 }

@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
-import { ActivityIndicator, View } from 'react-native'
-import styled from 'styled-components'
+import { ActivityIndicator } from 'react-native'
 import { ChannelList, Chat } from 'stream-chat-expo'
 
 import { ListPreviewMessage } from '../components/ListPreviewMessage'
@@ -39,7 +38,7 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
   }, [])
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper safeTop={false}>
       {clientReady ? (
         <Chat client={chatClient}>
           <ChannelList

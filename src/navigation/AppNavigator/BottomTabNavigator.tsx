@@ -9,6 +9,7 @@ import { BottomTabParamList } from '../types'
 import ChannelDiscoveryScreen from '../../features/chat/screens/ChannelDiscoveryScreen'
 import JoinedChannelListScreen from '../../features/chat/screens/JoinedChannelListScreen'
 import Icon from '../../features/shared/components/Icon'
+import { ChannelDiscoverHeader } from './CustomHeaders'
 
 const TabBarIcon = styled(Icon)`
   margin-bottom: ${({ theme }) => `-${theme.sizingMinor.x1}px`};
@@ -21,14 +22,14 @@ export function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="JoinedChannelListScreen"
       screenOptions={{
-        tabBarActiveTintColor: colors.chatPrimary,
-        headerShown: false
+        tabBarActiveTintColor: colors.chatPrimary
       }}
     >
       <BottomTab.Screen
         name="JoinedChannelListScreen"
         component={JoinedChannelListScreen}
         options={{
+          headerTitle: 'Joined Channels',
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="comments" color={color} />
           ),
@@ -39,6 +40,7 @@ export function BottomTabNavigator() {
         name="ChannelDiscoveryScreen"
         component={ChannelDiscoveryScreen}
         options={{
+          headerTitle: (props) => <ChannelDiscoverHeader />,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="compass" color={color} />
           ),
@@ -50,7 +52,7 @@ export function BottomTabNavigator() {
         component={ProfileContainer}
         options={{
           tabBarShowLabel: false,
-          title: 'Profile',
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="id-card" color={color} />
         }}
       />

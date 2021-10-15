@@ -4,11 +4,11 @@ import { View, Text } from 'react-native'
 
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 
-const Container = styled(View)({
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center'
-})
+const Container = styled(View)`
+  flex: ${({ theme }) => `${theme.sizingMinor.x1}`};
+  justify-content: center;
+  align-items: center;
+`
 
 export default function JoinedChannelListScreen() {
   return (

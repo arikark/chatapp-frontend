@@ -1,11 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { ScrollView, ScrollViewProps, View, ViewProps } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Edge, SafeAreaView } from 'react-native-safe-area-context'
 
 type CustomScrollViewProps = ScrollViewProps & {
   children: React.ReactNode
   withScrollView?: boolean
+  safeTop?: boolean
 }
 
 const ScrollContainer = styled(ScrollView)<CustomScrollViewProps>`
@@ -22,10 +23,13 @@ const ViewContainer = styled(View)<ViewProps>`
 export default function ScreenWrapper({
   children,
   withScrollView = false,
+  safeTop = true,
   ...rest
 }: CustomScrollViewProps) {
+  const edges: Edge[] = safeTop ? ['left', 'right', 'top'] : ['left', 'right']
+
   return (
-    <SafeAreaView edges={['left', 'right', 'top']}>
+    <SafeAreaView edges={edges}>
       {withScrollView ? (
         <ScrollContainer
           {...rest}
