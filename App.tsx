@@ -19,6 +19,7 @@ import {
   Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto'
 import { Text } from 'react-native'
+import { ENV } from '@env'
 
 import { ThemeProvider } from './src/styles/ThemeProvider'
 import Navigation from './src/navigation'
@@ -29,6 +30,8 @@ i18n.translations = {
   en
 }
 i18n.locale = 'en'
+
+console.log(`Runnning in ${ENV}`)
 
 export default function App() {
   const [fontsLoaded] = useFonts({
