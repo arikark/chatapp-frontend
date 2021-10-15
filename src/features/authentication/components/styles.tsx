@@ -1,164 +1,125 @@
-import styled from 'styled-components'
-import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native'
-import Constants from 'expo-constants'
-
-const StatusBarHeight = Constants.statusBarHeight
+import { StyleSheet, Platform } from 'react-native'
 
 // colors
 export const Colors = {
-  primary: '#ffffff',
-  secondary: '#E5E7EB',
-  tertiary: '#1F2937',
-  darkLight: '#9CA3AF',
-  brand: '#6D28D9',
-  green: '#10B981',
-  red: '#EF4444'
+  white: '#ffffff',
+  black: '#000000',
+  orange: '#ed912f',
+  red: '#EF4444',
+  grey: '#05375a',
+  light_grey: '#f2f2f2'
 }
 
-const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors
+const { white, black, orange, red, grey, light_grey } = Colors
 
-export const StyledContainer = styled(View)`
-  flex: 1;
-  padding: 25px;
-  padding-top: ${StatusBarHeight + 30}px;
-  background-color: ${Colors.primary};
-`
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: white
+  },
 
-export const InnerContainer = styled(View)`
-  width: 100%;
-  flex: 1;
-  align-items: center;
-`
+  header: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingBottom: 50
+  },
 
-export const WelcomeContainer = styled(InnerContainer)`
-  padding: 25px;
-  padding-top: 10px;
-  justify-content: center;
-`
+  footer: {
+    flex: 3,
+    backgroundColor: white,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 30
+  },
 
-export const PageLogo = styled(Image)`
-  width: 250px;
-  height: 200px;
-`
+  text_header: {
+    color: black,
+    fontWeight: 'bold',
+    fontSize: 60
+  },
 
-export const Avatar = styled(Image)`
-  width: 100px;
-  height: 100px;
-  margin: auto;
-  border-radius: 50px;
-  border-width: 2px;
-  border-color: ${secondary};
-  margin-bottom: 10px;
-  margin-top: 10px;
-`
+  text_footer: {
+    color: black,
+    fontSize: 15,
+    marginBottom: 10,
+    fontWeight: 'bold'
+  },
 
-export const WelcomeImage = styled(Image)`
-  height: 50%;
-  min-width: 100%;
-`
+  action: {
+    flexDirection: 'row',
+    marginTop: 10,
+    borderBottomColor: light_grey,
+    paddingBottom: 5
+  },
 
-export const PageTitle = styled(Text)`
-  position: absolute;
-  width: 133px;
-  height: 56px;
-  left: 33px;
-  top: 85px;
+  actionError: {
+    flexDirection: 'row',
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: red,
+    paddingBottom: 5
+  },
 
-  font-style: normal;
-  font-weight: bold;
-  font-size: 48px;
-  line-height: 56px;
+  textInput: {
+    flex: 1,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    padding: 10,
+    color: '#000000',
+    borderRadius: 10,
+    backgroundColor: 'rgba(244, 146, 76,0.4)'
+  },
 
-  color: #000000;
-`
+  errorMsg: {
+    color: red,
+    fontSize: 14
+  },
 
-export const SubTitle = styled(Text)`
-  font-size: 18px;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
-  font-weight: bold;
-  color: ${tertiary};
-`
+  buttonContainer: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+    backgroundColor: orange,
+    borderRadius: 10,
+    padding: 10,
+    width: '50%'
+  },
 
-export const StyledTextInput = styled(TextInput)`
-  background-color: ${secondary};
-  padding: 15px;
-  padding-left: 55px;
-  padding-right: 55px;
-  border-radius: 5px;
-  font-size: 16px;
-  height: 60px;
-  margin-vertical: 3px;
-  margin-bottom: 10px;
-  color: ${tertiary};
-`
+  textSign: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white'
+  },
 
-export const StyledInputLabel = styled(Text)`
-  color: ${tertiary};
-  font-size: 13px;
-  text-align: left;
-`
+  checkboxContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: 10,
+    padding: 10
+  },
 
-export const LeftIcon = styled(View)`
-  left: 15px;
-  top: 38px;
-  position: absolute;
-  z-index: 1;
-`
+  checkboxtext: {
+    alignContent: 'flex-start'
+  },
 
-export const RightIcon = styled(TouchableOpacity)`
-  right: 15px;
-  top: 38px;
-  position: absolute;
-  z-index: 1;
-`
+  login_container: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'center',
+    color: black,
+    padding: 15,
+    fontWeight: 'bold'
+  },
 
-export const StyledButton = styled(TouchableOpacity)`
-  padding: 15px;
-  background-color: ${brand};
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  margin-vertical: 5px;
-  height: 60px;
-`
+  loginText: {
+    fontSize: 17,
+    color: black,
+    fontWeight: 'bold'
+  },
 
-export const ButtonText = styled(Text)`
-  color: ${primary};
-  font-size: 16px;
-`
-
-export const Line = styled(View)`
-  height: 1px;
-  width: 100%;
-  background-color: ${darkLight};
-  margin-vertical: 10px;
-`
-
-export const StyledFormArea = styled(View)`
-  width: 90%;
-`
-
-export const ExtraView = styled(View)`
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-`
-
-export const ExtraText = styled(Text)`
-  justify-content: center;
-  align-content: center;
-  color: ${tertiary};
-  font-size: 15px;
-`
-
-export const TextLink = styled(TouchableOpacity)`
-  justify-content: center;
-  align-items: center;
-`
-
-export const TextLinkContent = styled(Text)`
-  color: ${brand};
-  font-size: 15px;
-`
+  loginTextSpecial: {
+    fontSize: 17,
+    color: orange,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline'
+  }
+})

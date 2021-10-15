@@ -1,149 +1,186 @@
-import React from 'react'
-import {
-  View,
-  Text,
-  Button,
-  Dimensions,
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-  TextInput
-} from 'react-native'
-import { color } from 'react-native-reanimated'
-// import { header } from '../../../styles/constants';
-import * as Animatable from 'react-native-animatable'
-// import LinearGradient from 'react-native-linear-gradient';
-import { LinearGradient } from 'expo-linear-gradient'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Feather from 'react-native-vector-icons/Feather'
+import React, { useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { View, Text, TextInput } from 'react-native'
+import Button from 'react-native-button'
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
-import styled from 'styled-components'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { LinearGradient } from 'expo-linear-gradient'
+import Feather from 'react-native-vector-icons/Feather'
+import * as Animatable from 'react-native-animatable'
+import { useSignUpMutation } from '../../../store/api/userApi'
+import { styles } from '../components/styles'
+
+// import { header } from '../../../styles/constants';
+// import LinearGradient from 'react-native-linear-gradient';
+
+const SignupSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(2, 'Too Short!')
+    .max(10, 'Too Long!')
+    .required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string()
+    .min(2, 'Too Short!')
+    .max(10, 'Too Long!')
+    .required('Required')
+})
 
 export function Signup() {
+  const [signUp, { isSuccess, isLoading }] = useSignUpMutation()
+
+  // const [isSelected, setSelection] = useState(false);
+
+  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
+    useFormik({
+      validationSchema: SignupSchema,
+      initialValues: { username: '', email: '', password: '' },
+      onSubmit: (values) =>
+        alert(
+          `Username: ${values.username}, Email: ${values.email}, Password: ${values.password}`
+        )
+    })
+
+  const onPressTitle = () => {
+    //Navigate to login page
+  }
+
+  const [data, setData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    bio: ''
+  })
+
+  const usernameChange = (val: string) => {
+    setData({
+      ...data,
+      username: val
+    })
+  }
+
+  const textInputChange = (val: string) => {
+    setData({
+      ...data,
+      email: val
+    })
+  }
+
+  const passInputChange = (val: string) => {
+    setData({
+      ...data,
+      password: val
+    })
+  }
+
+  const bioChange = (val: string) => {
+    setData({
+      ...data,
+      bio: val
+    })
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.text_header}> Create New </Text>
-        <Text style={styles.text_header}> Account! </Text>
+        <Text style={styles.text_header}> Create {'\n'} Account</Text>
       </View>
       <View style={styles.footer}>
         <Text style={styles.text_footer}> Username </Text>
         <View style={styles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={25} />
-
+          {/* <Feather name="check-circle" color="green" size={20} /> */}
           <TextInput
             placeholder="Username"
             style={styles.textInput}
             autoCapitalize="none"
+            onBlur={handleBlur('username')}
+            onChangeText={(val) => usernameChange(val)}
           />
-
-          <Feather name="check-circle" color="green" size={20} />
+          {/* <MaterialCommunityIcons name="email" color="#05375a" size={20} /> */}
         </View>
 
-        <Text style={[styles.text_footer, { marginTop: 35 }]}> Email </Text>
+        <Text style={[styles.text_footer, { marginTop: 10 }]}> Email </Text>
         <View style={styles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={25} />
-
           <TextInput
             placeholder="Email"
             style={styles.textInput}
             autoCapitalize="none"
+            autoCompleteType="email"
+            onBlur={handleBlur('email')}
+            keyboardType="email-address"
+            onChangeText={(val) => textInputChange(val)}
           />
-
-          <Feather name="check-circle" color="green" size={20} />
         </View>
 
-        <Text style={[styles.text_footer, { marginTop: 35 }]}> Password </Text>
+        <Text style={[styles.text_footer, { marginTop: 10 }]}> Password </Text>
         <View style={styles.action}>
-          <FontAwesome name="lock" color="#05375a" size={30} />
-
           <TextInput
-            placeholder="Password"
+            onChangeText={(val) => passInputChange(val)}
+            autoCompleteType="password"
             secureTextEntry
-            style={styles.textInput}
+            onBlur={handleBlur('password')}
             autoCapitalize="none"
+            returnKeyType="go"
+            returnKeyLabel="go"
+            placeholder="Password"
+            style={styles.textInput}
           />
-
-          <Animatable.View animation="bounceIn">
-            <Feather name="eye-off" color="grey" size={20} />
-          </Animatable.View>
         </View>
 
-        <View style={styles.button}>
-          <LinearGradient
-            colors={['#FF8008', '#FFC837']}
-            style={[styles.signIn]}
+        <Text style={[styles.text_footer, { marginTop: 10 }]}> Bio </Text>
+        <View style={styles.action}>
+          <TextInput
+            multiline
+            placeholder="Bio"
+            style={[styles.textInput, { height: 100 }]}
+            textAlignVertical="top"
+            returnKeyType="next"
+            autoCapitalize="none"
+            onChangeText={(val) => bioChange(val)}
+            onBlur={handleBlur('bio')}
+          />
+        </View>
+
+        <View style={styles.checkboxContainer}>
+          <BouncyCheckbox
+            size={25}
+            fillColor="orange"
+            unfillColor="#FFFFFF"
+            iconStyle={{ borderColor: 'orange' }}
+            // textStyle={{ fontFamily: "JosefinSans-Regular" }}
+            onPress={(isChecked: boolean) => {}}
+            text="I agree to the Terms of Service and Privacy Policy"
+          />
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.textSign}
+            onPress={async () => {
+              signUp({
+                username: data.username,
+                email: data.email,
+                password: data.password,
+                bio: data.bio,
+                photoUrl: ''
+              })
+            }}
           >
-            <Text
-              style={[
-                styles.textSign,
-                {
-                  color: '#fff'
-                }
-              ]}
-            >
-              Sign Up
-            </Text>
-          </LinearGradient>
+            {' '}
+            Sign Up{' '}
+          </Button>
+        </View>
+
+        <View style={styles.login_container}>
+          <Text style={styles.loginText}> Already have an account? </Text>
+          <Text style={styles.loginTextSpecial} onPress={alert}>
+            {' '}
+            Login{' '}
+          </Text>
         </View>
       </View>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FF8008'
-  },
-
-  header: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingHorizontal: 20,
-    paddingBottom: 50
-  },
-  footer: {
-    flex: 3,
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 20,
-    paddingVertical: 30
-  },
-  text_header: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 50
-  },
-  text_footer: {
-    color: '#05375a',
-    fontSize: 18
-  },
-  action: {
-    flexDirection: 'row',
-    marginTop: 10,
-    borderBottomColor: '#f2f2f2',
-    paddingBottom: 5
-  },
-  textInput: {
-    flex: 1,
-    paddingLeft: 10,
-    color: '#05375a'
-  },
-  button: {
-    alignItems: 'center',
-    marginTop: 50
-  },
-  signIn: {
-    width: '100%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10
-  },
-  textSign: {
-    fontSize: 18,
-    fontWeight: 'bold'
-  }
-})

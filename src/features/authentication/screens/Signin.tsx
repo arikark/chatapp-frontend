@@ -2,8 +2,6 @@ import React, { useRef } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
-
-import i18n from 'i18n-js'
 import {
   useTheme,
   Title,
@@ -12,14 +10,13 @@ import {
   Headline,
   Caption
 } from 'react-native-paper'
-import { View, Button } from 'react-native'
-import { TextInput } from '../../shared/components/TextInput'
+import { View, Text, TextInput, Button } from 'react-native'
 
-import { StyledButton } from '../components/styles'
-// import { Formik } from 'formik'
-
+import i18n from 'i18n-js'
+import { styles } from '../components/styles'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
-import AuthButton from '../components/button'
+// import { StyledButton } from '../components/styles'
+// import { Formik } from 'formik'
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { useLoginMutation, useSignUpMutation } from '../../../store/api/userApi'
@@ -175,53 +172,99 @@ export function Signin() {
   // });
 
   return (
-    <ScreenWrapper withScrollView>
-      <Container>
-        <CustomTitle>Login</CustomTitle>
-        <Subheading>Subheading</Subheading>
-        <Paragraph>Paragraph</Paragraph>
-        <Caption> </Caption>
-      </Container>
+    <View style={[styles.container, { flex: 2 }]}>
+      <View style={styles.header}>
+        <Text style={styles.text_header}> Log In </Text>
+      </View>
 
-      <StyledTextInput
-        label="Enter your email"
-        // onChangeText={handleChange('email')}
-        onBlur={handleBlur('email')}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        keyboardType="email-address"
-        // returnKeyType="next"
-        // returnKeyLabel="next"
-        onChangeText={(val) => textInputChange(val)}
-        mode="outlined"
-      />
+      <Text style={[styles.text_footer, { marginTop: 10 }]}> Email </Text>
+      <View style={styles.action}>
+        <TextInput
+          placeholder="Email"
+          style={styles.textInput}
+          autoCapitalize="none"
+          autoCompleteType="email"
+          keyboardType="email-address"
+          onBlur={handleBlur('email')}
+          onChangeText={(val) => textInputChange(val)}
+        />
+      </View>
 
-      {/* <View style={{ paddingHorizontal: 32, marginBottom: 16, width: '100%' }}> */}
-      <StyledTextInput
-        // ref={password}
-        // onChangeText={handleChange('password')}
-        onChangeText={(val) => passInputChange(val)}
-        autoCompleteType="password"
-        secureTextEntry
-        label="Enter your password"
-        onBlur={handleBlur('password')}
-        autoCapitalize="none"
-        mode="outlined"
-        returnKeyType="go"
-        returnKeyLabel="go"
+      <Text style={[styles.text_footer, { marginTop: 10 }]}> Password </Text>
+      <View style={styles.action}>
+        <TextInput
+          onChangeText={(val) => passInputChange(val)}
+          autoCompleteType="password"
+          secureTextEntry
+          onBlur={handleBlur('password')}
+          autoCapitalize="none"
+          returnKeyType="go"
+          returnKeyLabel="go"
+          placeholder="Password"
+          style={styles.textInput}
+        />
+      </View>
 
-        // onSubmitEditing={() => password.current?.focus()}
-      />
-      {/* <ButtontInput label="Login" onPress={handleSubmit} /> */}
-      <Button
-        title="Login"
-        onPress={async () => {
-          login({
-            email: data.email,
-            password: data.password
-          })
-        }}
-      />
-    </ScreenWrapper>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Login"
+          onPress={async () => {
+            login({
+              email: data.email,
+              password: data.password
+            })
+          }}
+        />
+      </View>
+    </View>
+
+    // <ScreenWrapper withScrollView>
+    //   <Container>
+    //     <CustomTitle>Login</CustomTitle>
+    //     <Subheading>Subheading</Subheading>
+    //     <Paragraph>Paragraph</Paragraph>
+    //     <Caption> </Caption>
+    //   </Container>
+
+    //   <StyledTextInput
+    //     label="Enter your email"
+    //     // onChangeText={handleChange('email')}
+    //     onBlur={handleBlur('email')}
+    //     autoCapitalize="none"
+    //     autoCompleteType="email"
+    //     keyboardType="email-address"
+    //     // returnKeyType="next"
+    //     // returnKeyLabel="next"
+    //     onChangeText={(val) => textInputChange(val)}
+    //     mode="outlined"
+    //   />
+
+    //   {/* <View style={{ paddingHorizontal: 32, marginBottom: 16, width: '100%' }}> */}
+    //   <StyledTextInput
+    //     // ref={password}
+    //     // onChangeText={handleChange('password')}
+    //     onChangeText={(val) => passInputChange(val)}
+    //     autoCompleteType="password"
+    //     secureTextEntry
+    //     label="Enter your password"
+    //     onBlur={handleBlur('password')}
+    //     autoCapitalize="none"
+    //     mode="outlined"
+    //     returnKeyType="go"
+    //     returnKeyLabel="go"
+
+    //     // onSubmitEditing={() => password.current?.focus()}
+    //   />
+    //   {/* <ButtontInput label="Login" onPress={handleSubmit} /> */}
+    //   <Button
+    //     title="Login"
+    //     onPress={async () => {
+    //       login({
+    //         email: data.email,
+    //         password: data.password
+    //       })
+    //     }}
+    //   />
+    // </ScreenWrapper>
   )
 }
