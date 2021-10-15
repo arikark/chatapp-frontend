@@ -21,6 +21,11 @@ export interface SignUpRequest {
   username: string
   password: string
 }
+export interface UpdateProfileRequest {
+  email: string
+  username: string
+  bio: string
+}
 
 export const userServices = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -43,6 +48,13 @@ export const userServices = api.injectEndpoints({
         url: 'user/photo',
         method: 'POST',
         body: photo
+      })
+    }),
+    updateProfile: builder.mutation<{ data: IProfile }, UpdateProfileRequest>({
+      query: (updatedProfile) => ({
+        url: 'user/update',
+        method: 'POST',
+        body: updatedProfile
       })
     })
   }),

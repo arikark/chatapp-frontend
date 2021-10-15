@@ -6,7 +6,7 @@ import * as Location from 'expo-location'
 import { LocationObject } from 'expo-location'
 
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
-import PhotoFrame from '../../profile/components/PhotoFrame'
+import ImagePortal from '../../shared/components/ImagePortal'
 
 function ChannelCreationScreen({ navigation }: { navigation: any }) {
   const [channelName, setChannelName] = useState<string>('')
@@ -30,7 +30,8 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
     <ScreenWrapper>
       <Container>
         <PhotoFrameWrapper>
-          <PhotoFrame profilePhoto={undefined} />
+          {/* imageUploadMutation is the upload mutation from the api endpoint */}
+          <ImagePortal image={undefined} imageUploadMutation={undefined} />
         </PhotoFrameWrapper>
         <CustomTextInput
           mode="outlined"

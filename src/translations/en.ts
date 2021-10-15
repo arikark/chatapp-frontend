@@ -4,8 +4,7 @@ export const en = {
     name: 'Charlie'
   },
   profile: {
-    bioHeading: 'Bio',
-    name: 'Charlie',
+    heading: 'My Profile:',
     failedUploadErrorMessage: 'Failed to upload image. Please try agin later.'
   }
 }

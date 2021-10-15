@@ -45,6 +45,17 @@ const profileSlice = createSlice({
         }
       }
     )
+    builder.addMatcher(
+      userServices.endpoints.updateProfile.matchFulfilled,
+      (state, { payload }) => {
+        try {
+          state.username = payload.data.username
+          state.bio = payload.data.bio
+        } catch {
+          console.log('fail')
+        }
+      }
+    )
   }
 })
 
