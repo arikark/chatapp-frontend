@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { Api } from './api'
+import { api } from './api'
 import authReducer from '../features/authentication/slice'
 import profileReducer from '../features/profile/slice'
 import { channelReducer, threadReducer } from '../features/chat/slice'
@@ -8,7 +8,7 @@ import themeReducer from '../features/shared/slices'
 
 export const store = configureStore({
   reducer: {
-    [Api.reducerPath]: Api.reducer,
+    [api.reducerPath]: api.reducer,
     auth: authReducer,
     profile: profileReducer,
     theme: themeReducer,
@@ -16,7 +16,7 @@ export const store = configureStore({
     chatThread: threadReducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(Api.middleware)
+    getDefaultMiddleware({ serializableCheck: false }).concat(api.middleware)
 })
 
 setupListeners(store.dispatch)

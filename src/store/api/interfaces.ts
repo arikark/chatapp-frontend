@@ -1,10 +1,10 @@
 export interface IProfile {
-  email: string | null
-  username: string | null
-  bio: string | null
-  photo: string | null
+  email: string | undefined
+  username: string | undefined
+  bio: string | undefined
+  photo: string | undefined
 }
 export interface IAuth {
-  streamIOToken: string | null
-  token: string | null
+  streamIOToken: string | undefined
+  token: string | undefined
 }

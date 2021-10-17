@@ -17,7 +17,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { styles } from '../components/styles'
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
-import { useLoginMutation, useSignUpMutation } from '../../../store/api/userApi'
+import {
+  useLoginMutation,
+  useSignUpMutation
+} from '../../../store/api/userServices'
 import {
   logout,
   selectStreamIOToken,
@@ -46,11 +49,9 @@ function SignUpButton() {
           title="SignUp"
           onPress={async () => {
             signUp({
-              email: 'arikel@email.com',
+              email: 'marvinshuang@email.com',
               username: 'arikark',
-              password: 'abc123',
-              bio: 'This is my bio',
-              photoUrl: 'htttp://photo'
+              password: 'abc123'
             })
           }}
         />
@@ -70,7 +71,7 @@ function LoginButton() {
           title="Login"
           onPress={async () => {
             login({
-              email: 'ari@email.com',
+              email: 'marvinshuang@email.com',
               password: 'abc123'
             })
           }}

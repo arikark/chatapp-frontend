@@ -5,6 +5,7 @@ declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
       chatPrimary: string
+      chatSecondary: string
       secondText: string
     }
     interface ThemeSizingMajor {

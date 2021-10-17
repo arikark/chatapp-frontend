@@ -5,7 +5,8 @@ import { useTheme } from 'react-native-paper'
 
 export default function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name']
-  color?: string
+  color: string
+  size?: number
 }) {
   const { sizingMajor } = useTheme()
   return <FontAwesome size={sizingMajor.x4} {...props} />

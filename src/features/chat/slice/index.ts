@@ -1,17 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ChannelContextValue, MessageType } from 'stream-chat-react-native-core'
-import type { Channel } from 'stream-chat'
-// import { decode } from 'jwt-decode'
 
 import type { RootState } from '../../../store'
-
-type ChannelState = {
-  channel: Channel<ChannelContextValue> | null
-}
-type ThreadState = {
-  thread: MessageType | null
-}
 
 const channelSlice = createSlice({
   name: 'channel',
