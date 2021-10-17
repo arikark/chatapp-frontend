@@ -6,7 +6,7 @@ import Button from 'react-native-button'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import { useSignUpMutation } from '../../../store/api/userApi'
+import { useSignUpMutation } from '../../../store/api/userServices'
 import { styles } from '../components/styles'
 import Navigation from '../../../navigation'
 
@@ -160,9 +160,7 @@ export function Signup() {
                 signUp({
                   username: data.username,
                   email: data.email,
-                  password: data.password,
-                  bio: data.bio,
-                  photoUrl: ''
+                  password: data.password
                 })
               }}
             >

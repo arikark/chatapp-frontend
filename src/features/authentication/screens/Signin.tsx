@@ -1,41 +1,30 @@
-import React, { useRef } from 'react'
-import { useFormik, Formik } from 'formik'
+import React from 'react'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
-import {
-  useTheme,
-  Title,
-  Subheading,
-  Paragraph,
-  Headline,
-  Caption
-} from 'react-native-paper'
+import { Headline } from 'react-native-paper'
 import { View, Text, TextInput, TouchableHighlight } from 'react-native'
 import Button from 'react-native-button'
 import i18n from 'i18n-js'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { styles } from '../components/styles'
 
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
+import { useAppDispatch } from '../../shared/hooks/redux'
 import {
   useLoginMutation,
   useSignUpMutation
 } from '../../../store/api/userServices'
-import {
-  logout,
-  selectStreamIOToken,
-  selectToken
-} from '../../authentication/slice'
+import { logout } from '../../authentication/slice'
 
-const Container = styled(View)`
-  flex-grow: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme }) => `${theme.colors.alert}`};
-`
-const StyledTextInput = styled(TextInput)`
-  margin: ${({ theme }) => `${theme.sizingMajor.x1}px`};
-`
+// const Container = styled(View)`
+//   flex-grow: 1;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: ${({ theme }) => `${theme.colors.alert}`};
+// `
+// const StyledTextInput = styled(TextInput)`
+//   margin: ${({ theme }) => `${theme.sizingMajor.x1}px`};
+// `
 
 function SignUpButton() {
   const [signUp, { isSuccess, isLoading }] = useSignUpMutation()
@@ -46,7 +35,7 @@ function SignUpButton() {
         <Headline> Loading </Headline>
       ) : (
         <Button
-          title="SignUp"
+          //title="SignUp"
           onPress={async () => {
             signUp({
               email: 'marvinshuang@email.com',
@@ -61,14 +50,14 @@ function SignUpButton() {
 }
 
 function LoginButton() {
-  const [login, { isSuccess, isLoading }] = useLoginMutation()
+  const [login, { isLoading }] = useLoginMutation()
   return (
     <>
       {isLoading ? (
         <Headline> Loading </Headline>
       ) : (
         <Button
-          title="Login"
+          //title="Login"
           onPress={async () => {
             login({
               email: 'marvinshuang@email.com',
@@ -85,7 +74,7 @@ function Logout() {
   const dispatch = useAppDispatch()
   return (
     <Button
-      title="logout"
+      //title="logout"
       onPress={async () => {
         dispatch(logout())
       }}
@@ -115,14 +104,14 @@ function Logout() {
 //   )
 // }
 
-const ButtontInput = styled(Button)`
-  padding: 15px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  margin-vertical: 5px;
-  height: 60px;
-`
+// const ButtontInput = styled(Button)`
+//   padding: 15px;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 5px;
+//   margin-vertical: 5px;
+//   height: 60px;
+// `
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -133,19 +122,13 @@ const LoginSchema = Yup.object().shape({
 })
 
 export function Signin() {
-  const [login, { isSuccess, isLoading }] = useLoginMutation()
+  const [login] = useLoginMutation()
 
-  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
-    useFormik({
-      validationSchema: LoginSchema,
-      initialValues: { email: '', password: '' },
-      onSubmit: (values) =>
-        alert(`Email: ${values.email}, Password: ${values.password}`)
-    })
-
-  const { colors } = useTheme()
-  const CustomTitle = styled(Title)({
-    color: colors.accent
+  const { handleBlur } = useFormik({
+    validationSchema: LoginSchema,
+    initialValues: { email: '', password: '' },
+    onSubmit: (values) =>
+      alert(`Email: ${values.email}, Password: ${values.password}`)
   })
 
   const [data, setData] = React.useState({
@@ -166,11 +149,6 @@ export function Signin() {
       password: val
     })
   }
-  // const { handleChange, handleSubmit, values } = useFormik({
-  //   initialValues: { email: '', password: '' },
-  //   onSubmit: (values: { email: 'string'; password: 'string' }) =>
-  //     alert(`Email: ${values.email}, Password: ${values.password}`)
-  // });
 
   return (
     <View
@@ -263,54 +241,5 @@ export function Signin() {
         </View>
       </KeyboardAwareScrollView>
     </View>
-
-    // <ScreenWrapper withScrollView>
-    //   <Container>
-    //     <CustomTitle>Login</CustomTitle>
-    //     <Subheading>Subheading</Subheading>
-    //     <Paragraph>Paragraph</Paragraph>
-    //     <Caption> </Caption>
-    //   </Container>
-
-    //   <StyledTextInput
-    //     label="Enter your email"
-    //     // onChangeText={handleChange('email')}
-    //     onBlur={handleBlur('email')}
-    //     autoCapitalize="none"
-    //     autoCompleteType="email"
-    //     keyboardType="email-address"
-    //     // returnKeyType="next"
-    //     // returnKeyLabel="next"
-    //     onChangeText={(val) => textInputChange(val)}
-    //     mode="outlined"
-    //   />
-
-    //   {/* <View style={{ paddingHorizontal: 32, marginBottom: 16, width: '100%' }}> */}
-    //   <StyledTextInput
-    //     // ref={password}
-    //     // onChangeText={handleChange('password')}
-    //     onChangeText={(val) => passInputChange(val)}
-    //     autoCompleteType="password"
-    //     secureTextEntry
-    //     label="Enter your password"
-    //     onBlur={handleBlur('password')}
-    //     autoCapitalize="none"
-    //     mode="outlined"
-    //     returnKeyType="go"
-    //     returnKeyLabel="go"
-
-    //     // onSubmitEditing={() => password.current?.focus()}
-    //   />
-    //   {/* <ButtontInput label="Login" onPress={handleSubmit} /> */}
-    //   <Button
-    //     title="Login"
-    //     onPress={async () => {
-    //       login({
-    //         email: data.email,
-    //         password: data.password
-    //       })
-    //     }}
-    //   />
-    // </ScreenWrapper>
   )
 }
