@@ -1,10 +1,11 @@
 import { StyleSheet, Platform } from 'react-native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 
 // colors
 export const Colors = {
   white: '#ffffff',
   black: '#000000',
-  orange: '#ed912f',
+  orange: '#f4924c',
   red: '#EF4444',
   grey: '#05375a',
   light_grey: '#f2f2f2'
@@ -15,14 +16,17 @@ const { white, black, orange, red, grey, light_grey } = Colors
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: white
+    backgroundColor: white,
+    overflow: 'hidden',
+    marginTop: 10 + getStatusBarHeight()
   },
 
   header: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingBottom: 50
+    paddingBottom: 50,
+    marginTop: '10%'
   },
 
   footer: {
@@ -76,20 +80,36 @@ export const styles = StyleSheet.create({
   },
 
   buttonContainer: {
+    flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
-    marginTop: 50,
-    backgroundColor: orange,
-    borderRadius: 10,
-    padding: 10,
-    width: '50%'
+    marginTop: 50
+    // backgroundColor: orange,
+    // borderRadius: 10,
+    // padding: 10,
+    // width: '50%'
   },
 
-  textSign: {
+  buttonText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white'
+    color: 'orange',
+    padding: 10,
+    backgroundColor: 'orange',
+    borderRadius: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: 'orange'
   },
+
+  // TextSignup:  {
+  //   fontSize: 20,
+  //   fontWeight: 'bold',
+  //   color: 'orange',
+  //   padding: 10,
+  // },
 
   checkboxContainer: {
     flexDirection: 'row',
@@ -103,11 +123,21 @@ export const styles = StyleSheet.create({
   },
 
   login_container: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'center',
     color: black,
     padding: 15,
     fontWeight: 'bold'
+  },
+
+  forgotPwd: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    color: black,
+    padding: 5,
+    fontSize: 17,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline'
   },
 
   loginText: {

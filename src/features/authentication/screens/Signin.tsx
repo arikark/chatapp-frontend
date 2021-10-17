@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useFormik } from 'formik'
+import { useFormik, Formik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
 import {
@@ -10,13 +10,11 @@ import {
   Headline,
   Caption
 } from 'react-native-paper'
-import { View, Text, TextInput, Button } from 'react-native'
-
+import { View, Text, TextInput, TouchableHighlight } from 'react-native'
+import Button from 'react-native-button'
 import i18n from 'i18n-js'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { styles } from '../components/styles'
-import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
-// import { StyledButton } from '../components/styles'
-// import { Formik } from 'formik'
 
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { useLoginMutation, useSignUpMutation } from '../../../store/api/userApi'
@@ -60,6 +58,7 @@ function SignUpButton() {
     </>
   )
 }
+
 function LoginButton() {
   const [login, { isSuccess, isLoading }] = useLoginMutation()
   return (
@@ -80,6 +79,7 @@ function LoginButton() {
     </>
   )
 }
+
 function Logout() {
   const dispatch = useAppDispatch()
   return (
@@ -172,50 +172,95 @@ export function Signin() {
   // });
 
   return (
-    <View style={[styles.container, { flex: 2 }]}>
-      <View style={styles.header}>
-        <Text style={styles.text_header}> Log In </Text>
-      </View>
+    <View
+      style={[
+        styles.container,
+        { justifyContent: 'center' },
+        { marginVertical: 0 }
+      ]}
+    >
+      <KeyboardAwareScrollView>
+        <View style={[styles.header, { marginTop: '40%' }]}>
+          <Text style={[styles.text_header, { fontSize: 70 }]}>
+            {' '}
+            Welcome {'\n'} Back
+          </Text>
+        </View>
 
-      <Text style={[styles.text_footer, { marginTop: 10 }]}> Email </Text>
-      <View style={styles.action}>
-        <TextInput
-          placeholder="Email"
-          style={styles.textInput}
-          autoCapitalize="none"
-          autoCompleteType="email"
-          keyboardType="email-address"
-          onBlur={handleBlur('email')}
-          onChangeText={(val) => textInputChange(val)}
-        />
-      </View>
+        <View style={styles.footer}>
+          <Text style={[styles.text_footer, { marginTop: 10 }]}> Email </Text>
+          <View style={styles.action}>
+            <TextInput
+              placeholder="Email"
+              style={styles.textInput}
+              autoCapitalize="none"
+              autoCompleteType="email"
+              onBlur={handleBlur('email')}
+              keyboardType="email-address"
+              onChangeText={(val) => textInputChange(val)}
+              returnKeyType="next"
+            />
+          </View>
 
-      <Text style={[styles.text_footer, { marginTop: 10 }]}> Password </Text>
-      <View style={styles.action}>
-        <TextInput
-          onChangeText={(val) => passInputChange(val)}
-          autoCompleteType="password"
-          secureTextEntry
-          onBlur={handleBlur('password')}
-          autoCapitalize="none"
-          returnKeyType="go"
-          returnKeyLabel="go"
-          placeholder="Password"
-          style={styles.textInput}
-        />
-      </View>
+          <Text style={[styles.text_footer, { marginTop: 10 }]}>
+            {' '}
+            Password{' '}
+          </Text>
+          <View style={styles.action}>
+            <TextInput
+              onChangeText={(val) => passInputChange(val)}
+              autoCompleteType="password"
+              secureTextEntry
+              onBlur={handleBlur('password')}
+              autoCapitalize="none"
+              returnKeyType="go"
+              placeholder="Password"
+              style={styles.textInput}
+            />
+          </View>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Login"
-          onPress={async () => {
-            login({
-              email: data.email,
-              password: data.password
-            })
-          }}
-        />
-      </View>
+          <View style={styles.forgotPwd}>
+            <Text style={styles.forgotPwd} onPress={alert}>
+              {' '}
+              Forgot Password?{' '}
+            </Text>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <TouchableHighlight activeOpacity={1}>
+              <Button
+                style={[styles.buttonText, { backgroundColor: 'transparent' }]}
+                onPress={async () => {
+                  login({
+                    email: data.email,
+                    password: data.password
+                  })
+                }}
+              >
+                Log In
+              </Button>
+            </TouchableHighlight>
+
+            <TouchableHighlight activeOpacity={1}>
+              <Button
+                style={[
+                  styles.buttonText,
+                  { marginLeft: 25 },
+                  { color: 'white' }
+                ]}
+                onPress={async () => {
+                  login({
+                    email: data.email,
+                    password: data.password
+                  })
+                }}
+              >
+                Sign Up
+              </Button>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
     </View>
 
     // <ScreenWrapper withScrollView>
