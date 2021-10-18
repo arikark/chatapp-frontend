@@ -40,7 +40,6 @@ function SignUpButton() {
           onPress={async () => {
             signUp({
               email: 'marvinshuang@email.com',
-              username: 'arikark',
               password: 'abc123'
             })
           }}
