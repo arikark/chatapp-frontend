@@ -3,19 +3,14 @@
 import React, { useState } from 'react'
 import { useTheme, ActivityIndicator } from 'react-native-paper'
 import styled from 'styled-components'
-import { Image, View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, ImageBackground } from 'react-native'
 import i18n from 'i18n-js'
 
-import Icon from '../../shared/components/Icon'
-import { useUploadPhotoMutation } from '../../../store/api/userServices'
-import {
-  prepareFileUpload,
-  chatAppImagePicker,
-  chatAppCamera
-} from '../../shared/utils'
-import Dialog from '../../shared/components/Dialog'
+import Icon from './Icon'
+import { prepareFileUpload, chatAppImagePicker, chatAppCamera } from '../utils'
+import Dialog from './Dialog'
 
-const Container = styled(View)`
+const Container = styled(ImageBackground)`
   height: ${({ theme }) => `${theme.sizingMajor.x14}px`};
   width: ${({ theme }) => `${theme.sizingMajor.x14}px`};
   border-radius: ${({ theme }) => `${theme.sizingMajor.x14}px`};
@@ -35,57 +30,63 @@ const UploadBtnContainer = styled(View)`
   background-color: ${({ theme }) => `${theme.colors.surface}`};
   opacity: 0.8;
 `
-const Photo = styled(Image)`
-  width: 100%;
-  height: 100%;
-`
 
-type PhotoFrameProps = {
-  profilePhoto: string | undefined
+type ImageFrameProps = {
+  image: string | undefined
+  // TODO:not sure how to type this
+  imageUploadMutation: any
 }
 
-const PhotoActivityIndicator = styled(ActivityIndicator)`
-  margin-top: ${({ theme }) => `${theme.sizingMajor.x10}px`};
+const ImageActivityIndicator = styled(ActivityIndicator)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: 50%;
+  bottom: 50%;
+
+  /* margin-top: ${({ theme }) => `${theme.sizingMajor.x10}px`}; */
 `
 
-export default function PhotoFrame({ profilePhoto }: PhotoFrameProps) {
+export default function ImagePortal({
+  image,
+  imageUploadMutation
+}: ImageFrameProps) {
   const { colors, sizingMajor } = useTheme()
 
-  const [uploadPhoto, { isSuccess, isLoading, isError }] =
-    useUploadPhotoMutation()
-  const [image, setImage] = useState<string | null>()
+  const [uploadImage, { isSuccess, isLoading, isError }] = imageUploadMutation()
+  const [previewImage, setPreviewImage] = useState<string | null>()
 
   const addImage = async () => {
     const _image = await chatAppImagePicker()
     if (!_image.cancelled) {
-      setImage(_image.uri)
+      setPreviewImage(_image.uri)
     }
   }
 
   const openCamera = async () => {
     const _image = await chatAppCamera()
     if (_image && !_image.cancelled) {
-      setImage(_image.uri)
+      setPreviewImage(_image.uri)
     }
   }
-  const uploadImage = async (image: string) => {
+  const uploadImageToS3 = async (image: string) => {
     const imageFile = prepareFileUpload(image)
-    const result = await uploadPhoto(imageFile).unwrap()
+    const result = await uploadImage(imageFile).unwrap()
     console.log(result)
-    setImage(undefined)
+    setPreviewImage(undefined)
   }
-  const displayImage = image ? image : profilePhoto
+  const displayImage = previewImage ? previewImage : image
   return (
-    <Container>
-      {isLoading ? (
-        <PhotoActivityIndicator color={colors.surface} size="large" />
-      ) : (
-        // inluclde loading spinner when fetching from s3
-        displayImage && <Photo source={{ uri: displayImage }} />
+    <Container
+      source={{ uri: displayImage }}
+      defaultSource={require('../../../../assets/profile-photo-default.png')}
+    >
+      {isLoading && (
+        <ImageActivityIndicator color={colors.chatPrimary} size="large" />
       )}
       <UploadBtnContainer>
-        {!image ? (
-          // Edit photo Icons
+        {!previewImage ? (
+          // Edit Image Icons
           <>
             <TouchableOpacity onPress={openCamera}>
               <Icon
@@ -106,14 +107,20 @@ export default function PhotoFrame({ profilePhoto }: PhotoFrameProps) {
         ) : (
           // Confirmation Icons
           <>
-            <TouchableOpacity onPress={() => uploadImage(image)}>
+            <TouchableOpacity
+              onPress={() => uploadImageToS3(previewImage)}
+              disabled={isLoading}
+            >
               <Icon
                 name="check"
                 size={sizingMajor.x3}
                 color={colors.chatPrimary}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setImage(null)}>
+            <TouchableOpacity
+              onPress={() => setPreviewImage(null)}
+              disabled={isLoading}
+            >
               <Icon
                 name="times"
                 size={sizingMajor.x3}

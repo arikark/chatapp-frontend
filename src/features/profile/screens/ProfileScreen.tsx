@@ -6,7 +6,7 @@ import { useTheme, Paragraph, Headline, Button } from 'react-native-paper'
 
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import ThemeSwitch from '../../shared/components/ThemeSwitch'
-import PhotoFrame from '../components/PhotoFrame'
+import ImagePortal from '../../shared/components/ImagePortal'
 
 const Header = styled(View)`
   margin-top: ${({ theme }) => `${theme.sizingMajor.x2}px`};
@@ -21,12 +21,12 @@ const Container = styled(View)`
 const PhotoFrameWrapper = styled(View)`
   align-items: center;
   justify-content: center;
-  margin-top: ${({ theme }) => `${theme.sizingMajor.x6}px`};
+  margin-top: ${({ theme }) => `${theme.sizingMajor.x4}px`};
 `
-const BioContainer = styled(View)`
+const TextContainer = styled(View)`
   width: 100%;
   margin-top: ${({ theme }) => `${theme.sizingMajor.x2}px`};
-  padding: ${({ theme }) => `${theme.sizingMajor.x1}px`};
+  padding: ${({ theme }) => `${theme.sizingMajor.x2}px`};
   justify-content: center;
   background-color: ${({ theme }) => `${theme.colors.chatPrimary}`};
   border-radius: ${({ theme }) => `${theme.sizingMajor.x1}px`};
@@ -52,6 +52,7 @@ type ProfileScreenProps = {
   bio: string | undefined
   photo: string | undefined
   onPressLogout: () => void
+  profilePhotoUploadMutation: () => void
 }
 
 export default function ProfileScreen({
@@ -59,7 +60,8 @@ export default function ProfileScreen({
   username,
   bio,
   photo,
-  onPressLogout
+  onPressLogout,
+  profilePhotoUploadMutation
 }: ProfileScreenProps) {
   const { colors } = useTheme()
   return (
@@ -76,14 +78,19 @@ export default function ProfileScreen({
           </LogoutButton>
         </Header>
         <PhotoFrameWrapper>
-          <PhotoFrame profilePhoto={photo} />
+          <ImagePortal
+            imageUploadMutation={profilePhotoUploadMutation}
+            image={photo}
+          />
         </PhotoFrameWrapper>
         <Name>{username}</Name>
-        <Email>{email}</Email>
-        <Headline>{i18n.t('profile.bioHeading')}</Headline>
-        <BioContainer>
-          <Paragraph>{bio}</Paragraph>
-        </BioContainer>
+        <Headline>{i18n.t('profile.heading')}</Headline>
+        <TextContainer>
+          <Paragraph>Email: {email}</Paragraph>
+        </TextContainer>
+        <TextContainer>
+          <Paragraph>Bio: {bio}</Paragraph>
+        </TextContainer>
       </Container>
     </ScreenWrapper>
   )

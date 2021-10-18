@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { selectProfile } from '../slice'
 import { logout } from '../../authentication/slice'
 import ProfileScreen from '../screens/ProfileScreen'
+import { useUploadPhotoMutation } from '../../../store/api/userServices'
 
 export default function ProfileContainer() {
   const dispatch = useAppDispatch()
@@ -12,7 +13,16 @@ export default function ProfileContainer() {
   console.log(useAppSelector(selectProfile))
   return (
     <>
-      <ProfileScreen {...{ email, username, bio, photo, onPressLogout }} />
+      <ProfileScreen
+        {...{
+          email,
+          username,
+          bio,
+          photo,
+          onPressLogout
+        }}
+        profilePhotoUploadMutation={useUploadPhotoMutation}
+      />
     </>
   )
 }
