@@ -7,6 +7,6 @@ import { selectToken } from '../features/authentication/slice'
 
 export default function Navigation() {
   const token = useAppSelector(selectToken)
-  const isLoggedIn = true
+  const isLoggedIn = token
   return <>{isLoggedIn ? <AppNavigator /> : <AuthNavigator />}</>
 }
