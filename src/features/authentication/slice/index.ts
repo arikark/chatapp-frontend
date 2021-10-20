@@ -26,7 +26,7 @@ const authSlice = createSlice({
       }
     )
     builder.addMatcher(
-      userServices.endpoints.signUp.matchFulfilled,
+      userServices.endpoints.signup.matchFulfilled,
       (state, { payload }) => {
         state.token = payload.data.auth.token
         state.streamIOToken = payload.data.auth.streamIOToken

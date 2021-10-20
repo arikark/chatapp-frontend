@@ -18,7 +18,6 @@ export interface LoginRequest {
 }
 export interface SignUpRequest {
   email: string
-  username: string
   password: string
 }
 export interface UpdateProfileRequest {
@@ -36,9 +35,9 @@ export const userServices = api.injectEndpoints({
         body: credentials
       })
     }),
-    signUp: builder.mutation<AuthResponse, SignUpRequest>({
+    signup: builder.mutation<AuthResponse, SignUpRequest>({
       query: (credentials) => ({
-        url: 'auth/signUp',
+        url: 'auth/signup',
         method: 'POST',
         body: credentials
       })
@@ -61,5 +60,5 @@ export const userServices = api.injectEndpoints({
   overrideExisting: true
 })
 
-export const { useLoginMutation, useSignUpMutation, useUploadPhotoMutation } =
+export const { useLoginMutation, useSignupMutation, useUploadPhotoMutation } =
   userServices

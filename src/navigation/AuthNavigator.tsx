@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { Signin } from '../features/authentication/screens'
+import { SignupScreen, Signin } from '../features/authentication/screens'
 import { AuthStackParamList } from './types'
 
 export default function AuthNavigator() {
@@ -9,7 +9,12 @@ export default function AuthNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="SignIn"
+        name="Signup"
+        component={SignupScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Signin"
         component={Signin}
         options={{ headerShown: false }}
       />

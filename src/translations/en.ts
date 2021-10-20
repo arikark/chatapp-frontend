@@ -1,7 +1,8 @@
 export const en = {
-  signIn: {
-    welcome: 'Hello',
-    name: 'Charlie'
+  signup: {
+    title: `Don't have an account?`,
+    submit: 'Sign Up!',
+    linkToLogin: 'Already have an account? Sign in.'
   },
   profile: {
     heading: 'My Profile:',

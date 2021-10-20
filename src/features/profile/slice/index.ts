@@ -27,12 +27,16 @@ const profileSlice = createSlice({
       }
     )
     builder.addMatcher(
-      userServices.endpoints.signUp.matchFulfilled,
+      userServices.endpoints.signup.matchFulfilled,
       (state, { payload }) => {
-        state.email = payload.data.profile.email
-        state.username = payload.data.profile.username
-        state.bio = payload.data.profile.bio
-        state.photo = payload.data.profile.photo
+        try {
+          state.email = payload.data.profile.email
+          state.username = payload.data.profile.username
+          state.bio = payload.data.profile.bio
+          state.photo = payload.data.profile.photo
+        } catch (e) {
+          console.log(e)
+        }
       }
     )
     builder.addMatcher(
@@ -41,7 +45,7 @@ const profileSlice = createSlice({
         try {
           state.photo = payload.data.url
         } catch {
-          console.log('fail')
+          console.log('uploadPhoto fail')
         }
       }
     )
