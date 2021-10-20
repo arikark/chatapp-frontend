@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFormik } from 'formik'
+import { Form, Formik, FormikProvider, useFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
 import { Headline } from 'react-native-paper'
@@ -124,7 +124,7 @@ const LoginSchema = Yup.object().shape({
 export function Signin() {
   const [login] = useLoginMutation()
 
-  const { handleBlur } = useFormik({
+  const { handleBlur, touched, errors } = useFormik({
     validationSchema: LoginSchema,
     initialValues: { email: '', password: '' },
     onSubmit: (values) =>
@@ -150,25 +150,34 @@ export function Signin() {
     })
   }
 
-  return (
-    <View
-      style={[
-        styles.container,
-        { justifyContent: 'center' },
-        { marginVertical: 0 }
-      ]}
-    >
-      <KeyboardAwareScrollView>
-        <View style={[styles.header, { marginTop: '40%' }]}>
-          <Text style={[styles.text_header, { fontSize: 70 }]}>
-            {' '}
-            Welcome {'\n'} Back
-          </Text>
-        </View>
+  const handleFormSubmit = (values: any) => {
+    //do something with values
+    console.log(values)
+  }
 
-        <View style={styles.footer}>
-          <Text style={[styles.text_footer, { marginTop: 10 }]}> Email </Text>
-          <View style={styles.action}>
+  const signUpFormik = useFormik({
+    initialValues: {
+      firstName: null,
+      lastName: null,
+      age: null,
+      email: null,
+      password: null
+    },
+    onSubmit: handleFormSubmit
+  })
+
+  const initialValues = { email: '', password: '' }
+
+  return (
+    <FormikProvider value={signUpFormik}>
+      <form />
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleFormSubmit}
+        validationSchema={LoginSchema}
+      >
+        {({ values, errors, handleChange, touched }) => (
+          <Form className="p-4 text-center">
             <TextInput
               placeholder="Email"
               style={styles.textInput}
@@ -179,13 +188,9 @@ export function Signin() {
               onChangeText={(val) => textInputChange(val)}
               returnKeyType="next"
             />
-          </View>
-
-          <Text style={[styles.text_footer, { marginTop: 10 }]}>
-            {' '}
-            Password{' '}
-          </Text>
-          <View style={styles.action}>
+            {errors.email && touched.email && (
+              <div className="text-danger">{errors.email}</div>
+            )}
             <TextInput
               onChangeText={(val) => passInputChange(val)}
               autoCompleteType="password"
@@ -195,32 +200,14 @@ export function Signin() {
               returnKeyType="go"
               placeholder="Password"
               style={styles.textInput}
+              // error={boolean(errors.email && touched.email)}
             />
-          </View>
-
-          <View style={styles.forgotPwd}>
-            <Text style={styles.forgotPwd} onPress={alert}>
-              {' '}
-              Forgot Password?{' '}
-            </Text>
-          </View>
-
-          <View style={styles.buttonContainer}>
+            {errors.password && touched.password && (
+              <div className="text-danger">{errors.password}</div>
+            )}
+            //{' '}
             <TouchableHighlight activeOpacity={1}>
-              <Button
-                style={[styles.buttonText, { backgroundColor: 'transparent' }]}
-                onPress={async () => {
-                  login({
-                    email: data.email,
-                    password: data.password
-                  })
-                }}
-              >
-                Log In
-              </Button>
-            </TouchableHighlight>
-
-            <TouchableHighlight activeOpacity={1}>
+              //{' '}
               <Button
                 style={[
                   styles.buttonText,
@@ -237,9 +224,106 @@ export function Signin() {
                 Sign Up
               </Button>
             </TouchableHighlight>
-          </View>
-        </View>
-      </KeyboardAwareScrollView>
-    </View>
+          </Form>
+        )}
+      </Formik>
+    </FormikProvider>
+
+    // <View
+    //   style={[
+    //     styles.container,
+    //     { justifyContent: 'center' },
+    //     { marginVertical: 0 }
+    //   ]}
+    // >
+    //   <KeyboardAwareScrollView>
+    //     <View style={[styles.header, { marginTop: '40%' }]}>
+    //       <Text style={[styles.text_header, { fontSize: 70 }]}>
+    //         {' '}
+    //         Welcome {'\n'} Back
+    //       </Text>
+    //     </View>
+
+    //     <View style={styles.footer}>
+    //       <Text style={[styles.text_footer, { marginTop: 10 }]}> Email </Text>
+    //       <View style={styles.action}>
+
+    //         <TextInput
+    //           placeholder="Email"
+    //           style={styles.textInput}
+    //           autoCapitalize="none"
+    //           autoCompleteType="email"
+    //           onBlur={handleBlur('email')}
+    //           keyboardType="email-address"
+    //           onChangeText={(val) => textInputChange(val)}
+    //           returnKeyType="next"
+    //         />
+
+    //       </View>
+    //       {Boolean(touched.email && errors.email) && (
+    //         <Text style={{ color: 'red' }}>{errors.email}</Text>
+    //         )}
+
+    //       <Text style={[styles.text_footer, { marginTop: 10 }]}>
+    //         {' '}
+    //         Password{' '}
+    //       </Text>
+    //       <View style={styles.action}>
+    //         <TextInput
+    //           onChangeText={(val) => passInputChange(val)}
+    //           autoCompleteType="password"
+    //           secureTextEntry
+    //           onBlur={handleBlur('password')}
+    //           autoCapitalize="none"
+    //           returnKeyType="go"
+    //           placeholder="Password"
+    //           style={styles.textInput}
+    //           // error={boolean(errors.email && touched.email)}
+    //         />
+    //       </View>
+
+    //       <View style={styles.forgotPwd}>
+    //         <Text style={styles.forgotPwd} onPress={alert}>
+    //           {' '}
+    //           Forgot Password?{' '}
+    //         </Text>
+    //       </View>
+
+    //       <View style={styles.buttonContainer}>
+    //         <TouchableHighlight activeOpacity={1}>
+    //           <Button
+    //             style={[styles.buttonText, { backgroundColor: 'transparent' }]}
+    //             onPress={async () => {
+    //               login({
+    //                 email: data.email,
+    //                 password: data.password
+    //               })
+    //             }}
+    //           >
+    //             Log In
+    //           </Button>
+    //         </TouchableHighlight>
+
+    //         <TouchableHighlight activeOpacity={1}>
+    //           <Button
+    //             style={[
+    //               styles.buttonText,
+    //               { marginLeft: 25 },
+    //               { color: 'white' }
+    //             ]}
+    //             onPress={async () => {
+    //               login({
+    //                 email: data.email,
+    //                 password: data.password
+    //               })
+    //             }}
+    //           >
+    //             Sign Up
+    //           </Button>
+    //         </TouchableHighlight>
+    //       </View>
+    //     </View>
+    //   </KeyboardAwareScrollView>
+    // </View>
   )
 }
