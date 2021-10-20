@@ -1,8 +1,9 @@
 import React from 'react'
-import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useTheme, Headline } from 'react-native-paper'
 import styled from 'styled-components'
-import { Headline } from 'react-native-paper'
+// import { useTheme } from 'react-native-paper'
+import { FontAwesome } from '@expo/vector-icons'
 import { View, Text, TextInput, TouchableHighlight } from 'react-native'
 import Button from 'react-native-button'
 import i18n from 'i18n-js'
@@ -124,13 +125,6 @@ const LoginSchema = Yup.object().shape({
 export function Signin() {
   const [login] = useLoginMutation()
 
-  const { handleBlur } = useFormik({
-    validationSchema: LoginSchema,
-    initialValues: { email: '', password: '' },
-    onSubmit: (values) =>
-      alert(`Email: ${values.email}, Password: ${values.password}`)
-  })
-
   const [data, setData] = React.useState({
     email: '',
     password: ''
@@ -149,6 +143,7 @@ export function Signin() {
       password: val
     })
   }
+  const { colors, sizingMajor } = useTheme()
 
   return (
     <View
@@ -170,11 +165,11 @@ export function Signin() {
           <Text style={[styles.text_footer, { marginTop: 10 }]}> Email </Text>
           <View style={styles.action}>
             <TextInput
-              placeholder="Email"
+              placeholder="Please enter your email"
               style={styles.textInput}
               autoCapitalize="none"
               autoCompleteType="email"
-              onBlur={handleBlur('email')}
+              // onBlur={handleBlur('email')}
               keyboardType="email-address"
               onChangeText={(val) => textInputChange(val)}
               returnKeyType="next"
@@ -190,19 +185,12 @@ export function Signin() {
               onChangeText={(val) => passInputChange(val)}
               autoCompleteType="password"
               secureTextEntry
-              onBlur={handleBlur('password')}
+              // onBlur={handleBlur('password')}
               autoCapitalize="none"
               returnKeyType="go"
-              placeholder="Password"
+              placeholder="Please enter your password"
               style={styles.textInput}
             />
-          </View>
-
-          <View style={styles.forgotPwd}>
-            <Text style={styles.forgotPwd} onPress={alert}>
-              {' '}
-              Forgot Password?{' '}
-            </Text>
           </View>
 
           <View style={styles.buttonContainer}>
