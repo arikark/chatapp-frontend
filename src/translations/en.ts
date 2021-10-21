@@ -4,6 +4,10 @@ export const en = {
     submit: 'Sign Up!',
     linkToLogin: 'Already have an account? Sign in.'
   },
+  profileSetup: {
+    title: 'Set Your Profile',
+    submit: 'Finish'
+  },
   profile: {
     heading: 'My Profile:',
     failedUploadErrorMessage: 'Failed to upload image. Please try agin later.'

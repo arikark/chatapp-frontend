@@ -22,6 +22,7 @@ declare global {
 export type AuthStackParamList = {
   Signin: undefined
   Signup: undefined
+  Profile: undefined
 }
 export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> =
   NativeStackScreenProps<AuthStackParamList, Screen>
