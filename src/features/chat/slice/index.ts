@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import * as Location from 'expo-location'
 
 import type { RootState } from '../../../store'
 
@@ -31,3 +32,14 @@ export const { setThread } = threadSlice.actions
 
 export const getCurrentChannel = (state: RootState) => state.chatChannel
 export const getCurrentThread = (state: RootState) => state.chatThread
+
+export const getCurrentLocation = async () => {
+  const { status } = await Location.requestForegroundPermissionsAsync()
+  if (status !== 'granted') {
+    return [0, 0]
+  }
+  const location = await Location.getCurrentPositionAsync({})
+  const coordinate = [location.coords.longitude, location.coords.latitude]
+
+  return coordinate
+}

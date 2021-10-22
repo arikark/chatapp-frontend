@@ -18,7 +18,6 @@ export interface LoginRequest {
 }
 export interface SignUpRequest {
   email: string
-  username: string
   password: string
 }
 export interface UpdateProfileRequest {

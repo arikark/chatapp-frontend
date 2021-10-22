@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Platform, Image } from 'react-native'
 import { ChannelList, Chat } from 'stream-chat-expo'
 
 import { ListPreviewMessage } from '../components/ListPreviewMessage'
@@ -9,7 +9,7 @@ import { chatClient } from '../../../store/api'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 
 const filters = {
-  members: { $in: ['Marvin', 'Test_1'] },
+  members: { $in: ['616920082892cf7ac4e0133a'] },
   type: 'messaging'
 }
 const options = {
@@ -23,13 +23,16 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
   const [clientReady, setClientReady] = React.useState(false)
 
   // Temp user info for testing.
-  const userToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiTWFydmluIn0.UprvGJuI3mnC08XOmG2rIYjjI2vd-tyelZHibs2SboI'
-  const user = {
-    id: 'Marvin'
-  }
 
   React.useEffect(() => {
+    const userToken =
+      Platform.OS === 'ios'
+        ? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiTWFydmluIn0.UprvGJuI3mnC08XOmG2rIYjjI2vd-tyelZHibs2SboI'
+        : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjE2OTIwMDgyODkyY2Y3YWM0ZTAxMzNhIn0.RQSEP_XiMecfCx334cjucFYAAb3puwqB_SvWiWWYnJM'
+    const user = {
+      id: Platform.OS === 'ios' ? 'Marvin' : '616920082892cf7ac4e0133a'
+    }
+    console.log(user.id)
     const setupClient = async () => {
       await chatClient.connectUser(user, userToken)
       setClientReady(true)
@@ -42,6 +45,22 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
       {clientReady ? (
         <Chat client={chatClient}>
           <ChannelList
+            PreviewAvatar={({ channel }: { channel: any }) => {
+              return (
+                <Image
+                  style={{
+                    height: 30,
+                    width: 30,
+                    borderRadius: 15
+                  }}
+                  source={{
+                    uri: channel?.data.image
+                      ? channel?.data.image
+                      : 'https://img1.baidu.com/it/u=1897719880,2867606276&fm=26&fmt=auto'
+                  }}
+                />
+              )
+            }}
             PreviewMessage={ListPreviewMessage}
             filters={memoizedFilters}
             onSelect={(channel: any) => {
