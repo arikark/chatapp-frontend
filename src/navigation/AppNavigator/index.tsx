@@ -9,6 +9,7 @@ import NotFoundScreen from '../../features/shared/screens/NotFoundScreen'
 import { BottomTabNavigator } from '../AppNavigator/BottomTabNavigator'
 import { AppStackParamList } from '../types'
 import ChannelCreationScreen from '../../features/chat/screens/ChannelCreationScreen'
+import { ChannelHeaderBackBtn } from './CustomHeaders'
 
 export default function AppNavigator() {
   const Stack = createNativeStackNavigator<AppStackParamList>()
@@ -27,7 +28,7 @@ export default function AppNavigator() {
             name="Channel"
             component={ChannelScreen}
             options={({ route }: { route: any }) => ({
-              headerBackTitle: 'Back',
+              headerLeft: () => <ChannelHeaderBackBtn />,
               headerRight: () => <></>,
               headerTitle: route.params?.name
             })}

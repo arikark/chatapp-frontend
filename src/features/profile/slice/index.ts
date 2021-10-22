@@ -39,7 +39,7 @@ const profileSlice = createSlice({
       userServices.endpoints.uploadPhoto.matchFulfilled,
       (state, { payload }) => {
         try {
-          state.photo = payload.data.url
+          state.photo = payload.data.profile.avatar
         } catch {
           console.log('fail')
         }

@@ -17,7 +17,21 @@ interface ChannelCreationResponse {
     image: string
   }
 }
-
+interface ChannelFetchData {
+  name: string
+  ownerId: string
+  image: string
+  coordinate: number[]
+  id: string
+  description: string
+}
+interface ChannelFetchResponse {
+  data: ChannelFetchData[]
+}
+interface ChannelFetchRequest {
+  range: number
+  location: number[]
+}
 export const chatServices = api.injectEndpoints({
   endpoints: (builder) => ({
     createChannel: builder.mutation<ChannelCreationResponse, FormData>({
@@ -26,9 +40,18 @@ export const chatServices = api.injectEndpoints({
         method: 'POST',
         body: channelDetails
       })
-    })
+    }),
+    fetchNearby: builder.mutation<ChannelCreationResponse, ChannelFetchRequest>(
+      {
+        query: (queryDetails) => ({
+          url: 'channel/fetchnearby',
+          method: 'POST',
+          body: queryDetails
+        })
+      }
+    )
   }),
   overrideExisting: true
 })
 
-export const { useCreateChannelMutation } = chatServices
+export const { useCreateChannelMutation, useFetchNearbyMutation } = chatServices

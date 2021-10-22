@@ -1,80 +1,135 @@
-import React, { useMemo } from 'react'
-import { ActivityIndicator, Platform, Image } from 'react-native'
-import { ChannelList, Chat } from 'stream-chat-expo'
+import React, { useEffect, useState } from 'react'
+import { FlatList, Text, Image, View, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 
-import { ListPreviewMessage } from '../components/ListPreviewMessage'
-import { setChannel } from '../slice'
-import { useAppDispatch } from '../../shared/hooks/redux'
+import styled from 'styled-components'
+import { getCurrentLocation } from '../slice'
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { chatClient } from '../../../store/api'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
-
-const filters = {
-  members: { $in: ['616920082892cf7ac4e0133a'] },
-  type: 'messaging'
-}
-const options = {
-  state: true,
-  watch: true
-}
+import { selectStreamIOToken } from '../../authentication/slice'
+import { getToken } from '../../shared/utils/secureStorage'
+import { EmptyCompoent, RenderItem } from '../components/RenderItem'
+import { useFetchNearbyMutation } from '../../../store/api/chatServices'
+import { RangeDialog } from '../components/RangeDialog'
 
 export default function ChannelListScreen({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch()
-  const memoizedFilters = useMemo(() => filters, [])
-  const [clientReady, setClientReady] = React.useState(false)
+  const { colors } = useTheme()
+  const [clientReady, setClientReady] = useState(false)
+  const [channelList, setChannelList] = useState<any>([])
+  const [isRefreshed, setIsRefreshed] = useState(false)
+  const streamToke = useAppSelector(selectStreamIOToken)
+  const [range, setRange] = useState('1km')
+  const [fetchChannels, { isSuccess, isLoading, isError }] =
+    useFetchNearbyMutation()
 
-  // Temp user info for testing.
+  const [dialogVisible, setVisible] = useState(false)
+  const showDialog = () => setVisible(true)
+  const hideDialog = () => setVisible(false)
 
-  React.useEffect(() => {
-    const userToken =
-      Platform.OS === 'ios'
-        ? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiTWFydmluIn0.UprvGJuI3mnC08XOmG2rIYjjI2vd-tyelZHibs2SboI'
-        : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjE2OTIwMDgyODkyY2Y3YWM0ZTAxMzNhIn0.RQSEP_XiMecfCx334cjucFYAAb3puwqB_SvWiWWYnJM'
-    const user = {
-      id: Platform.OS === 'ios' ? 'Marvin' : '616920082892cf7ac4e0133a'
-    }
-    console.log(user.id)
+  useEffect(() => {
     const setupClient = async () => {
-      await chatClient.connectUser(user, userToken)
+      const userId = await getToken('userId')
+      const user = {
+        id: userId!
+      }
+      await chatClient.disconnectUser()
+      await chatClient.connectUser(user, streamToke)
+      await refreshed()
       setClientReady(true)
     }
     setupClient()
   }, [])
+  const getRange = (range: string) => {
+    switch (range) {
+      case '1km':
+        return 1000
+      case '3km':
+        return 3000
+      case '5km':
+        return 5000
+    }
+  }
+  const refreshed = async () => {
+    setIsRefreshed(true)
+    const coordinate = await getCurrentLocation()
+    const selectedRange = getRange(range)
+    const result = await fetchChannels({
+      range: selectedRange!,
+      location: coordinate
+    })
+    console.log(result)
+    const filterChannelList: string[] = []
+    // @ts-ignore
+    if (result.data.data.length != 0) {
+      // @ts-ignore
+      result.data.data.forEach((element) => filterChannelList.push(element.id))
+
+      const filter = {
+        id: { $in: filterChannelList },
+        type: 'messaging'
+      }
+      const channels = await chatClient.queryChannels(filter!)
+
+      setChannelList(channels)
+    }
+
+    setIsRefreshed(false)
+  }
 
   return (
     <ScreenWrapper safeTop={false}>
       {clientReady ? (
-        <Chat client={chatClient}>
-          <ChannelList
-            PreviewAvatar={({ channel }: { channel: any }) => {
-              return (
-                <Image
-                  style={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: 15
-                  }}
-                  source={{
-                    uri: channel?.data.image
-                      ? channel?.data.image
-                      : 'https://img1.baidu.com/it/u=1897719880,2867606276&fm=26&fmt=auto'
-                  }}
-                />
-              )
-            }}
-            PreviewMessage={ListPreviewMessage}
-            filters={memoizedFilters}
-            onSelect={(channel: any) => {
-              dispatch(setChannel(channel))
-              navigation.navigate('Channel', {
-                name: channel?.data?.name
-              })
-            }}
-            options={options}
+        <>
+          <FlatList
+            refreshing={isRefreshed}
+            onRefresh={refreshed}
+            data={channelList}
+            ListEmptyComponent={EmptyCompoent}
+            renderItem={(item) => (
+              <RenderItem
+                {...item}
+                navigation={navigation}
+                dispatch={dispatch}
+              />
+            )}
+            keyExtractor={(item) => item.id}
           />
-        </Chat>
+          <RangeButton onPress={showDialog}>
+            <RangeText>{range}</RangeText>
+          </RangeButton>
+          <RangeDialog
+            range={range}
+            setRange={setRange}
+            isVisible={dialogVisible}
+            hideDialog={hideDialog}
+          />
+        </>
       ) : (
-        <ActivityIndicator size="large" />
+        <LoadingIcon size="large" color={colors.chatPrimary} animating />
       )}
     </ScreenWrapper>
   )
 }
+
+const RangeButton = styled(TouchableOpacity)`
+  position: absolute;
+  bottom: ${({ theme }) => `${theme.sizingMajor.x3}px`};
+  right: ${({ theme }) => `${theme.sizingMajor.x3}px`};
+  background-color: ${({ theme }) => `${theme.colors.chatPrimary}`};
+  height: ${({ theme }) => `${theme.sizingMajor.x6}px`};
+  width: ${({ theme }) => `${theme.sizingMajor.x6}px`};
+  border-radius: ${({ theme }) => `${theme.sizingMajor.x3}px`};
+  justify-content: center;
+  align-items: center;
+`
+
+const RangeText = styled(Text)`
+  font-size: ${({ theme }) => `${theme.sizingMajor.x2}px`};
+  color: ${({ theme }) => `${theme.colors.surface}`};
+  font-weight: bold;
+`
+const LoadingIcon = styled(ActivityIndicator)`
+  margin-top: ${({ theme }) => `${theme.sizingMajor.x3}px`};
+`

@@ -8,13 +8,9 @@ import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import Icon from '../../shared/components/Icon'
 import { useCreateChannelMutation } from '../../../store/api/chatServices'
 import { chatAppImagePicker, chatAppCamera } from '../../shared/utils'
-import {
-  getCurrentChannel,
-  getCurrentLocation,
-  getCurrentThread,
-  setThread
-} from '../slice'
+import { getCurrentLocation, setChannel } from '../slice'
 import { prepareChannelCreation } from '../../shared/utils/prepareChannelCreation'
+import { chatClient } from '../../../store/api'
 
 const ImageContainer = styled(ImageBackground)`
   height: ${({ theme }) => `${theme.sizingMajor.x14}px`};
@@ -41,7 +37,6 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch()
   const [channelName, setChannelName] = useState<string>('')
   const [channelDesc, setChannelDesc] = useState<string>('')
-  const [location, setLocation] = useState<number[] | null>(null)
   const [locationLoading, setLocationLoading] = useState(false)
   const { colors, sizingMajor } = useTheme()
   const [previewImage, setPreviewImage] = useState<string | null>(null)
@@ -80,8 +75,12 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
 
     const res = await createChannel(result).unwrap()
     console.log(res)
-
-    //navigation.navigate('Thread')
+    const filter = { type: 'messaging', id: { $eq: res.data.id } }
+    const channels = await chatClient.queryChannels(filter)
+    dispatch(setChannel(channels[0]))
+    navigation.navigate('Channel', {
+      name: channels[0]?.data?.name
+    })
   }
 
   return (

@@ -9,7 +9,7 @@ import { BottomTabParamList } from '../types'
 import ChannelDiscoveryScreen from '../../features/chat/screens/ChannelDiscoveryScreen'
 import JoinedChannelListScreen from '../../features/chat/screens/JoinedChannelListScreen'
 import Icon from '../../features/shared/components/Icon'
-import { ChannelDiscoverHeader } from './CustomHeaders'
+import { ChannelDiscoverHeader, JoinedChannelHeader } from './CustomHeaders'
 
 const TabBarIcon = styled(Icon)`
   margin-bottom: ${({ theme }) => `-${theme.sizingMinor.x1}px`};
@@ -29,7 +29,7 @@ export function BottomTabNavigator() {
         name="JoinedChannelListScreen"
         component={JoinedChannelListScreen}
         options={{
-          headerTitle: 'Joined Channels',
+          headerTitle: (props) => <JoinedChannelHeader />,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="comments" color={color} />
           ),
