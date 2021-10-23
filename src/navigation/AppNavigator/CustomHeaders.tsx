@@ -38,7 +38,7 @@ export const ChannelDiscoverHeader = () => {
   const navigation = useNavigation()
   return (
     <HeaderContainer>
-      <HeaderText>Discover Channels</HeaderText>
+      <HeaderText>Discover Nearby Channels</HeaderText>
       <CreateChannelButton
         onPress={() => navigation.navigate('ChannelCreation')}
       />

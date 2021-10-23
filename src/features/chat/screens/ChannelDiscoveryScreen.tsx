@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Text, Image, View, TouchableOpacity } from 'react-native'
+import { FlatList, Text, TouchableOpacity } from 'react-native'
 import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 import styled from 'styled-components'
@@ -41,6 +41,7 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
     }
     setupClient()
   }, [])
+
   const getRange = (range: string) => {
     switch (range) {
       case '1km':
@@ -61,8 +62,9 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
     })
     console.log(result)
     const filterChannelList: string[] = []
+
     // @ts-ignore
-    if (result.data.data.length != 0) {
+    if (result.data != undefined && result.data.data.length != 0) {
       // @ts-ignore
       result.data.data.forEach((element) => filterChannelList.push(element.id))
 
@@ -71,10 +73,8 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
         type: 'messaging'
       }
       const channels = await chatClient.queryChannels(filter!)
-
       setChannelList(channels)
     }
-
     setIsRefreshed(false)
   }
 

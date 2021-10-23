@@ -21,7 +21,7 @@ import { useUploadPhotoMutation } from '../../../store/api/userServices'
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { selectProfile } from '../../profile/slice'
 import CusTextInput from '../../shared/components/CusTextInput'
-import { selectUserId, setStreamToken } from '../slice'
+import { selectStreamIOToken, selectUserId, setToken } from '../slice'
 import { chatClient } from '../../../store/api'
 import { getToken } from '../../shared/utils/secureStorage'
 
@@ -32,7 +32,7 @@ function SetProfileScreen() {
   const { photo } = useAppSelector(selectProfile)
   const dispatch = useAppDispatch()
   const id = useAppSelector(selectUserId)
-
+  const streamToken = useAppSelector(selectStreamIOToken)
   const [isLoading, setIsLoading] = useState(false)
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
@@ -41,10 +41,8 @@ function SetProfileScreen() {
 
   const onSubmit = async () => {
     setIsLoading(true)
-    const streamToken = await getToken('streamToken')
-    console.log(streamToken)
-    console.log(id)
-    console.log(photo)
+
+    const token = await getToken('token')
     if (username == '' || photo == undefined) {
       setIsError(true)
     } else {
@@ -58,62 +56,64 @@ function SetProfileScreen() {
         streamToken
       )
       console.log('Finsh connecting')
-      dispatch(setStreamToken(streamToken))
+      dispatch(setToken(token))
     }
     setIsLoading(false)
   }
   return (
     <KeyboardAvoid behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScreenWrapper>
-          <Title>Set Your Profile</Title>
-          <Container>
-            <PhotoFrameWrapper>
-              <ImagePortal
-                imageUploadMutation={useUploadPhotoMutation}
-                image={photo}
-              />
-            </PhotoFrameWrapper>
-            <InputContainer>
-              <TextContainer>
-                <CusTextInput
-                  title="Username"
-                  text={username}
-                  icon="user"
-                  setText={setUsername}
-                  placeholder="Username"
+        <View>
+          <ScreenWrapper>
+            <Title>Set Your Profile</Title>
+            <Container>
+              <PhotoFrameWrapper>
+                <ImagePortal
+                  imageUploadMutation={useUploadPhotoMutation}
+                  image={photo}
                 />
-              </TextContainer>
-              <TextContainer>
-                <CusTextInput
-                  title="Bio"
-                  text={bio}
-                  icon="smile-o"
-                  setText={setBio}
-                  placeholder="Bio"
-                  multiline
-                />
-              </TextContainer>
-            </InputContainer>
-            <BottomSpacer>
-              <NavButton onPress={onSubmit}>
-                <FontAwesome
-                  name="chevron-right"
-                  size={sizingMajor.x5}
-                  color={colors.chatPrimary}
-                />
-              </NavButton>
-            </BottomSpacer>
-          </Container>
-          <Snackbar
-            visible={isError}
-            action={{
-              label: 'DONE'
-            }}
-            onDismiss={onDismissSnackBar}
-          >
-            Invalid information.
-          </Snackbar>
+              </PhotoFrameWrapper>
+              <InputContainer>
+                <TextContainer>
+                  <CusTextInput
+                    title="Username"
+                    text={username}
+                    icon="user"
+                    setText={setUsername}
+                    placeholder="Username"
+                  />
+                </TextContainer>
+                <TextContainer>
+                  <CusTextInput
+                    title="Bio"
+                    text={bio}
+                    icon="smile-o"
+                    setText={setBio}
+                    placeholder="Bio"
+                    multiline
+                  />
+                </TextContainer>
+              </InputContainer>
+              <BottomSpacer>
+                <NavButton onPress={onSubmit}>
+                  <FontAwesome
+                    name="chevron-right"
+                    size={sizingMajor.x5}
+                    color={colors.chatPrimary}
+                  />
+                </NavButton>
+              </BottomSpacer>
+            </Container>
+            <Snackbar
+              visible={isError}
+              action={{
+                label: 'DONE'
+              }}
+              onDismiss={onDismissSnackBar}
+            >
+              Invalid information.
+            </Snackbar>
+          </ScreenWrapper>
           {isLoading && (
             <LoadingLayer intensity={sizingMajor.x11}>
               <LottieContainer
@@ -122,7 +122,7 @@ function SetProfileScreen() {
               />
             </LoadingLayer>
           )}
-        </ScreenWrapper>
+        </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoid>
   )

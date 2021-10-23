@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, View, Image, TouchableOpacity } from 'react-native'
-import { Text } from 'react-native-paper'
+import { Text, Title } from 'react-native-paper'
 import styled from 'styled-components'
 import LottieView from 'lottie-react-native'
 
@@ -27,15 +27,20 @@ export function RenderItem({
     })
   }
   return (
-    <ItemContainer onPress={navToChannel}>
-      <ChannelAvatar
-        source={{
-          uri: item.data.image
-        }}
-      />
-      <Text>{item.data.name}</Text>
-      <Text>{item.data.description}</Text>
-    </ItemContainer>
+    <View>
+      <ItemContainer onPress={navToChannel}>
+        <ChannelAvatar
+          source={{
+            uri: item.data.image
+          }}
+        />
+        <TextContainer>
+          <ChannelName>{item.data.name}</ChannelName>
+          <ChannelDesc>{item.data.description}</ChannelDesc>
+        </TextContainer>
+      </ItemContainer>
+      <Divider />
+    </View>
   )
 }
 export function EmptyCompoent() {
@@ -49,16 +54,36 @@ export function EmptyCompoent() {
     </EmptyContainer>
   )
 }
+
 const ItemContainer = styled(TouchableOpacity)`
-  height: ${({ theme }) => `${theme.sizingMajor.x5}px`};
+  height: ${({ theme }) => `${theme.sizingMajor.x8}px`};
   width: ${({ theme }) => `${theme.sizingMajor.x12}%`};
+  padding-left: ${({ theme }) => `${theme.sizingMajor.x1}px`};
   flex-direction: row;
-  border: ${({ theme }) => `${theme.sizingMinor.x1}px`}
-    ${({ theme }) => `${theme.colors.chatPrimary}`} solid;
+  align-items: center;
+`
+const Divider = styled(View)`
+  height: ${({ theme }) => `${theme.sizingMinor.x1}px`};
+  width: ${({ theme }) => `${theme.sizingMajor.x12}%`};
+  background-color: ${({ theme }) => `${theme.colors.secondText}`};
+  opacity: ${({ theme }) => `${theme.sizingMajor.x3 * 0.01}`};
 `
 const ChannelAvatar = styled(Image)`
-  height: ${({ theme }) => `${theme.sizingMajor.x5}px`};
-  width: ${({ theme }) => `${theme.sizingMajor.x5}px`};
+  height: ${({ theme }) => `${theme.sizingMajor.x6}px`};
+  width: ${({ theme }) => `${theme.sizingMajor.x6}px`};
+  border-radius: ${({ theme }) => `${theme.sizingMajor.x6}px`};
+`
+const ChannelName = styled(Text)`
+  font-family: Roboto_700Bold;
+  font-size: ${({ theme }) => `${theme.sizingMajor.x2}px`};
+`
+const ChannelDesc = styled(Text)`
+  color: ${({ theme }) => `${theme.colors.secondText}`};
+`
+const TextContainer = styled(View)`
+  margin-left: ${({ theme }) => `${theme.sizingMajor.x1}px`};
+  height: ${({ theme }) => `${theme.sizingMajor.x6}px`};
+  justify-content: space-around;
 `
 const EmptyContainer = styled(View)`
   margin-top: ${({ theme }) => `${theme.sizingMajor.x3}px`};

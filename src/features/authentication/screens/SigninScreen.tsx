@@ -20,10 +20,12 @@ import BackButton from '../../shared/components/BackButton'
 import CusTextInput from '../../shared/components/CusTextInput'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { saveToken } from '../../shared/utils/secureStorage'
-
+import { useAppDispatch } from '../../shared/hooks/redux'
+import { setToken } from '../slice'
 const { width, height } = Dimensions.get('window')
 
 function SigninScreen({ navigation }: { navigation: any }) {
+  const dispatch = useAppDispatch()
   const { colors, sizingMajor } = useTheme()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -50,6 +52,8 @@ function SigninScreen({ navigation }: { navigation: any }) {
         await saveToken('token', result.data.data.auth.token)
         // @ts-ignore
         await saveToken('userId', result.data.data.profile.id)
+        // @ts-ignore
+        dispatch(setToken(result.data.data.auth.token))
       } else {
         setIsError(true)
       }
@@ -58,65 +62,67 @@ function SigninScreen({ navigation }: { navigation: any }) {
   return (
     <KeyboardAvoid behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScreenWrapper>
-          <Container>
-            <BackBtn>
-              <BackButton />
-            </BackBtn>
-            <Title>Log In</Title>
-            <LottieContainer
-              autoPlay
-              source={require('../../../../assets/login-page.json')}
-            />
-            <InputContainer>
-              <TextContainer>
-                <CusTextInput
-                  title="Email"
-                  text={email}
-                  icon="envelope-o"
-                  setText={setEmail}
-                  placeholder="Email"
-                />
-              </TextContainer>
-              <TextContainer>
-                <CusTextInput
-                  title="Password"
-                  text={password}
-                  icon="eye-slash"
-                  setText={setPassword}
-                  password
-                />
-              </TextContainer>
-            </InputContainer>
+        <View>
+          <ScreenWrapper>
+            <Container>
+              <BackBtn>
+                <BackButton />
+              </BackBtn>
+              <Title>Log In</Title>
+              <LottieContainer
+                autoPlay
+                source={require('../../../../assets/login-page.json')}
+              />
+              <InputContainer>
+                <TextContainer>
+                  <CusTextInput
+                    title="Email"
+                    text={email}
+                    icon="envelope-o"
+                    setText={setEmail}
+                    placeholder="Email"
+                  />
+                </TextContainer>
+                <TextContainer>
+                  <CusTextInput
+                    title="Password"
+                    text={password}
+                    icon="eye-slash"
+                    setText={setPassword}
+                    password
+                  />
+                </TextContainer>
+              </InputContainer>
 
-            <BottomSpacer>
-              <NavButton onPress={onSubmit}>
-                <FontAwesome
-                  name="chevron-right"
-                  size={sizingMajor.x5}
-                  color={colors.chatPrimary}
-                />
-              </NavButton>
-            </BottomSpacer>
-          </Container>
-          <Snackbar
-            visible={isError}
-            action={{
-              label: 'DONE'
-            }}
-            onDismiss={onDismissSnackBar}
-          >
-            Wrong Email or password.
-          </Snackbar>
+              <BottomSpacer>
+                <NavButton onPress={onSubmit}>
+                  <FontAwesome
+                    name="chevron-right"
+                    size={sizingMajor.x5}
+                    color={colors.chatPrimary}
+                  />
+                </NavButton>
+              </BottomSpacer>
+            </Container>
+            <Snackbar
+              visible={isError}
+              action={{
+                label: 'DONE'
+              }}
+              onDismiss={onDismissSnackBar}
+            >
+              Wrong Email or Password.
+            </Snackbar>
+          </ScreenWrapper>
           {isLoading && (
-            <LoadingLayer intensity={sizingMajor.x11}>
+            <LoadingLayer tint="dark" intensity={sizingMajor.x11}>
               <LottieContainer
                 autoPlay
                 source={require('../../../../assets/loading.json')}
               />
             </LoadingLayer>
           )}
-        </ScreenWrapper>
+        </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoid>
   )

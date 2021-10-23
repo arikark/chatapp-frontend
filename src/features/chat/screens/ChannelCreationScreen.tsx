@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { View, ImageBackground, TouchableOpacity } from 'react-native'
+import {
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform
+} from 'react-native'
 import styled from 'styled-components'
 import { useTheme, Button, TextInput } from 'react-native-paper'
 
@@ -11,6 +19,7 @@ import { chatAppImagePicker, chatAppCamera } from '../../shared/utils'
 import { getCurrentLocation, setChannel } from '../slice'
 import { prepareChannelCreation } from '../../shared/utils/prepareChannelCreation'
 import { chatClient } from '../../../store/api'
+import CusTextInput from '../../shared/components/CusTextInput'
 
 const ImageContainer = styled(ImageBackground)`
   height: ${({ theme }) => `${theme.sizingMajor.x14}px`};
@@ -63,6 +72,7 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
     setLocationLoading(false)
     return coordinate
   }
+
   const onSubmit = async () => {
     const currentCoordinate = await getLocation()
     console.log(currentCoordinate)
@@ -84,80 +94,95 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
   }
 
   return (
-    <ScreenWrapper>
-      <Container>
-        <ImageContainer
-          source={
-            previewImage
-              ? { uri: previewImage }
-              : require('../../../../assets/profile-photo-default.png')
-          }
-        >
-          <UploadBtnContainer>
-            <>
-              <TouchableOpacity onPress={openCamera}>
-                <Icon
-                  name="camera"
-                  size={sizingMajor.x3}
-                  color={colors.chatPrimary}
-                />
-              </TouchableOpacity>
+    <KeyboardAvoid behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScreenWrapper>
+          <Container>
+            <ImageContainer
+              source={
+                previewImage
+                  ? { uri: previewImage }
+                  : require('../../../../assets/profile-photo-default.png')
+              }
+            >
+              <UploadBtnContainer>
+                <>
+                  <TouchableOpacity onPress={openCamera}>
+                    <Icon
+                      name="camera"
+                      size={sizingMajor.x3}
+                      color={colors.chatPrimary}
+                    />
+                  </TouchableOpacity>
 
-              <TouchableOpacity onPress={addImage}>
-                <Icon
-                  name="image"
-                  size={sizingMajor.x3}
-                  color={colors.chatPrimary}
-                />
-              </TouchableOpacity>
-            </>
-          </UploadBtnContainer>
-        </ImageContainer>
-
-        <CustomTextInput
-          mode="outlined"
-          label="Channel Name"
-          value={channelName}
-          onChangeText={(text) => setChannelName(text)}
-        />
-        <CustomTextInput
-          mode="outlined"
-          label="Description"
-          value={channelDesc}
-          onChangeText={(text) => setChannelDesc(text)}
-        />
-        <CreateButton
-          mode="contained"
-          loading={isLoading || locationLoading}
-          onPress={() => onSubmit()}
-          disabled={
-            channelName === '' ||
-            channelDesc === '' ||
-            previewImage === null ||
-            isLoading ||
-            locationLoading
-          }
-        >
-          CREATE
-        </CreateButton>
-      </Container>
-    </ScreenWrapper>
+                  <TouchableOpacity onPress={addImage}>
+                    <Icon
+                      name="image"
+                      size={sizingMajor.x3}
+                      color={colors.chatPrimary}
+                    />
+                  </TouchableOpacity>
+                </>
+              </UploadBtnContainer>
+            </ImageContainer>
+            <TextContainer>
+              <CusTextInput
+                title="Channel Name"
+                text={channelName}
+                placeholder="COMP90018"
+                icon="gift"
+                setText={setChannelName}
+              />
+            </TextContainer>
+            <TextContainer>
+              <CusTextInput
+                title="Channel Description"
+                text={channelDesc}
+                placeholder="Have fun!!!"
+                icon="comments"
+                setText={setChannelDesc}
+              />
+            </TextContainer>
+            <CreateButton
+              mode="contained"
+              loading={isLoading || locationLoading}
+              onPress={() => onSubmit()}
+              disabled={
+                channelName === '' ||
+                channelDesc === '' ||
+                previewImage === null ||
+                isLoading ||
+                locationLoading
+              }
+            >
+              CREATE
+            </CreateButton>
+          </Container>
+        </ScreenWrapper>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoid>
   )
 }
 
 export default ChannelCreationScreen
 
-const CustomTextInput = styled(TextInput)`
-  margin-top: ${({ theme }) => `${theme.sizingMajor.x3}px`};
-  width: ${({ theme }) => `${theme.sizingMajor.x10}%`};
+const KeyboardAvoid = styled(KeyboardAvoidingView)`
+  flex: ${({ theme }) => `${theme.sizingMinor.x1}`};
+`
+const TextContainer = styled(View)`
+  align-self: center;
+  margin-top: ${({ theme }) => `${theme.sizingMajor.x2}px`};
+  width: ${({ theme }) => `${theme.sizingMajor.x11}%`};
 `
 const Container = styled(View)`
   padding-top: ${({ theme }) => `${theme.sizingMajor.x3}px`};
   align-items: center;
+  justify-content: center;
   flex: ${({ theme }) => `${theme.sizingMinor.x1}`};
 `
 const CreateButton = styled(Button)`
   margin-top: ${({ theme }) => `${theme.sizingMajor.x3}px`};
+  margin-bottom: ${({ theme }) => `${theme.sizingMajor.x4}%`};
   width: ${({ theme }) => `${theme.sizingMajor.x10}%`};
   background-color: ${({ theme }) => `${theme.colors.chatPrimary}`};
 `

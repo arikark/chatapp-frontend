@@ -21,18 +21,12 @@ const profileSlice = createSlice({
       userServices.endpoints.login.matchFulfilled,
       (state, { payload }) => {
         state.email = payload.data.profile.email
-        state.username = payload.data.profile.username
-        state.bio = payload.data.profile.bio
-        state.photo = payload.data.profile.photo
       }
     )
     builder.addMatcher(
       userServices.endpoints.signUp.matchFulfilled,
       (state, { payload }) => {
         state.email = payload.data.profile.email
-        state.username = payload.data.profile.username
-        state.bio = payload.data.profile.bio
-        state.photo = payload.data.profile.photo
       }
     )
     builder.addMatcher(
