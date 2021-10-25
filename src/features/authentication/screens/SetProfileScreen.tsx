@@ -17,11 +17,14 @@ import { BlurView } from 'expo-blur'
 
 import ImagePortal from '../../shared/components/ImagePortal'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
-import { useUploadPhotoMutation } from '../../../store/api/userServices'
+import {
+  useUpdateProfileMutation,
+  useUploadPhotoMutation
+} from '../../../store/api/userServices'
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { selectProfile } from '../../profile/slice'
 import CusTextInput from '../../shared/components/CusTextInput'
-import { selectStreamIOToken, selectUserId, setToken } from '../slice'
+import { selectUserId, setStreamToken } from '../slice'
 import { chatClient } from '../../../store/api'
 import { getToken } from '../../shared/utils/secureStorage'
 
@@ -32,17 +35,18 @@ function SetProfileScreen() {
   const { photo } = useAppSelector(selectProfile)
   const dispatch = useAppDispatch()
   const id = useAppSelector(selectUserId)
-  const streamToken = useAppSelector(selectStreamIOToken)
-  const [isLoading, setIsLoading] = useState(false)
+  const [update, { isSuccess, isLoading }] = useUpdateProfileMutation()
+
+  const [loading, setLoading] = useState(false)
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
   const [isError, setIsError] = useState(false)
   const onDismissSnackBar = () => setIsError(false)
 
   const onSubmit = async () => {
-    setIsLoading(true)
+    setLoading(true)
 
-    const token = await getToken('token')
+    const streamToken = await getToken('streamToken')
     if (username == '' || photo == undefined) {
       setIsError(true)
     } else {
@@ -55,10 +59,14 @@ function SetProfileScreen() {
         },
         streamToken
       )
-      console.log('Finsh connecting')
-      dispatch(setToken(token))
+      const result = await update({
+        username,
+        bio
+      })
+
+      dispatch(setStreamToken(streamToken))
     }
-    setIsLoading(false)
+    setLoading(false)
   }
   return (
     <KeyboardAvoid behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -114,8 +122,8 @@ function SetProfileScreen() {
               Invalid information.
             </Snackbar>
           </ScreenWrapper>
-          {isLoading && (
-            <LoadingLayer intensity={sizingMajor.x11}>
+          {loading && (
+            <LoadingLayer tint="dark" intensity={sizingMajor.x11}>
               <LottieContainer
                 autoPlay
                 source={require('../../../../assets/loading.json')}

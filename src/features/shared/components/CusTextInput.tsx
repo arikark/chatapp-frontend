@@ -39,6 +39,7 @@ export default function CusTextInput({
           />
         ) : (
           <InputItem
+            autoCapitalize="none"
             secureTextEntry={password}
             placeholder={placeholder}
             onChangeText={(input) => setText(input)}

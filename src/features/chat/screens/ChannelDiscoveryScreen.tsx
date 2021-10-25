@@ -12,6 +12,7 @@ import { getToken } from '../../shared/utils/secureStorage'
 import { EmptyCompoent, RenderItem } from '../components/RenderItem'
 import { useFetchNearbyMutation } from '../../../store/api/chatServices'
 import { RangeDialog } from '../components/RangeDialog'
+import { selectProfile } from '../../profile/slice'
 
 export default function ChannelListScreen({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch()
@@ -27,8 +28,9 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
   const [dialogVisible, setVisible] = useState(false)
   const showDialog = () => setVisible(true)
   const hideDialog = () => setVisible(false)
-
+  const { photo } = useAppSelector(selectProfile)
   useEffect(() => {
+    console.log(photo)
     const setupClient = async () => {
       const userId = await getToken('userId')
       const user = {
@@ -70,6 +72,7 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
 
       const filter = {
         id: { $in: filterChannelList },
+        joined: false,
         type: 'messaging'
       }
       const channels = await chatClient.queryChannels(filter!)

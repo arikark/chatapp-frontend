@@ -28,14 +28,14 @@ const authSlice = createSlice({
     builder.addMatcher(
       userServices.endpoints.login.matchFulfilled,
       (state, { payload }) => {
-        state.streamIOToken = payload.data.auth.streamIOToken
+        state.token = payload.data.auth.token
         state.id = payload.data.profile.id
       }
     )
     builder.addMatcher(
       userServices.endpoints.signUp.matchFulfilled,
       (state, { payload }) => {
-        state.streamIOToken = payload.data.auth.streamIOToken
+        state.token = payload.data.auth.token
         state.id = payload.data.profile.id
       }
     )

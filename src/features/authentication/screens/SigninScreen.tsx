@@ -21,7 +21,7 @@ import CusTextInput from '../../shared/components/CusTextInput'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { saveToken } from '../../shared/utils/secureStorage'
 import { useAppDispatch } from '../../shared/hooks/redux'
-import { setToken } from '../slice'
+import { setStreamToken, setToken } from '../slice'
 const { width, height } = Dimensions.get('window')
 
 function SigninScreen({ navigation }: { navigation: any }) {
@@ -53,7 +53,7 @@ function SigninScreen({ navigation }: { navigation: any }) {
         // @ts-ignore
         await saveToken('userId', result.data.data.profile.id)
         // @ts-ignore
-        dispatch(setToken(result.data.data.auth.token))
+        dispatch(setStreamToken(result.data.data.auth.streamIOToken))
       } else {
         setIsError(true)
       }
@@ -73,6 +73,7 @@ function SigninScreen({ navigation }: { navigation: any }) {
                 autoPlay
                 source={require('../../../../assets/login-page.json')}
               />
+
               <InputContainer>
                 <TextContainer>
                   <CusTextInput
@@ -132,6 +133,7 @@ export default SigninScreen
 
 const BackBtn = styled(View)`
   position: absolute;
+  z-index: ${({ theme }) => `${theme.sizingMajor.x3}`};
   top: ${({ theme }) => `${theme.sizingMajor.x3}px`};
   left: ${({ theme }) => `${theme.sizingMajor.x3}px`};
 `
@@ -142,9 +144,7 @@ const Container = styled(View)`
   flex: ${({ theme }) => `${theme.sizingMinor.x1}`};
   justify-content: center;
 `
-const InputContainer = styled(View)`
-  margin-top: ${({ theme }) => `${theme.sizingMajor.x1}%`};
-`
+const InputContainer = styled(View)``
 const Title = styled(Text)`
   align-self: center;
   margin-left: ${({ theme }) => `${theme.sizingMajor.x2}px`};
@@ -159,7 +159,7 @@ const LottieContainer = styled(LottieView)`
 `
 const TextContainer = styled(View)`
   align-self: center;
-  margin-top: ${({ theme }) => `${theme.sizingMajor.x2}px`};
+  margin-top: ${({ theme }) => `${theme.sizingMajor.x1}px`};
   width: ${({ theme }) => `${theme.sizingMajor.x11}%`};
 `
 
