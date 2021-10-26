@@ -6,12 +6,13 @@ import { FontAwesome } from '@expo/vector-icons'
 
 interface ICusTextInput {
   title: string
-  icon: any
+  icon?: any
   text: string
   setText: (input: string) => void
   password?: boolean
   placeholder?: string
   multiline?: boolean
+  editable?: boolean
 }
 
 export default function CusTextInput({
@@ -21,7 +22,8 @@ export default function CusTextInput({
   setText,
   password = false,
   placeholder = title,
-  multiline = false
+  multiline = false,
+  editable = true
 }: ICusTextInput) {
   const { colors, sizingMajor } = useTheme()
   return (
@@ -30,6 +32,7 @@ export default function CusTextInput({
       <InputContainer>
         {multiline ? (
           <MultilineInputItem
+            editable={editable}
             autoCapitalize="none"
             multiline
             secureTextEntry={password}
@@ -39,6 +42,7 @@ export default function CusTextInput({
           />
         ) : (
           <InputItem
+            editable={editable}
             autoCapitalize="none"
             secureTextEntry={password}
             placeholder={placeholder}
@@ -46,14 +50,15 @@ export default function CusTextInput({
             value={text}
           />
         )}
-
-        <SuffixIcon>
-          <FontAwesome
-            name={icon}
-            size={sizingMajor.x3}
-            color={colors.chatPrimary}
-          />
-        </SuffixIcon>
+        {icon !== null && (
+          <SuffixIcon>
+            <FontAwesome
+              name={icon}
+              size={sizingMajor.x3}
+              color={colors.chatPrimary}
+            />
+          </SuffixIcon>
+        )}
       </InputContainer>
     </Wrapper>
   )

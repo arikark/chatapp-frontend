@@ -5,10 +5,12 @@ import AuthNavigator from './AuthNavigator'
 import { useAppDispatch, useAppSelector } from '../features/shared/hooks/redux'
 import {
   selectStreamIOToken,
-  setStreamToken
+  setStreamToken,
+  setToken
 } from '../features/authentication/slice'
 import { getToken } from '../features/shared/utils/secureStorage'
 import LoadingScreen from '../features/shared/screens/LoadingSreen'
+import { setProfile } from '../features/profile/slice'
 
 export default function Navigation() {
   const [loading, setLoading] = React.useState(true)
@@ -17,12 +19,23 @@ export default function Navigation() {
   // when finishing sign up. It should navigate to set profile screen.
   const streamToken = useAppSelector(selectStreamIOToken)
   React.useEffect(() => {
-    getToken('streamToken').then((res) => {
-      if (res) {
-        dispatch(setStreamToken(res))
+    const setUp = async () => {
+      const token = await getToken('token')
+      if (token) {
+        dispatch(setToken(token))
       }
+      const localStreamToken = await getToken('streamToken')
+      if (localStreamToken) {
+        dispatch(setStreamToken(localStreamToken))
+      }
+      const email = await getToken('email')
+      const username = await getToken('username')
+      const bio = await getToken('bio')
+      const avatar = await getToken('avatar')
+      dispatch(setProfile({ email, username, bio, avatar }))
       setLoading(false)
-    })
+    }
+    setUp()
   }, [])
 
   return (

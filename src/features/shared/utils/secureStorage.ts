@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store'
 export const getToken = async (key: string) => {
   let result = await SecureStore.getItemAsync(key)
   if (result) {
-    console.log("🔐 Here's your value 🔐 \n" + result)
+    //console.log("🔐 Here's your value 🔐 \n" + result)
   } else {
     result = null
     console.log('No values stored under that key.')

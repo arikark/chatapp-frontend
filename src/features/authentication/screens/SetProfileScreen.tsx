@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Dimensions,
   View,
@@ -22,11 +22,11 @@ import {
   useUploadPhotoMutation
 } from '../../../store/api/userServices'
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
-import { selectProfile } from '../../profile/slice'
+import { selectProfile, setProfile } from '../../profile/slice'
 import CusTextInput from '../../shared/components/CusTextInput'
 import { selectUserId, setStreamToken } from '../slice'
 import { chatClient } from '../../../store/api'
-import { getToken } from '../../shared/utils/secureStorage'
+import { getToken, saveToken } from '../../shared/utils/secureStorage'
 
 const { width, height } = Dimensions.get('window')
 
@@ -43,6 +43,13 @@ function SetProfileScreen() {
   const [isError, setIsError] = useState(false)
   const onDismissSnackBar = () => setIsError(false)
 
+  useEffect(() => {
+    let isSubscribed = true
+
+    return () => {
+      isSubscribed = false
+    }
+  }, [])
   const onSubmit = async () => {
     setLoading(true)
 
@@ -63,7 +70,30 @@ function SetProfileScreen() {
         username,
         bio
       })
+      // @ts-ignore
+      if (result.data) {
+        console.log(result)
+        // @ts-ignore
+        const username = result.data.data.profile.username
+        // @ts-ignore
+        const bio = result.data.data.profile.bio
+        // @ts-ignore
+        const avatar = result.data.data.profile.avatar
+        // @ts-ignore
+        const email = result.data.data.profile.email
 
+        // @ts-ignore
+        await saveToken('username', username)
+        // @ts-ignore
+        await saveToken('bio', bio)
+        // @ts-ignore
+        await saveToken('avatar', avatar)
+        // @ts-ignore
+        await saveToken('email', email)
+        dispatch(setProfile({ email, username, bio, avatar }))
+      } else {
+        setIsError(true)
+      }
       dispatch(setStreamToken(streamToken))
     }
     setLoading(false)

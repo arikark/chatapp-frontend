@@ -7,11 +7,10 @@ import { ChannelList, Chat } from 'stream-chat-expo'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { chatClient } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
-import { selectStreamIOToken, selectUserId } from '../../authentication/slice'
+import { selectStreamIOToken } from '../../authentication/slice'
 import { ListPreviewMessage } from '../components/ListPreviewMessage'
 import { setChannel } from '../slice'
-
-const { width } = Dimensions.get('window')
+import { getToken } from '../../shared/utils/secureStorage'
 
 const options = {
   state: true,
@@ -26,11 +25,13 @@ export default function JoinedChannelListScreen({
   const { colors } = useTheme()
   const [clientReady, setClientReady] = useState(false)
   const streamToken = useAppSelector(selectStreamIOToken)
-  const userId = useAppSelector(selectUserId)
   const [filter, setFilter] = useState({})
 
   useEffect(() => {
+    let isSubscribed = true
+
     const setupClient = async () => {
+      const userId = await getToken('userId')
       const user = {
         id: userId!
       }
@@ -38,12 +39,16 @@ export default function JoinedChannelListScreen({
         members: { $in: [userId] },
         type: 'messaging'
       })
+
       await chatClient.disconnectUser()
       await chatClient.connectUser(user, streamToken)
 
       setClientReady(true)
     }
     setupClient()
+    return () => {
+      isSubscribed = false
+    }
   }, [])
 
   return (

@@ -32,6 +32,15 @@ interface ChannelFetchRequest {
   range: number
   location: number[]
 }
+interface ChannelJoinRequest {
+  id: string
+  type: string
+}
+interface ChannelJoinResponse {
+  data: {
+    code: number
+  }
+}
 export const chatServices = api.injectEndpoints({
   endpoints: (builder) => ({
     createChannel: builder.mutation<ChannelCreationResponse, FormData>({
@@ -49,9 +58,20 @@ export const chatServices = api.injectEndpoints({
           body: queryDetails
         })
       }
-    )
+    ),
+    joinChannel: builder.mutation<ChannelJoinResponse, ChannelJoinRequest>({
+      query: (queryDetails) => ({
+        url: 'channel/join',
+        method: 'POST',
+        body: queryDetails
+      })
+    })
   }),
   overrideExisting: true
 })
 
-export const { useCreateChannelMutation, useFetchNearbyMutation } = chatServices
+export const {
+  useCreateChannelMutation,
+  useFetchNearbyMutation,
+  useJoinChannelMutation
+} = chatServices

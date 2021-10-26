@@ -15,7 +15,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "dev.quarter.client"
     },
     "android": {
       "permissions": ["ACCESS_BACKGROUND_LOCATION"],

@@ -9,7 +9,7 @@ import {
   Keyboard,
   TouchableOpacity
 } from 'react-native'
-import { Button, Snackbar, useTheme } from 'react-native-paper'
+import { Snackbar, useTheme } from 'react-native-paper'
 import styled from 'styled-components'
 import LottieView from 'lottie-react-native'
 import { BlurView } from 'expo-blur'
@@ -22,6 +22,8 @@ import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { saveToken } from '../../shared/utils/secureStorage'
 import { useAppDispatch } from '../../shared/hooks/redux'
 import { setStreamToken, setToken } from '../slice'
+import { setProfile } from '../../profile/slice'
+
 const { width, height } = Dimensions.get('window')
 
 function SigninScreen({ navigation }: { navigation: any }) {
@@ -47,11 +49,26 @@ function SigninScreen({ navigation }: { navigation: any }) {
       if (result.data) {
         console.log(result)
         // @ts-ignore
+        const username = result.data.data.profile.username
+        // @ts-ignore
+        const bio = result.data.data.profile.bio
+        // @ts-ignore
+        const avatar = result.data.data.profile.avatar
+        // @ts-ignore
+        const email = result.data.data.profile.email
+
+        // @ts-ignore
         await saveToken('streamToken', result.data.data.auth.streamIOToken)
         // @ts-ignore
         await saveToken('token', result.data.data.auth.token)
         // @ts-ignore
         await saveToken('userId', result.data.data.profile.id)
+
+        await saveToken('username', username)
+        await saveToken('bio', bio)
+        await saveToken('avatar', avatar)
+        await saveToken('email', email)
+        dispatch(setProfile({ email, username, bio, avatar }))
         // @ts-ignore
         dispatch(setStreamToken(result.data.data.auth.streamIOToken))
       } else {

@@ -4,45 +4,41 @@ import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 import styled from 'styled-components'
 import { getCurrentLocation } from '../slice'
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
+import { useAppDispatch } from '../../shared/hooks/redux'
 import { chatClient } from '../../../store/api'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
-import { selectStreamIOToken } from '../../authentication/slice'
-import { getToken } from '../../shared/utils/secureStorage'
 import { EmptyCompoent, RenderItem } from '../components/RenderItem'
 import { useFetchNearbyMutation } from '../../../store/api/chatServices'
 import { RangeDialog } from '../components/RangeDialog'
-import { selectProfile } from '../../profile/slice'
+import { ConfirmationDialog } from '../components/ConfirmationDialog'
 
 export default function ChannelListScreen({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch()
   const { colors } = useTheme()
+  const [fetchChannels] = useFetchNearbyMutation()
+
   const [clientReady, setClientReady] = useState(false)
   const [channelList, setChannelList] = useState<any>([])
   const [isRefreshed, setIsRefreshed] = useState(false)
-  const streamToke = useAppSelector(selectStreamIOToken)
-  const [range, setRange] = useState('1km')
-  const [fetchChannels, { isSuccess, isLoading, isError }] =
-    useFetchNearbyMutation()
 
-  const [dialogVisible, setVisible] = useState(false)
-  const showDialog = () => setVisible(true)
-  const hideDialog = () => setVisible(false)
-  const { photo } = useAppSelector(selectProfile)
+  const [range, setRange] = useState('1km')
+  const [rangeVisible, setRangeVisible] = useState(false)
+  const showRangeDialog = () => setRangeVisible(true)
+  const hideRangeDialog = () => setRangeVisible(false)
+
+  const [channelName, setChannelName] = useState('')
+  const [channelId, setChannelId] = useState('')
+  const [confirmVisible, setConfirmVisiblle] = useState(false)
+  const showConfirmDialog = () => setConfirmVisiblle(true)
+  const hideConfirmDialog = () => setConfirmVisiblle(false)
+
   useEffect(() => {
-    console.log(photo)
-    const setupClient = async () => {
-      const userId = await getToken('userId')
-      const user = {
-        id: userId!
-      }
-      await chatClient.disconnectUser()
-      await chatClient.connectUser(user, streamToke)
+    const unsubscribe = navigation.addListener('focus', async () => {
       await refreshed()
-      setClientReady(true)
-    }
-    setupClient()
-  }, [])
+    })
+
+    return unsubscribe
+  }, [navigation])
 
   const getRange = (range: string) => {
     switch (range) {
@@ -58,26 +54,29 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
     setIsRefreshed(true)
     const coordinate = await getCurrentLocation()
     const selectedRange = getRange(range)
+
     const result = await fetchChannels({
       range: selectedRange!,
       location: coordinate
     })
     console.log(result)
     const filterChannelList: string[] = []
-
     // @ts-ignore
     if (result.data != undefined && result.data.data.length != 0) {
       // @ts-ignore
       result.data.data.forEach((element) => filterChannelList.push(element.id))
-
       const filter = {
         id: { $in: filterChannelList },
-        joined: false,
         type: 'messaging'
       }
+      // @ts-ignore
       const channels = await chatClient.queryChannels(filter!)
       setChannelList(channels)
+    } else {
+      console.log('empty')
+      setChannelList([])
     }
+    setClientReady(true)
     setIsRefreshed(false)
   }
 
@@ -93,20 +92,29 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
             renderItem={(item) => (
               <RenderItem
                 {...item}
-                navigation={navigation}
+                setChannelName={setChannelName}
+                setChannelId={setChannelId}
+                showDialog={showConfirmDialog}
                 dispatch={dispatch}
               />
             )}
             keyExtractor={(item) => item.id}
           />
-          <RangeButton onPress={showDialog}>
+          <RangeButton onPress={showRangeDialog}>
             <RangeText>{range}</RangeText>
           </RangeButton>
+          <ConfirmationDialog
+            channelName={channelName}
+            channelId={channelId}
+            navigation={navigation}
+            isVisible={confirmVisible}
+            hideDialog={hideConfirmDialog}
+          />
           <RangeDialog
             range={range}
             setRange={setRange}
-            isVisible={dialogVisible}
-            hideDialog={hideDialog}
+            isVisible={rangeVisible}
+            hideDialog={hideRangeDialog}
           />
         </>
       ) : (

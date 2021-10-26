@@ -39,7 +39,7 @@ export const getCurrentLocation = async () => {
     return [0, 0]
   }
   const location = await Location.getCurrentPositionAsync({})
-  const coordinate = [location.coords.longitude, location.coords.latitude]
+  const coordinate = [location.coords.latitude, location.coords.longitude]
 
   return coordinate
 }

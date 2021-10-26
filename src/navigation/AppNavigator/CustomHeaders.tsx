@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native'
 
 import { FontAwesome } from '@expo/vector-icons'
 import Icon from '../../features/shared/components/Icon'
+import { useAppSelector } from '../../features/shared/hooks/redux'
+import { getCurrentChannel } from '../../features/chat/slice'
 
 const HeaderText = styled(Text)`
   font-size: ${({ theme }) => `${theme.sizingMajor.x3}px`};
@@ -54,6 +56,22 @@ export const ChannelHeaderBackBtn = () => {
       onPress={() => navigation.navigate('JoinedChannelListScreen')}
     >
       <FontAwesome name="chevron-left" size={24} color={colors.chatPrimary} />
+    </TouchableOpacity>
+  )
+}
+
+export const ChannelHeaderMap = () => {
+  const { colors } = useTheme()
+  const navigation = useNavigation()
+  const curChannel = useAppSelector(getCurrentChannel)
+  const onNav = async () => {
+    console.log(curChannel.channel.state._channel._client.state)
+    // const result = await curChannel.queryMembers({})
+    // console.log(result)
+  }
+  return (
+    <TouchableOpacity onPress={onNav}>
+      <FontAwesome name="chevron-right" size={24} color={colors.chatPrimary} />
     </TouchableOpacity>
   )
 }

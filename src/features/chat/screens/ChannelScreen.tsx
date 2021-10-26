@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, SafeAreaView } from 'react-native'
+import { View, SafeAreaView, LogBox } from 'react-native'
 import { Channel, Chat, MessageInput, MessageList } from 'stream-chat-expo'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { Audio } from 'expo-av'
@@ -10,7 +10,7 @@ import { VoiceAttachment } from '../components/VoiceAttachment'
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { getCurrentChannel, getCurrentThread, setThread } from '../slice'
 import { chatClient } from '../../../store/api'
-
+LogBox.ignoreAllLogs()
 export default function ChannelScreen({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch()
   const curChannel = useAppSelector(getCurrentChannel)
@@ -23,7 +23,7 @@ export default function ChannelScreen({ navigation }: { navigation: any }) {
       try {
         await Audio.requestPermissionsAsync()
       } catch (err) {
-        console.error('Failed to start recording', err)
+        console.error('Failed to start  recording', err)
       }
     }
 

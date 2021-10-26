@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import i18n from 'i18n-js'
 import { View } from 'react-native'
-import { useTheme, Paragraph, Headline, Button } from 'react-native-paper'
+import { useTheme, Paragraph, Headline, Text, Button } from 'react-native-paper'
 
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import ThemeSwitch from '../../shared/components/ThemeSwitch'
@@ -30,6 +30,9 @@ const TextContainer = styled(View)`
   justify-content: center;
   background-color: ${({ theme }) => `${theme.colors.chatPrimary}`};
   border-radius: ${({ theme }) => `${theme.sizingMajor.x1}px`};
+`
+const ItemText = styled(Text)`
+  color: ${({ theme }) => `${theme.colors.black}`};
 `
 const Name = styled(Headline)`
   align-self: center;
@@ -86,10 +89,10 @@ export default function ProfileScreen({
         <Name>{username}</Name>
         <Headline>{i18n.t('profile.heading')}</Headline>
         <TextContainer>
-          <Paragraph>Email: {email}</Paragraph>
+          <ItemText>Email: {email}</ItemText>
         </TextContainer>
         <TextContainer>
-          <Paragraph>Bio: {bio}</Paragraph>
+          <ItemText>Bio: {bio}</ItemText>
         </TextContainer>
       </Container>
     </ScreenWrapper>

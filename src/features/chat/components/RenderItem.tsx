@@ -1,30 +1,34 @@
-import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Dimensions, View, Image, TouchableOpacity } from 'react-native'
-import { Text, Title } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 import styled from 'styled-components'
 import LottieView from 'lottie-react-native'
 
 import { setChannel } from '../slice'
 
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 export function RenderItem({
   item,
-  navigation,
+  setChannelName,
+  setChannelId,
+  showDialog,
   dispatch
 }: {
   item: any
-  navigation: any
+  setChannelName: any
+  setChannelId: any
+  showDialog: any
   dispatch: any
 }) {
   const navToChannel = () => {
     console.log('pressed')
     console.log(item.data.name)
+    console.log(item.data.id)
+    showDialog()
+    setChannelName(item.data.name)
+    setChannelId(item.data.id)
     dispatch(setChannel(item))
-    navigation.navigate('Channel', {
-      name: item.data.name
-    })
   }
   return (
     <View>

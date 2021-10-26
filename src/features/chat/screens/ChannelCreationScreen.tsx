@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   ImageBackground,
@@ -20,6 +20,7 @@ import { getCurrentLocation, setChannel } from '../slice'
 import { prepareChannelCreation } from '../../shared/utils/prepareChannelCreation'
 import { chatClient } from '../../../store/api'
 import CusTextInput from '../../shared/components/CusTextInput'
+import { getAddress } from '../components/utilities'
 
 const ImageContainer = styled(ImageBackground)`
   height: ${({ theme }) => `${theme.sizingMajor.x14}px`};
@@ -46,12 +47,26 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch()
   const [channelName, setChannelName] = useState<string>('')
   const [channelDesc, setChannelDesc] = useState<string>('')
+  const [coordinate, setCoordinate] = useState<number[] | null>(null)
+  const [address, setAddress] = useState<string>('')
   const [locationLoading, setLocationLoading] = useState(false)
   const { colors, sizingMajor } = useTheme()
   const [previewImage, setPreviewImage] = useState<string | null>(null)
   const [createChannel, { isSuccess, isLoading, isError }] =
     useCreateChannelMutation()
 
+  useEffect(() => {
+    const getLocation = async () => {
+      setLocationLoading(true)
+      const coordinate = await getCurrentLocation()
+      const location = await getAddress(coordinate)
+
+      setAddress(location)
+      setCoordinate(coordinate)
+      setLocationLoading(false)
+    }
+    getLocation()
+  }, [])
   const addImage = async () => {
     const _image = await chatAppImagePicker()
     if (!_image.cancelled) {
@@ -66,31 +81,23 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
     }
   }
 
-  const getLocation = async () => {
-    setLocationLoading(true)
-    const coordinate = await getCurrentLocation()
-    setLocationLoading(false)
-    return coordinate
-  }
-
   const onSubmit = async () => {
-    const currentCoordinate = await getLocation()
-    console.log(currentCoordinate)
-    const result = prepareChannelCreation(
-      channelName,
-      channelDesc,
-      previewImage!,
-      currentCoordinate
-    )
-
-    const res = await createChannel(result).unwrap()
-    console.log(res)
-    const filter = { type: 'messaging', id: { $eq: res.data.id } }
-    const channels = await chatClient.queryChannels(filter)
-    dispatch(setChannel(channels[0]))
-    navigation.navigate('Channel', {
-      name: channels[0]?.data?.name
-    })
+    if (coordinate != null) {
+      const result = prepareChannelCreation(
+        channelName,
+        channelDesc,
+        previewImage!,
+        coordinate
+      )
+      const res = await createChannel(result).unwrap()
+      console.log(res)
+      const filter = { type: 'messaging', id: { $eq: res.data.id } }
+      const channels = await chatClient.queryChannels(filter)
+      dispatch(setChannel(channels[0]))
+      navigation.navigate('Channel', {
+        name: channels[0]?.data?.name
+      })
+    }
   }
 
   return (
@@ -141,6 +148,16 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
                 placeholder="Have fun!!!"
                 icon="comments"
                 setText={setChannelDesc}
+              />
+            </TextContainer>
+            <TextContainer>
+              <CusTextInput
+                editable={false}
+                title="Current Location"
+                text={address}
+                placeholder="Your location"
+                icon={null}
+                setText={setAddress}
               />
             </TextContainer>
             <CreateButton

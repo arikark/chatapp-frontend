@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../../store'
 import { userServices } from '../../../store/api/userServices'
 import type { IProfile } from '../../../store/api/interfaces'
@@ -15,7 +15,15 @@ const initialState = {
 const profileSlice = createSlice({
   name: 'profile',
   initialState,
-  reducers: {},
+  reducers: {
+    clearProfile: () => initialState,
+    setProfile: (state, { payload }: PayloadAction<any>) => {
+      ;(state.username = payload.username),
+        (state.email = payload.email),
+        (state.bio = payload.bio),
+        (state.photo = payload.avatar)
+    }
+  },
   extraReducers: (builder) => {
     builder.addMatcher(
       userServices.endpoints.login.matchFulfilled,
@@ -54,5 +62,7 @@ const profileSlice = createSlice({
 })
 
 export default profileSlice.reducer
+
+export const { setProfile, clearProfile } = profileSlice.actions
 
 export const selectProfile = (state: RootState) => state.profile
