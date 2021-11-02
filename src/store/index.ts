@@ -3,7 +3,11 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { api } from './api'
 import authReducer from '../features/authentication/slice'
 import profileReducer from '../features/profile/slice'
-import { channelReducer, threadReducer } from '../features/chat/slice'
+import {
+  channelReducer,
+  threadReducer,
+  userslocationReducer
+} from '../features/chat/slice'
 import themeReducer from '../features/shared/slices'
 
 export const store = configureStore({
@@ -13,7 +17,8 @@ export const store = configureStore({
     profile: profileReducer,
     theme: themeReducer,
     chatChannel: channelReducer,
-    chatThread: threadReducer
+    chatThread: threadReducer,
+    usersLocation: userslocationReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(api.middleware)

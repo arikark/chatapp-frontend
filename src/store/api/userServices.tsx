@@ -9,7 +9,10 @@ export interface AuthResponse {
 }
 interface PhotoUploadResponse {
   data: {
-    url: string
+    profile: {
+      avatar: string
+      id: string
+    }
   }
 }
 export interface LoginRequest {
@@ -21,9 +24,16 @@ export interface SignUpRequest {
   password: string
 }
 export interface UpdateProfileRequest {
-  email: string
   username: string
   bio: string
+}
+export interface GetUsersResponse {
+  data: {
+    location: number[][]
+  }
+}
+export interface GetUsersRequest {
+  users: string[]
 }
 
 export const userServices = api.injectEndpoints({
@@ -55,10 +65,22 @@ export const userServices = api.injectEndpoints({
         method: 'POST',
         body: updatedProfile
       })
+    }),
+    getUsers: builder.mutation<GetUsersResponse, GetUsersRequest>({
+      query: (updatedProfile) => ({
+        url: 'user/getusers',
+        method: 'POST',
+        body: updatedProfile
+      })
     })
   }),
   overrideExisting: true
 })
 
-export const { useLoginMutation, useSignUpMutation, useUploadPhotoMutation } =
-  userServices
+export const {
+  useLoginMutation,
+  useSignUpMutation,
+  useUploadPhotoMutation,
+  useUpdateProfileMutation,
+  useGetUsersMutation
+} = userServices
