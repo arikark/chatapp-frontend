@@ -33,6 +33,7 @@ export type AppStackParamList = {
   Channel: undefined
   Thread: undefined
   ChannelCreation: undefined
+  Map: undefined
   Modal: undefined
   NotFound: undefined
 }

@@ -27,6 +27,14 @@ export interface UpdateProfileRequest {
   username: string
   bio: string
 }
+export interface GetUsersResponse {
+  data: {
+    location: number[][]
+  }
+}
+export interface GetUsersRequest {
+  users: string[]
+}
 
 export const userServices = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -57,6 +65,13 @@ export const userServices = api.injectEndpoints({
         method: 'POST',
         body: updatedProfile
       })
+    }),
+    getUsers: builder.mutation<GetUsersResponse, GetUsersRequest>({
+      query: (updatedProfile) => ({
+        url: 'user/getusers',
+        method: 'POST',
+        body: updatedProfile
+      })
     })
   }),
   overrideExisting: true
@@ -66,5 +81,6 @@ export const {
   useLoginMutation,
   useSignUpMutation,
   useUploadPhotoMutation,
-  useUpdateProfileMutation
+  useUpdateProfileMutation,
+  useGetUsersMutation
 } = userServices

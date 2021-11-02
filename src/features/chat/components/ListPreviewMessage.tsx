@@ -24,7 +24,7 @@ export const ListPreviewMessage = ({
       <VoiceMessagePreview>
         <FontAwesome
           name="volume-up"
-          size={sizingMajor.x3}
+          size={sizingMajor.x2}
           color={colors.primary}
         />
         <VoiceMessagePreviewText>Voice Message</VoiceMessagePreviewText>
@@ -37,10 +37,11 @@ export const ListPreviewMessage = ({
 
 const VoiceMessagePreview = styled(View)`
   flex-direction: row;
+  align-items: center;
 `
 const VoiceMessagePreviewText = styled(Text)`
   margin: ${({ theme }) =>
     `${theme.sizingMinor.x0}px ${theme.sizingMinor.x5}px`};
   color: ${({ theme }) => `${theme.colors.secondText}`};
-  font-size: ${({ theme }) => `${theme.sizingMajor.x1}px`};
+  font-size: ${({ theme }) => `${theme.sizingMajor.x2}px`};
 `

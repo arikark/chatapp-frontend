@@ -24,14 +24,29 @@ const threadSlice = createSlice({
   }
 })
 
+const usersLocationSlice = createSlice({
+  name: 'userslocation',
+  initialState: {
+    userslocation: []
+  } as any,
+  reducers: {
+    setUsersLocation: (state, { payload: users }: PayloadAction<any>) => {
+      state.userslocation = users
+    }
+  }
+})
+
 export const channelReducer = channelSlice.reducer
 export const threadReducer = threadSlice.reducer
+export const userslocationReducer = usersLocationSlice.reducer
 
 export const { setChannel } = channelSlice.actions
 export const { setThread } = threadSlice.actions
+export const { setUsersLocation } = usersLocationSlice.actions
 
 export const getCurrentChannel = (state: RootState) => state.chatChannel
 export const getCurrentThread = (state: RootState) => state.chatThread
+export const getUsersLocation = (state: RootState) => state.usersLocation
 
 export const getCurrentLocation = async () => {
   const { status } = await Location.requestForegroundPermissionsAsync()

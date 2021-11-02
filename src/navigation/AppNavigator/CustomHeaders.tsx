@@ -6,8 +6,16 @@ import { useNavigation } from '@react-navigation/native'
 
 import { FontAwesome } from '@expo/vector-icons'
 import Icon from '../../features/shared/components/Icon'
-import { useAppSelector } from '../../features/shared/hooks/redux'
-import { getCurrentChannel } from '../../features/chat/slice'
+import {
+  useAppDispatch,
+  useAppSelector
+} from '../../features/shared/hooks/redux'
+import {
+  getCurrentChannel,
+  getUsersLocation,
+  setUsersLocation
+} from '../../features/chat/slice'
+import { useGetUsersMutation } from '../../store/api/userServices'
 
 const HeaderText = styled(Text)`
   font-size: ${({ theme }) => `${theme.sizingMajor.x3}px`};
@@ -62,16 +70,30 @@ export const ChannelHeaderBackBtn = () => {
 
 export const ChannelHeaderMap = () => {
   const { colors } = useTheme()
+  const dispatch = useAppDispatch()
   const navigation = useNavigation()
   const curChannel = useAppSelector(getCurrentChannel)
+  const [getUsers, { isSuccess, isLoading, isError }] = useGetUsersMutation()
   const onNav = async () => {
-    console.log(curChannel.channel.state._channel._client.state)
-    // const result = await curChannel.queryMembers({})
-    // console.log(result)
+    const userList = curChannel.channel.state._channel._client.state.users
+    const users = Object.keys(userList)
+    console.log(users)
+    const result = await getUsers({
+      users
+    })
+    // @ts-ignore
+    const locations = result.data.location
+    if (locations) {
+      console.log(locations)
+    }
+
+    dispatch(setUsersLocation(locations))
+
+    navigation.navigate('Map')
   }
   return (
     <TouchableOpacity onPress={onNav}>
-      <FontAwesome name="chevron-right" size={24} color={colors.chatPrimary} />
+      <FontAwesome name="map" size={24} color={colors.primary} />
     </TouchableOpacity>
   )
 }
