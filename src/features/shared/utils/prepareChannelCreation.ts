@@ -16,6 +16,6 @@ export const prepareChannelCreation = (
   // @ts-ignore
   data.append('image', photo)
   // @ts-ignore
-  data.append('coordinate', coordinate)
+  data.append('coordinate', JSON.stringify(coordinate))
   return data
 }

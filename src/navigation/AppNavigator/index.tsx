@@ -2,6 +2,7 @@ import * as React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { OverlayProvider } from 'stream-chat-expo'
 
+import { useTheme } from 'react-native-paper'
 import ChannelScreen from '../../features/chat/screens/ChannelScreen'
 import ThreadScreen from '../../features/chat/screens/ThreadScreen'
 import ModalScreen from '../../features/shared/screens/ModalScreen'
@@ -9,11 +10,14 @@ import NotFoundScreen from '../../features/shared/screens/NotFoundScreen'
 import { BottomTabNavigator } from '../AppNavigator/BottomTabNavigator'
 import { AppStackParamList } from '../types'
 import ChannelCreationScreen from '../../features/chat/screens/ChannelCreationScreen'
+import { ChannelHeaderBackBtn, ChannelHeaderMap } from './CustomHeaders'
+import { useStreamChatTheme } from '../../styles/themes/useStreamChatTheme'
 
 export default function AppNavigator() {
   const Stack = createNativeStackNavigator<AppStackParamList>()
+  const theme = useStreamChatTheme()
   return (
-    <OverlayProvider translucentStatusBar>
+    <OverlayProvider value={{ style: theme }} translucentStatusBar>
       <Stack.Navigator>
         <Stack.Screen
           name="BottomTabNavigator"
@@ -27,8 +31,8 @@ export default function AppNavigator() {
             name="Channel"
             component={ChannelScreen}
             options={({ route }: { route: any }) => ({
-              headerBackTitle: 'Back',
-              headerRight: () => <></>,
+              headerLeft: () => <ChannelHeaderBackBtn />,
+              headerRight: () => <ChannelHeaderMap />,
               headerTitle: route.params?.name
             })}
           />

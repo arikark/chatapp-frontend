@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "chatapp-frontend",
+    "name": "Quarter",
     "slug": "chatapp-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "dev.quarter.client"
     },
     "android": {
       "permissions": ["ACCESS_BACKGROUND_LOCATION"],

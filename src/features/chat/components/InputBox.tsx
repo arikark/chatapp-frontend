@@ -123,22 +123,24 @@ export const InputBox = () => {
     console.log('Stopping recording..')
 
     let recordingTooShort: boolean = false
-    recording
-      .stopAndUnloadAsync()
-      .then((status: any) => {
-        if (status.durationMillis <= 2000) {
-          recordingTooShort = true
-        }
-      })
-      .then(() => {
-        if (!recordingTooShort) {
-          const uri = recording.getURI()
-          sendVoiceMessage(uri).catch((err) => {
-            console.log(err)
-          })
-        }
-        setRecording(undefined)
-      })
+    if (recording) {
+      recording
+        .stopAndUnloadAsync()
+        .then((status: any) => {
+          if (status.durationMillis <= 2000) {
+            recordingTooShort = true
+          }
+        })
+        .then(() => {
+          if (!recordingTooShort) {
+            const uri = recording.getURI()
+            sendVoiceMessage(uri).catch((err) => {
+              console.log(err)
+            })
+          }
+          setRecording(undefined)
+        })
+    }
   }
 
   const emptyInput =
