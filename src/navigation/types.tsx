@@ -50,3 +50,9 @@ export type BTabScreenProps<Screen extends keyof BottomTabParamList> =
     BottomTabScreenProps<BottomTabParamList, Screen>,
     NativeStackScreenProps<AppStackParamList>
   >
+export type iAppContext = {
+  channels: any
+  setChannels: any
+  threads: any
+  setThreads: any
+}

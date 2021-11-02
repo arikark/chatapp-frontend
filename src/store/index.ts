@@ -5,6 +5,7 @@ import authReducer from '../features/authentication/slice'
 import profileReducer from '../features/profile/slice'
 import {
   channelReducer,
+  listOrCarouselReducer,
   threadReducer,
   userslocationReducer
 } from '../features/chat/slice'
@@ -18,7 +19,8 @@ export const store = configureStore({
     theme: themeReducer,
     chatChannel: channelReducer,
     chatThread: threadReducer,
-    usersLocation: userslocationReducer
+    usersLocation: userslocationReducer,
+    listOrCarousel: listOrCarouselReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(api.middleware)

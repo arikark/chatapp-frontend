@@ -9,7 +9,8 @@ export const CustomDarkTheme = {
     ...DarkTheme.colors,
     chatPrimary: colors.chatPrimary,
     chatSecondary: colors.chatSecondary,
-    secondText: colors.secondText
+    secondText: colors.secondText,
+    white: colors.white
   },
   sizingMajor,
   sizingMinor

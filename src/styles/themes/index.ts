@@ -7,6 +7,7 @@ declare global {
       chatPrimary: string
       chatSecondary: string
       secondText: string
+      white: string
     }
     interface ThemeSizingMajor {
       x1: number

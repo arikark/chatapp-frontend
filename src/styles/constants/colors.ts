@@ -3,5 +3,6 @@
 export enum colors {
   chatPrimary = 'rgba(255,159,89,1)',
   chatSecondary = 'rgba(255,233,216,1)',
-  secondText = 'gray'
+  secondText = 'gray',
+  white = 'white'
 }
