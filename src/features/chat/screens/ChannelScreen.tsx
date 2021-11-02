@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { View, SafeAreaView, LogBox } from 'react-native'
 import { Channel, Chat, MessageInput, MessageList } from 'stream-chat-expo'
 import { useHeaderHeight } from '@react-navigation/elements'
@@ -7,15 +7,14 @@ import styled from 'styled-components'
 
 import { InputBox } from '../components/InputBox'
 import { VoiceAttachment } from '../components/VoiceAttachment'
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
-import { getCurrentChannel, getCurrentThread, setThread } from '../slice'
 import { chatClient } from '../../../store/api'
-LogBox.ignoreAllLogs()
+import { AppContext } from '../../../navigation/AppNavigator'
+
 export default function ChannelScreen({ navigation }: { navigation: any }) {
-  const dispatch = useAppDispatch()
-  const curChannel = useAppSelector(getCurrentChannel)
-  const curThread = useAppSelector(getCurrentThread)
   const headerHeight = useHeaderHeight()
+  const channels = useContext(AppContext)?.channels
+  const threads = useContext(AppContext)?.threads
+  const setThreads = useContext(AppContext)?.setThreads
 
   useEffect(() => {
     // Get microphone permission.
@@ -34,16 +33,16 @@ export default function ChannelScreen({ navigation }: { navigation: any }) {
     <SafeAreaView>
       <Chat client={chatClient}>
         <Channel
-          channel={curChannel.channel}
+          channel={channels}
           Input={InputBox}
           Card={VoiceAttachment}
           keyboardVerticalOffset={headerHeight}
-          thread={curThread}
+          thread={threads}
         >
           <Container>
             <MessageList
               onThreadSelect={(thread: any) => {
-                dispatch(setThread(thread))
+                setThreads(thread)
                 navigation.navigate('Thread')
               }}
             />

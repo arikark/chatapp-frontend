@@ -3,8 +3,8 @@ import { FlatList, Text, TouchableOpacity } from 'react-native'
 import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 import styled from 'styled-components'
-import { getCurrentLocation } from '../slice'
-import { useAppDispatch } from '../../shared/hooks/redux'
+import { getCurrentLocation, getListOrCarousel } from '../slice'
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { chatClient } from '../../../store/api'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { EmptyCompoent, RenderItem } from '../components/RenderItem'
@@ -14,6 +14,7 @@ import { ConfirmationDialog } from '../components/ConfirmationDialog'
 
 export default function ChannelListScreen({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch()
+  const isList = useAppSelector(getListOrCarousel)
   const { colors } = useTheme()
   const [fetchChannels] = useFetchNearbyMutation()
 
@@ -31,7 +32,7 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
   const [confirmVisible, setConfirmVisiblle] = useState(false)
   const showConfirmDialog = () => setConfirmVisiblle(true)
   const hideConfirmDialog = () => setConfirmVisiblle(false)
-
+  console.log(isList)
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
       await refreshed()
@@ -59,7 +60,7 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
       range: selectedRange!,
       location: coordinate
     })
-    console.log(result)
+    //console.log(result)
     const filterChannelList: string[] = []
     // @ts-ignore
     if (result.data != undefined && result.data.data.length != 0) {
@@ -85,6 +86,9 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
       {clientReady ? (
         <>
           <FlatList
+            horizontal={!isList.isList}
+            pagingEnabled={!isList.isList}
+            showsHorizontalScrollIndicator={false}
             refreshing={isRefreshed}
             onRefresh={refreshed}
             data={channelList}

@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity
-} from 'react-native'
-
+import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
+import { Text, ActivityIndicator, Button, useTheme } from 'react-native-paper'
+import styled from 'styled-components'
 import { useAppSelector } from '../../shared/hooks/redux'
 import { getUsersLocation } from '../slice'
 import { iMarker } from './types'
@@ -58,8 +53,8 @@ export default function MapScreen() {
     if (map != null) {
       //@ts-ignore
       map.current.animateToRegion({
-        latitude: -37.822222,
-        longitude: 144.96412774835335,
+        latitude: usersCoordinate.userslocation[0][0],
+        longitude: usersCoordinate.userslocation[0][1],
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       })
@@ -70,9 +65,8 @@ export default function MapScreen() {
   }
   const map = useRef<MapView>(null)
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
+    <Container>
+      <Map
         onRegionChange={(region) => onReginChange(region)}
         ref={(ref) => {
           //@ts-ignore
@@ -89,41 +83,19 @@ export default function MapScreen() {
             />
           )
         })}
-      </MapView>
-      <View style={styles.buttonContainer}>
-        <Text>Tap map to create a marker of random color</Text>
-      </View>
-    </View>
+      </Map>
+    </Container>
   )
 }
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject
-  },
-  bubble: {
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20
-  },
-  latlng: {
-    width: 200,
-    alignItems: 'stretch'
-  },
-  button: {
-    width: 80,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    marginHorizontal: 10
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginVertical: 20,
-    backgroundColor: 'transparent'
-  }
-})
+const Container = styled(View)`
+  flex: 1;
+  height: ${height}px;
+  width: ${width}px;
+  justify-content: flex-end;
+  align-items: center;
+`
+const Map = styled(MapView)`
+  flex: 1;
+  height: ${height}px;
+  width: ${width}px;
+`

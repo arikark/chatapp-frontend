@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
-import { View, Text, Image, Dimensions } from 'react-native'
-import { ActivityIndicator, Button, useTheme } from 'react-native-paper'
+import { Image } from 'react-native'
+import { Text, ActivityIndicator, useTheme } from 'react-native-paper'
 import { ChannelList, Chat } from 'stream-chat-expo'
 
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { chatClient } from '../../../store/api'
-import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
+import { useAppSelector } from '../../shared/hooks/redux'
 import { selectStreamIOToken } from '../../authentication/slice'
 import { ListPreviewMessage } from '../components/ListPreviewMessage'
-import { setChannel } from '../slice'
 import { getToken } from '../../shared/utils/secureStorage'
+import { AppContext } from '../../../navigation/AppNavigator'
 
 const options = {
   state: true,
@@ -21,12 +21,11 @@ export default function JoinedChannelListScreen({
 }: {
   navigation: any
 }) {
-  const dispatch = useAppDispatch()
-  const { colors } = useTheme()
+  const { colors, sizingMajor } = useTheme()
   const [clientReady, setClientReady] = useState(false)
   const streamToken = useAppSelector(selectStreamIOToken)
   const [filter, setFilter] = useState({})
-
+  const setChannels = useContext(AppContext)?.setChannels
   useEffect(() => {
     let isSubscribed = true
 
@@ -56,14 +55,12 @@ export default function JoinedChannelListScreen({
       {clientReady ? (
         <Chat client={chatClient}>
           <ChannelList
+            PreviewTitle={({ channel }: { channel: any }) => (
+              <PreviewTitleText>{channel?.data.name}</PreviewTitleText>
+            )}
             PreviewAvatar={({ channel }: { channel: any }) => {
               return (
-                <Image
-                  style={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: 15
-                  }}
+                <AvatarImage
                   source={{
                     uri: channel?.data.image
                       ? channel?.data.image
@@ -75,7 +72,8 @@ export default function JoinedChannelListScreen({
             PreviewMessage={ListPreviewMessage}
             filters={filter}
             onSelect={(channel: any) => {
-              dispatch(setChannel(channel))
+              //
+              setChannels(channel)
               navigation.navigate('Channel', {
                 name: channel?.data?.name
               })
@@ -91,4 +89,13 @@ export default function JoinedChannelListScreen({
 }
 const LoadingIcon = styled(ActivityIndicator)`
   margin-top: ${({ theme }) => `${theme.sizingMajor.x3}px`};
+`
+const AvatarImage = styled(Image)`
+  height: ${({ theme }) => `${theme.sizingMajor.x7}px`};
+  width: ${({ theme }) => `${theme.sizingMajor.x7}px`};
+  border-radius: ${({ theme }) => `${theme.sizingMajor.x7 / 2}px`};
+`
+const PreviewTitleText = styled(Text)`
+  font-family: Roboto_500Medium;
+  font-size: ${({ theme }) => `${theme.sizingMinor.x5 * 4}px`};
 `

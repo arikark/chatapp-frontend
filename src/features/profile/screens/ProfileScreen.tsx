@@ -1,9 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import i18n from 'i18n-js'
-import { View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { useTheme, Paragraph, Headline, Text, Button } from 'react-native-paper'
 
+import { FontAwesome } from '@expo/vector-icons'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import ThemeSwitch from '../../shared/components/ThemeSwitch'
 import ImagePortal from '../../shared/components/ImagePortal'
@@ -44,8 +45,7 @@ const Email = styled(Headline)`
   font-family: ${({ theme }) => `${theme.fonts.medium.fontFamily}`};
   margin-bottom: ${({ theme }) => `${theme.sizingMajor.x3}px`};
 `
-const LogoutButton = styled(Button)`
-  color: ${({ theme }) => `${theme.colors.chatPrimary}`};
+const LogoutButton = styled(TouchableOpacity)`
   flex: 0.2;
   align-self: flex-end;
 `
@@ -66,18 +66,18 @@ export default function ProfileScreen({
   onPressLogout,
   profilePhotoUploadMutation
 }: ProfileScreenProps) {
-  const { colors } = useTheme()
+  const { colors, sizingMajor } = useTheme()
   return (
     <ScreenWrapper>
       <Container>
         <Header>
           <ThemeSwitch />
-          <LogoutButton
-            color={colors.chatPrimary}
-            onPress={onPressLogout}
-            uppercase={false}
-          >
-            Logout
+          <LogoutButton onPress={onPressLogout}>
+            <FontAwesome
+              name="sign-out"
+              size={sizingMajor.x5}
+              color={colors.chatPrimary}
+            />
           </LogoutButton>
         </Header>
         <PhotoFrameWrapper>
