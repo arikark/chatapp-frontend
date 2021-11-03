@@ -13,15 +13,15 @@ import { Snackbar, useTheme } from 'react-native-paper'
 import styled from 'styled-components'
 import LottieView from 'lottie-react-native'
 import { BlurView } from 'expo-blur'
-
 import { FontAwesome } from '@expo/vector-icons'
+
 import { useLoginMutation } from '../../../store/api/userServices'
 import BackButton from '../../shared/components/BackButton'
 import CusTextInput from '../../shared/components/CusTextInput'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import { saveToken } from '../../shared/utils/secureStorage'
 import { useAppDispatch } from '../../shared/hooks/redux'
-import { setStreamToken, setToken } from '../slice'
+import { setStreamToken } from '../slice'
 import { setProfile } from '../../profile/slice'
 
 const { width, height } = Dimensions.get('window')
@@ -179,7 +179,6 @@ const TextContainer = styled(View)`
   margin-top: ${({ theme }) => `${theme.sizingMajor.x1}px`};
   width: ${({ theme }) => `${theme.sizingMajor.x11}%`};
 `
-
 const BottomSpacer = styled(View)`
   justify-content: center;
   align-items: center;

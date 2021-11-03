@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import {
-  useTheme,
   Dialog as Component,
   Portal,
   Paragraph,
   Button
 } from 'react-native-paper'
-import styled from 'styled-components'
 
 export default function Dialog({
   title,

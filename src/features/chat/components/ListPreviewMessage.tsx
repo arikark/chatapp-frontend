@@ -5,6 +5,14 @@ import { FontAwesome } from '@expo/vector-icons'
 import styled from 'styled-components'
 import { useTheme } from 'react-native-paper'
 
+/***************************************************************************************
+ *    Title: Channel List Message Preview
+ *    Author: GetStream
+ *    Date: 2021
+ *    Code version: 1.0
+ *    Availability: https://github.com/GetStream/react-native-chat-voice-message-example/blob/main/src/components/ListPreviewMessage.js
+ ***************************************************************************************/
+
 // This component is used for previewing each channel's latest message in channel list screen.
 export const ListPreviewMessage = ({
   latestMessagePreview

@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import decode from 'jwt-decode'
 
 import type { RootState } from '../../../store'
 import { userServices } from '../../../store/api/userServices'
 import type { IAuth } from '../../../store/api/interfaces'
-// see https://redux-toolkit.js.org/rtk-query/usage/examples
 
 const initialState = {
   token: undefined,

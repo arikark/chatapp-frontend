@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Text, useTheme } from 'react-native-paper'
 import { TouchableOpacity, View } from 'react-native'
@@ -6,11 +6,17 @@ import { useNavigation } from '@react-navigation/native'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 
 import Icon from '../../features/shared/components/Icon'
-import { useAppDispatch } from '../../features/shared/hooks/redux'
-import { setListOrCarousel, setUsersLocation } from '../../features/chat/slice'
+import {
+  useAppDispatch,
+  useAppSelector
+} from '../../features/shared/hooks/redux'
+import {
+  getCurrentChannelId,
+  setListOrCarousel,
+  setUsersLocation
+} from '../../features/chat/slice'
 import { useGetUsersMutation } from '../../store/api/userServices'
 import { chatClient } from '../../store/api'
-import { AppContext } from '.'
 
 const HeaderText = styled(Text)`
   font-family: Roboto_700Bold;
@@ -41,7 +47,6 @@ export const JoinedChannelHeader = () => {
   )
 }
 export const ChannelDiscoverHeader = () => {
-  const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const { colors, sizingMajor } = useTheme()
   const toggleList = () => {
@@ -78,10 +83,11 @@ export const ChannelHeaderMap = () => {
   const { colors } = useTheme()
   const dispatch = useAppDispatch()
   const navigation = useNavigation()
-  const curChannel = useContext(AppContext)?.channels
+  const channelId = useAppSelector(getCurrentChannelId)
   const [getUsers, { isSuccess, isLoading, isError }] = useGetUsersMutation()
   const onNav = async () => {
-    const cid = curChannel.data.cid
+    const cid = channelId.channelId
+    console.log(cid)
     const filter = {
       cid,
       type: 'messaging'

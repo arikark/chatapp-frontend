@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { View, SafeAreaView, LogBox } from 'react-native'
+import { View, SafeAreaView } from 'react-native'
 import { Channel, Chat, MessageInput, MessageList } from 'stream-chat-expo'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { Audio } from 'expo-av'
@@ -9,6 +9,14 @@ import { InputBox } from '../components/InputBox'
 import { VoiceAttachment } from '../components/VoiceAttachment'
 import { chatClient } from '../../../store/api'
 import { AppContext } from '../../../navigation/AppNavigator'
+
+/***************************************************************************************
+ *    Title: Channel Screen
+ *    Author: GetStream
+ *    Date: 2021
+ *    Code version: 1.0
+ *    Availability: https://github.com/GetStream/react-native-chat-voice-message-example/blob/main/App.js
+ ***************************************************************************************/
 
 export default function ChannelScreen({ navigation }: { navigation: any }) {
   const headerHeight = useHeaderHeight()

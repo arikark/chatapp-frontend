@@ -5,11 +5,11 @@ import * as Location from 'expo-location'
 import type { RootState } from '../../../store'
 
 const channelSlice = createSlice({
-  name: 'channel',
-  initialState: { channel: null } as any,
+  name: 'channelid',
+  initialState: { channelid: null } as any,
   reducers: {
-    setChannel: (state, { payload: channel }: PayloadAction<any>) => {
-      state.channel = channel
+    setChannelId: (state, { payload: channelId }: PayloadAction<any>) => {
+      state.channelId = channelId
     }
   }
 })
@@ -53,12 +53,12 @@ export const threadReducer = threadSlice.reducer
 export const userslocationReducer = usersLocationSlice.reducer
 export const listOrCarouselReducer = listOrCarouselSlice.reducer
 
-export const { setChannel } = channelSlice.actions
+export const { setChannelId } = channelSlice.actions
 export const { setThread } = threadSlice.actions
 export const { setUsersLocation } = usersLocationSlice.actions
 export const { setListOrCarousel } = listOrCarouselSlice.actions
 
-export const getCurrentChannel = (state: RootState) => state.chatChannel
+export const getCurrentChannelId = (state: RootState) => state.chatChannelId
 export const getCurrentThread = (state: RootState) => state.chatThread
 export const getUsersLocation = (state: RootState) => state.usersLocation
 export const getListOrCarousel = (state: RootState) => state.listOrCarousel

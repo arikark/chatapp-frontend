@@ -18,14 +18,15 @@ import {
   Roboto_900Black,
   Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto'
-import { Text } from 'react-native'
+import { Text, LogBox } from 'react-native'
 import { ENV } from '@env'
 
 import { ThemeProvider } from './src/styles/ThemeProvider'
 import Navigation from './src/navigation'
 import { store } from './src/store'
 import { en } from './src/translations'
-
+LogBox.ignoreLogs(['Warning: ...']) // Ignore log notification by message
+LogBox.ignoreAllLogs() //Ignore all log notifications
 i18n.translations = {
   en
 }

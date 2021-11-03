@@ -34,8 +34,6 @@ export type AppStackParamList = {
   Thread: undefined
   ChannelCreation: undefined
   Map: undefined
-  Modal: undefined
-  NotFound: undefined
 }
 export type AppStackScreenProps<Screen extends keyof AppStackParamList> =
   NativeStackScreenProps<AppStackParamList, Screen>

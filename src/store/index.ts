@@ -17,7 +17,7 @@ export const store = configureStore({
     auth: authReducer,
     profile: profileReducer,
     theme: themeReducer,
-    chatChannel: channelReducer,
+    chatChannelId: channelReducer,
     chatThread: threadReducer,
     usersLocation: userslocationReducer,
     listOrCarousel: listOrCarouselReducer

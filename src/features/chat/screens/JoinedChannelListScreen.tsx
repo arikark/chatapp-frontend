@@ -21,7 +21,7 @@ export default function JoinedChannelListScreen({
 }: {
   navigation: any
 }) {
-  const { colors, sizingMajor } = useTheme()
+  const { colors } = useTheme()
   const [clientReady, setClientReady] = useState(false)
   const streamToken = useAppSelector(selectStreamIOToken)
   const [filter, setFilter] = useState({})
@@ -72,7 +72,6 @@ export default function JoinedChannelListScreen({
             PreviewMessage={ListPreviewMessage}
             filters={filter}
             onSelect={(channel: any) => {
-              //
               setChannels(channel)
               navigation.navigate('Channel', {
                 name: channel?.data?.name

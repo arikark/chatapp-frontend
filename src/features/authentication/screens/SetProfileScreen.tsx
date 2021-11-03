@@ -50,10 +50,11 @@ function SetProfileScreen() {
       isSubscribed = false
     }
   }, [])
+
   const onSubmit = async () => {
     setLoading(true)
-
     const streamToken = await getToken('streamToken')
+
     if (username == '' || photo == undefined) {
       setIsError(true)
     } else {
@@ -98,6 +99,7 @@ function SetProfileScreen() {
     }
     setLoading(false)
   }
+
   return (
     <KeyboardAvoid behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -180,9 +182,7 @@ const PhotoFrameWrapper = styled(View)`
   justify-content: center;
   margin-top: ${({ theme }) => `${theme.sizingMajor.x4}px`};
 `
-
 const InputContainer = styled(View)``
-
 const Title = styled(Text)`
   align-self: center;
   margin-left: ${({ theme }) => `${theme.sizingMajor.x2}px`};
@@ -190,7 +190,6 @@ const Title = styled(Text)`
   font-size: ${({ theme }) => `${theme.sizingMajor.x4}px`};
   font-weight: bold;
 `
-
 const TextContainer = styled(View)`
   align-self: center;
   margin-top: ${({ theme }) => `${theme.sizingMajor.x2}px`};

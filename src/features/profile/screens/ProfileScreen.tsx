@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import i18n from 'i18n-js'
 import { TouchableOpacity, View } from 'react-native'
-import { useTheme, Paragraph, Headline, Text, Button } from 'react-native-paper'
+import { useTheme, Headline, Text } from 'react-native-paper'
 
 import { FontAwesome } from '@expo/vector-icons'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'

@@ -7,6 +7,14 @@ import styled from 'styled-components'
 import { chatClient } from '../../../store/api'
 import { AppContext } from '../../../navigation/AppNavigator'
 
+/***************************************************************************************
+ *    Title: Thread Screen
+ *    Author: GetStream
+ *    Date: 2021
+ *    Code version: 1.0
+ *    Availability: https://github.com/GetStream/react-native-chat-voice-message-example/blob/main/App.js
+ ***************************************************************************************/
+
 export default function ThreadScreen() {
   const headerHeight = useHeaderHeight()
   const channels = useContext(AppContext)?.channels
