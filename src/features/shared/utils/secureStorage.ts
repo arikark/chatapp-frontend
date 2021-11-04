@@ -6,7 +6,7 @@ export const getToken = async (key: string) => {
     //console.log("🔐 Here's your value 🔐 \n" + result)
   } else {
     result = null
-    console.log('No values stored under that key.')
+    // console.log('No values stored under that key.')
   }
   return result
 }

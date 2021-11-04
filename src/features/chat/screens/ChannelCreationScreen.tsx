@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   View,
   ImageBackground,
@@ -9,18 +9,19 @@ import {
   Platform
 } from 'react-native'
 import styled from 'styled-components'
-import { useTheme, Button, TextInput } from 'react-native-paper'
+import { useTheme, Button } from 'react-native-paper'
 
-import { useAppDispatch } from '../../shared/hooks/redux'
 import ScreenWrapper from '../../shared/layouts/ScreenWrapper'
 import Icon from '../../shared/components/Icon'
 import { useCreateChannelMutation } from '../../../store/api/chatServices'
 import { chatAppImagePicker, chatAppCamera } from '../../shared/utils'
-import { getCurrentLocation, setChannel } from '../slice'
+import { getCurrentLocation, setChannelId } from '../slice'
 import { prepareChannelCreation } from '../../shared/utils/prepareChannelCreation'
 import { chatClient } from '../../../store/api'
 import CusTextInput from '../../shared/components/CusTextInput'
 import { getAddress } from '../components/utilities'
+import { AppContext } from '../../../navigation/AppNavigator'
+import { useAppDispatch } from '../../shared/hooks/redux'
 
 const ImageContainer = styled(ImageBackground)`
   height: ${({ theme }) => `${theme.sizingMajor.x14}px`};
@@ -45,6 +46,7 @@ const UploadBtnContainer = styled(View)`
 
 function ChannelCreationScreen({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch()
+  const setChannels = useContext(AppContext)?.setChannels
   const [channelName, setChannelName] = useState<string>('')
   const [channelDesc, setChannelDesc] = useState<string>('')
   const [coordinate, setCoordinate] = useState<number[] | null>(null)
@@ -93,7 +95,11 @@ function ChannelCreationScreen({ navigation }: { navigation: any }) {
       console.log(res)
       const filter = { type: 'messaging', id: { $eq: res.data.id } }
       const channels = await chatClient.queryChannels(filter)
-      dispatch(setChannel(channels[0]))
+      console.log(channels[0].cid)
+      dispatch(setChannelId(channels[0].cid))
+
+      setChannels(channels[0])
+
       navigation.navigate('Channel', {
         name: channels[0]?.data?.name
       })

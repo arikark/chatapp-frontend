@@ -1,6 +1,6 @@
 import React from 'react'
 import { Title, useTheme } from 'react-native-paper'
-import { View, TextInput, Text } from 'react-native'
+import { View, TextInput } from 'react-native'
 import styled from 'styled-components'
 import { FontAwesome } from '@expo/vector-icons'
 
@@ -86,7 +86,6 @@ const InputItem = styled(TextInput)`
   border-radius: ${({ theme }) => `${theme.sizingMajor.x1}px`};
   background-color: ${({ theme }) => `${theme.colors.chatSecondary}`};
 `
-
 const MultilineInputItem = styled(TextInput)`
   width: ${({ theme }) => `${theme.sizingMajor.x12}%`};
   padding-left: ${({ theme }) => `${theme.sizingMajor.x1}px`};

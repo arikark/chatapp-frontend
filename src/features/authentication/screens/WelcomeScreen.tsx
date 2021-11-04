@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, View, Image, Text } from 'react-native'
+import { Dimensions, View, Text } from 'react-native'
 import styled from 'styled-components'
 import LottieView from 'lottie-react-native'
 
@@ -46,11 +46,6 @@ const Container = styled(View)`
   align-items: center;
   justify-content: center;
 `
-
-const Logo = styled(Image)`
-  height: ${width * 0.8}px;
-  width: ${width * 0.8}px;
-`
 const Slogan = styled(Text)`
   font-size: ${({ theme }) => `${theme.sizingMajor.x3}px`};
 `
@@ -71,7 +66,6 @@ const SignUpBtn = styled(Button)`
 `
 const LottieContainer = styled(LottieView)`
   align-self: center;
-
   height: ${width}px;
   width: ${width}px;
 `

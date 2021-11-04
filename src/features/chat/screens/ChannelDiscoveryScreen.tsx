@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Text, TouchableOpacity } from 'react-native'
 import { ActivityIndicator, useTheme } from 'react-native-paper'
-
 import styled from 'styled-components'
+
 import { getCurrentLocation, getListOrCarousel } from '../slice'
 import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux'
 import { chatClient } from '../../../store/api'
@@ -32,7 +32,7 @@ export default function ChannelListScreen({ navigation }: { navigation: any }) {
   const [confirmVisible, setConfirmVisiblle] = useState(false)
   const showConfirmDialog = () => setConfirmVisiblle(true)
   const hideConfirmDialog = () => setConfirmVisiblle(false)
-  console.log(isList)
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
       await refreshed()
@@ -139,7 +139,6 @@ const RangeButton = styled(TouchableOpacity)`
   justify-content: center;
   align-items: center;
 `
-
 const RangeText = styled(Text)`
   font-size: ${({ theme }) => `${theme.sizingMajor.x2}px`};
   color: ${({ theme }) => `${theme.colors.surface}`};

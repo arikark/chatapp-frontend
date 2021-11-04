@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Dimensions } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
-import { Text, ActivityIndicator, Button, useTheme } from 'react-native-paper'
 import styled from 'styled-components'
 import { useAppSelector } from '../../shared/hooks/redux'
 import { getUsersLocation } from '../slice'
@@ -14,7 +13,6 @@ const LATITUDE = -33.799723777013384
 const LONGITUDE = 144.96412774835335
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
-const id = 0
 
 function randomColor() {
   return `#${Math.floor(Math.random() * 16777215)

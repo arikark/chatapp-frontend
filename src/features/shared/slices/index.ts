@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
-// import { decode } from 'jwt-decode'
 
 import type { RootState } from '../../../store'
 

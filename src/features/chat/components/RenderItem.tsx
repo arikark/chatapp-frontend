@@ -4,7 +4,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Text as RNText
+  TouchableWithoutFeedback,
+  Pressable
 } from 'react-native'
 import { Text } from 'react-native-paper'
 import styled from 'styled-components'
@@ -59,7 +60,7 @@ export function RenderItem({
           <Divider />
         </>
       ) : (
-        <CarouselContainer>
+        <CarouselContainer onPress={navToChannel}>
           <CarouselCard>
             <CarouselLinear
               start={{ x: 0, y: 0 }}
@@ -135,7 +136,7 @@ const LottieContainer = styled(LottieView)`
   height: ${width * 0.5}px;
   width: ${width * 0.5}px;
 `
-const CarouselContainer = styled(View)`
+const CarouselContainer = styled(Pressable)`
   flex: ${({ theme }) => `${theme.sizingMinor.x1}`};
   width: ${width}px;
   justify-content: center;
