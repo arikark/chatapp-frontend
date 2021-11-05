@@ -14,6 +14,7 @@ function WelcomeScreen({ navigation }: { navigation: any }) {
   return (
     <ScreenWrapper>
       <Container>
+        {/* Mikhail Voloshin (2021) https://lottiefiles.com/48405-mobile-chat-dialog-application-interface */}
         <LottieContainer
           autoPlay
           source={require('../../../../assets/mobile-chat.json')}

@@ -59,6 +59,7 @@ function SignupScreen({ navigation }: { navigation: any }) {
               <BackButton />
             </BackBtn>
             <Title>Create Account</Title>
+            {/* Muhammad Hamza Jamil (2021) https://lottiefiles.com/77862-chatting */}
             <LottieContainer
               autoPlay
               source={require('../../../../assets/chat-lottie.json')}

@@ -84,6 +84,7 @@ export function EmptyCompoent() {
   return (
     <EmptyContainer>
       <EmptyText>  No nearby groups☀️</EmptyText>
+      {/* Mr.Futuristic (2018) https://lottiefiles.com/4199-location-search */}
       <LottieContainer
         autoPlay
         source={require('../../../../assets/location-search.json')}

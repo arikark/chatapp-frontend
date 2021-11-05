@@ -86,6 +86,7 @@ function SigninScreen({ navigation }: { navigation: any }) {
                 <BackButton />
               </BackBtn>
               <Title>Log In</Title>
+              {/* Atesh (2021) https://lottiefiles.com/72883-login-page */}
               <LottieContainer
                 autoPlay
                 source={require('../../../../assets/login-page.json')}
