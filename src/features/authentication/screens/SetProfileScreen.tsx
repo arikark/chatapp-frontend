@@ -156,6 +156,7 @@ function SetProfileScreen() {
           </ScreenWrapper>
           {loading && (
             <LoadingLayer tint="dark" intensity={sizingMajor.x11}>
+              {/* Jeffrey Christopher (2019) https://lottiefiles.com/9844-loading-40-paperplane */}
               <LottieContainer
                 autoPlay
                 source={require('../../../../assets/loading.json')}
